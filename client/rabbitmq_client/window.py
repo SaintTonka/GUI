@@ -1,45 +1,48 @@
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QApplication, QMainWindow, QSizePolicy, QLabel, QLineEdit
+from PyQt5.QtWidgets import QApplication, QMainWindow, QSizePolicy, QLabel, QLineEdit, QPushButton
+from PyQt5.QtCore import pyqtSignal, QObject
 import sys
 
 
 
 class Window(QMainWindow):
 
-    def __init__(self):
+    def __init__(self, communicate):
         super().__init__()
+
         self.setGeometry(500, 500, 500, 500)
         self.setWindowTitle("Input")
+
         self.button = QtWidgets.QPushButton(self)
-        self.qle = QLineEdit(self)
-        self.lbl = QLabel(self)
-        self.initUI()
-
-
-    def initUI(self):
-
         self.button.setText("Enter your number")
         self.button.move(30, 150)
         self.button.setMinimumWidth(150)
-
+        self.button.clicked.connect(self.send_request)
+        
+        self.qle = QLineEdit(self)
         self.qle.move(60, 100)
+        
+        self.lbl = QLabel(self)
         self.lbl.move(60, 40)
+        
+        
+        self.communicate = communicate
 
-        self.qle.textChanged[str].connect(self.onChanged)
+        self.communicate.received_response.connect(self.display_response)
 
-        self.setGeometry(250, 250, 250, 250)
-        self.setWindowTitle('Enter')
-        self.show()
+    # def onChanged(self, text):
 
+    #     self.lbl.setText(text)
+    #     self.lbl.adjustSize()
 
-    def onChanged(self, text):
+    def send_req(self):
+        try:
+            user_input = int(self.qle.text())
+        except ValueError:
+            self.lbl.setText("Wrong input")
+            self.lbl.adjustSize()
+            return        
 
-        self.lbl.setText(text)
-        self.lbl.adjustSize()
-
-
-if __name__ == '__main__':
-
-    app = QApplication(sys.argv)
-    ex = Window()
-    sys.exit(app.exec_())
+    def display_response(self, res):
+        self.lbl.setText(f"Response: {res}")
+        self.lbl.adjustSize()   

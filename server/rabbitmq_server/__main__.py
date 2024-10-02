@@ -6,20 +6,24 @@ from rabbitmq_server.config import (
 
 import logging
 import pika
+import aio_pika
 import time
+import uuid
 
 log = logging.getLogger(__name__)
 
-def produce_msg (channel: pika.channel.Channel):
-    queue = channel.queue_declare(queue="news")
-    message_body = f"Hello! {time.time()}"
-    log.info("Publish: %s", message_body)
-    channel.basic_publish(
-        exchange="",
-        routing_key="news",
-        body=message_body,
-    )
-    log.warning("Published %s", message_body)
+async def handle_request(
+        channel,
+        message: aio_pika.IncomingMessage       
+):
+    try:
+        req = request_response_pb2.Request()
+        req.ParseFromString(message.body)
+        log.info(f"Received {req}")
+
+        response = request_response_pb2.Response()
+        # this will continued 
+
 
 def main():
     configure_logging(level=logging.INFO)

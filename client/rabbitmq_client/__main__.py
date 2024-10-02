@@ -3,49 +3,88 @@ from server.rabbitmq_server.config import (
     get_connection,
     configure_logging
 )
+from server.rabbitmq_server.proto import msg_pb2
 
 import logging
 import pika
 import time
+import sys
+import threading
+import pika
+import uuid
+from PyQt5.QtCore import pyqtSignal, QObject
+from PyQt5.QtWidgets import QApplication
+from window import Window 
 
-log = logging.getLogger(__name__)
+class Communicate(QObject):
+    received_response = pyqtSignal(int)
 
-def proccess_new_message(
-        ch: pika.channel.Channel,
-        method,
-        properties,
-        body: bytes,
-):
-    log.info("ch: %s", ch)
-    log.info("method: %s", method)
-    log.info("properties: %s", properties)
-    log.info("body: %s", body)
-    
-    ch.basic_ack(delivery_tag=method.delivery_tag)
+class RMQClient(threading.Thread):
+    def __init__(self, communicate, user_input):
+        super().__init__()
+        self.communicate = communicate
+        self.user_input = user_input
+        self.connection = None
+        self.channel = None
+        self.callback_queue = None
 
-    log.warning("Finish %r", body)
-    
+    def run(self):
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+        self.channel = self.connection.channel()
 
-def consume_messages(channel: pika.channel.Channel) ->None:
-    channel.basic_consume(
-        queue="news",
-        on_message_callback= proccess_new_message,
-        auto_ack=False
-    )
-    log.warning("Waiting")
-    channel.start_consuming()
- 
+        res = self.channel.queue_declare(queue = 'pp', exclusive=True)
+        self.callback_queue = res.method.queue
+
+        self.channel.basic_consume(
+            queue = self.callback_queue,
+            on_message_callback=self.on_response, 
+            auto_ack=True
+        )
+
+        self.send_request(self.user_input)
+
+        self.channel.start_consuming()
+
+    def send_request(self,user_input):
+        request = msg_pb2.Request
+        request.return_address = self.callback_queue
+        request.request_id = str(uuid.uuid4)
+        request.request = user_input
+
+        message = request.SerializeToString()
+
+        self.channel.basic_publish(
+            exchange='',
+            routing_key="news",
+            properties=pika.BasicProperties(
+                reply_to=self.callback_queue,
+                correlation_id=request.request_id
+            ),
+            body=message
+        )
+
+    def on_response(self,ch,metehod, props, body):
+        response = msg_pb2.Response()
+        response.ParseFromString(body)
+
+        self.communicate.received_response.emit(response.response)
+
+        self.connection.close()
 
 def main():
-    configure_logging(level=logging.INFO)
-    with get_connection() as connection:
-        log.info("Start: %s", connection)
-        with connection.channel() as channel:
-            log.info("New Channel: %s", channel)
-            consume_messages(channel=channel)
+    # Инициализируем Qt-приложение
+    app = QApplication(sys.argv)
 
-if __name__ == "__main__":
-    try:
-        main()
-    except KeyboardInterrupt:
-        log.warning("BB")
+    # Создаем объект коммуникации для передачи сигнала между потоками
+    communicate = Communicate()
+
+    # Создаем и показываем главное окно (импортируемое из window.py)
+    window = Window(communicate)
+    window.show()
+
+    # Запуск главного цикла Qt-приложения
+    sys.exit(app.exec_())
+
+
+if __name__ == '__main__':
+    main()        
