@@ -21,9 +21,11 @@ class Window(QMainWindow):
         
         self.qle = QLineEdit(self)
         self.qle.move(60, 100)
+        self.qle.setPlaceholderText("Enter a number")
         
         self.lbl = QLabel(self)
         self.lbl.move(60, 40)
+        self.lbl.setText("Answer: ")
         
         
         self.communicate = communicate
