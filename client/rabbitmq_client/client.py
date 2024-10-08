@@ -26,24 +26,39 @@ class RMQClient(QThread):
         self.active = False
         self.rmq_host = rmq_host
 
+        # Подключение сигнала к методу отправки запроса
         self.communicate.send_request.connect(self.handle_send_request)
+
+    def run(self):
+        """
+        Переопределенный метод QThread для запуска асинхронного клиента.
+        """
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        loop.run_until_complete(self.connect())
+        loop.run_forever()
 
     async def connect(self):
         """
         Асинхронное подключение к RabbitMQ и настройка канала.
         """
-        self.connection = await aio_pika.connect_robust(f"amqp://guest:guest@{self.rmq_host}/")
-        self.channel = await self.connection.channel()
+        try:
+            # Устанавливаем соединение
+            self.connection = await aio_pika.connect_robust(f"amqp://guest:guest@{self.rmq_host}/")
+            self.channel = await self.connection.channel()
 
-        # Объявляем временную очередь для получения ответов от сервера
-        result = await self.channel.declare_queue(exclusive=True)
-        self.callback_queue = result.name
+            # Объявляем временную очередь для получения ответов от сервера
+            result = await self.channel.declare_queue(exclusive=True)
+            self.callback_queue = result.name
 
-        # Начинаем прослушивание ответов от сервера
-        await result.consume(self.on_response)
+            # Начинаем прослушивание ответов от сервера
+            await result.consume(self.on_response)
 
-        self.active = True
-        print(f"Connected to RabbitMQ on {self.rmq_host} and listening on queue: {self.callback_queue}")
+            self.active = True
+            print(f"Connected to RabbitMQ on {self.rmq_host} and listening on queue: {self.callback_queue}")
+        except Exception as e:
+            print(f"Failed to connect to RabbitMQ: {e}")
+            self.active = False
 
     async def send_request(self, user_input):
         """
@@ -97,4 +112,9 @@ class RMQClient(QThread):
 
     def handle_send_request(self, user_input):
         """Обработчик для отправки запроса на сервер"""
-        asyncio.run_coroutine_threadsafe(self.send_request(user_input), asyncio.get_event_loop())
+        if not self.active:
+            print("Connection is not active, request cannot be sent.")
+            return
+
+        loop = asyncio.get_event_loop()
+        asyncio.run_coroutine_threadsafe(self.send_request(user_input), loop)
