@@ -1,8 +1,11 @@
+import sys 
+
+sys.path.append(r"Z:\Qt\5.15.2\mingw81_64\bin")
+sys.path.append(r'C:\Users\username\AppData\Local\Programs\Python\PythonXX\Lib\site-packages\PyQt5')
+
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QSizePolicy, QLabel, QLineEdit, QPushButton
 from PyQt5.QtCore import pyqtSignal, QObject
-import sys
-
 
 
 class Window(QMainWindow):
@@ -17,7 +20,7 @@ class Window(QMainWindow):
         self.button.setText("Enter your number")
         self.button.move(30, 150)
         self.button.setMinimumWidth(150)
-        self.button.clicked.connect(self.send_request)
+        self.button.clicked.connect(self.send_req)
         
         self.qle = QLineEdit(self)
         self.qle.move(60, 100)
