@@ -1,47 +1,60 @@
-import pika
 import uuid
 import asyncio
 import aio_pika
 from PyQt5.QtCore import pyqtSignal, QObject, QThread
-from server.rabbitmq_server.proto import msg_pb2
+from proto import msg3_pb2
+
 
 class Communicate(QObject):
+    """
+    Класс для создания сигналов, используемых для связи между компонентами.
+    """
     received_response = pyqtSignal(int)  # Сигнал для передачи ответа в GUI
+    send_request = pyqtSignal(int)
+
 
 class RMQClient(QThread):
-    def __init__(self, communicate):
+    """
+    Основной класс клиента для взаимодействия с RabbitMQ.
+    """
+    def __init__(self, communicate, rmq_host="localhost"):
         super().__init__()
         self.communicate = communicate
         self.connection = None
         self.channel = None
         self.callback_queue = None
         self.active = False
+        self.rmq_host = rmq_host
 
-    async def run(self):
-        """Устанавливаем соединение с RabbitMQ и инициализируем канал."""
-        
-        self.connection = await aio_pika.connect_robust("amqp://guest:guest@localhost/")
+        self.communicate.send_request.connect(self.handle_send_request)
+
+    async def connect(self):
+        """
+        Асинхронное подключение к RabbitMQ и настройка канала.
+        """
+        self.connection = await aio_pika.connect_robust(f"amqp://guest:guest@{self.rmq_host}/")
         self.channel = await self.connection.channel()
 
-            # Объявляем временную очередь для получения ответов от сервера
+        # Объявляем временную очередь для получения ответов от сервера
         result = await self.channel.declare_queue(exclusive=True)
         self.callback_queue = result.name
 
-            # Начинаем прослушивание ответов от сервера
+        # Начинаем прослушивание ответов от сервера
         await result.consume(self.on_response)
 
         self.active = True
-        self.channel.start_consuming()  # Ожидание ответов
-        
+        print(f"Connected to RabbitMQ on {self.rmq_host} and listening on queue: {self.callback_queue}")
 
     async def send_request(self, user_input):
-        """Отправка запроса на сервер"""
+        """
+        Отправка запроса на сервер с заданным числом.
+        """
         if self.connection is None or not self.active:
             print("Connection is not active")
             return
 
         # Создаем сообщение Protobuf
-        request = msg_pb2.Request()
+        request = msg3_pb2.Request()
         request.return_address = self.callback_queue
         request.request_id = str(uuid.uuid4())
         request.request = user_input
@@ -58,14 +71,30 @@ class RMQClient(QThread):
             ),
             routing_key="news"
         )
+        print(f"Sent request: {request}")
 
     async def on_response(self, message: aio_pika.IncomingMessage):
-        """Обработка ответа с сервера"""
-        response = msg_pb2.Response()
+        """
+        Обработка ответа с сервера.
+        """
+        response = msg3_pb2.Response()
         response.ParseFromString(message.body)
-        self.received_response.emit(response.response)
-        await message.ack()
+
+        # Emit the signal to update the GUI with the server's response
+        self.communicate.received_response.emit(response.response)
+        print(f"Received response: {response}")
+
+        await message.ack()  # Подтверждаем обработку сообщения
 
     async def stop_connection(self):
-        """Остановка соединения с RabbitMQ"""
-        await self.connection.close()
+        """
+        Остановка соединения с RabbitMQ.
+        """
+        if self.connection:
+            await self.connection.close()
+            self.active = False
+            print("Connection closed")
+
+    def handle_send_request(self, user_input):
+        """Обработчик для отправки запроса на сервер"""
+        asyncio.run_coroutine_threadsafe(self.send_request(user_input), asyncio.get_event_loop())

@@ -1,6 +1,5 @@
 import pika.channel
-from rabbitmq_server.config import (
-    get_connection,
+from config import (
     configure_logging
 )
 
@@ -58,7 +57,4 @@ async def main():
             
 
 if __name__ == "__main__":
-    try:
-        main()
-    except KeyboardInterrupt:
-        log.warning("BB")
+    asyncio.run(main())
