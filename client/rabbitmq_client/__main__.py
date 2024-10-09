@@ -1,26 +1,29 @@
 import sys
 from PyQt5.QtWidgets import QApplication
 from window import Window
-from rabbitmq_client import RMQClient, Communicate
+from client import RMQClient, Communicate
 import asyncio
 
 def main():
     communicate = Communicate()
+    app = QApplication(sys.argv)
+
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    
+    
     client = RMQClient(communicate)
 
-    # Запуск асинхронного клиента RabbitMQ в отдельном потоке
-    client.start()  # Правильный запуск потока
-
-    app = QApplication(sys.argv)
+    loop.run_until_complete(client.connect())
+  
     window = Window(communicate)
     window.show()
 
-    # Запуск Qt приложения
-    app.exec_()
-
-    # Завершаем соединение при закрытии GUI
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(client.stop_connection())
+    try:
+        sys.exit(app.exec())
+    finally:
+        loop.run_until_complete(client.stop_connection())
+        loop.close()    
 
 if __name__ == "__main__":
     main()

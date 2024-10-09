@@ -29,7 +29,7 @@ async def handle_request(channel, message: aio_pika.IncomingMessage):
             routing_key=req.return_address
         )
 
-        log.info(f"Sent response: {response}")
+        log.info(f"Sent response: {response} to {req.return_address}")
         await message.ack()
     except Exception as e:
         log.error(f"Error processing message: {e}")

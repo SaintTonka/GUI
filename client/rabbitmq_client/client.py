@@ -1,9 +1,10 @@
 import uuid
 import asyncio
 import aio_pika
+import sys
 from PyQt5.QtCore import pyqtSignal, QObject, QThread
 from proto import msg3_pb2
-
+#from ...server.rabbitmq_server.proto import msg2_pb2
 
 class Communicate(QObject):
     """
@@ -17,34 +18,33 @@ class RMQClient(QThread):
     """
     Основной класс клиента для взаимодействия с RabbitMQ.
     """
-    def __init__(self, communicate, rmq_host="localhost"):
+    def __init__(self, communicate):
         super().__init__()
         self.communicate = communicate
         self.connection = None
         self.channel = None
         self.callback_queue = None
         self.active = False
-        self.rmq_host = rmq_host
 
         # Подключение сигнала к методу отправки запроса
         self.communicate.send_request.connect(self.handle_send_request)
+        print("Client was connected")
 
-    def run(self):
-        """
-        Переопределенный метод QThread для запуска асинхронного клиента.
-        """
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        loop.run_until_complete(self.connect())
-        loop.run_forever()
+    # def run(self):
+    #     """
+    #     Переопределенный метод QThread для запуска асинхронного клиента.
+    #     """
+    #     loop = asyncio.new_event_loop()
+    #     asyncio.set_event_loop(loop)
+    #     loop.run_until_complete(self.connect())
+    #     loop.run_forever()
 
     async def connect(self):
         """
         Асинхронное подключение к RabbitMQ и настройка канала.
         """
         try:
-            # Устанавливаем соединение
-            self.connection = await aio_pika.connect_robust(f"amqp://guest:guest@{self.rmq_host}/")
+            self.connection = await aio_pika.connect_robust(f"amqp://guest:guest@localhost/")
             self.channel = await self.connection.channel()
 
             # Объявляем временную очередь для получения ответов от сервера
@@ -55,7 +55,7 @@ class RMQClient(QThread):
             await result.consume(self.on_response)
 
             self.active = True
-            print(f"Connected to RabbitMQ on {self.rmq_host} and listening on queue: {self.callback_queue}")
+            print(f"Connected to RabbitMQ and listening on queue: {self.callback_queue}")
         except Exception as e:
             print(f"Failed to connect to RabbitMQ: {e}")
             self.active = False
@@ -68,34 +68,38 @@ class RMQClient(QThread):
             print("Connection is not active")
             return
 
-        # Создаем сообщение Protobuf
+        print("Request is ready to sent")
+
         request = msg3_pb2.Request()
         request.return_address = self.callback_queue
         request.request_id = str(uuid.uuid4())
         request.request = user_input
 
         # Сериализация запроса
-        message = request.SerializeToString()
+        msg = request.SerializeToString()
 
+        print(f"request: {request.request_id}")
         # Отправляем запрос на сервер
         await self.channel.default_exchange.publish(
             aio_pika.Message(
-                body=message,
+                body=msg,
                 reply_to=self.callback_queue,
                 correlation_id=request.request_id
             ),
             routing_key="news"
         )
-        print(f"Sent request: {request}")
+        print("Request was sent")
 
     async def on_response(self, message: aio_pika.IncomingMessage):
         """
         Обработка ответа с сервера.
         """
         response = msg3_pb2.Response()
+
+        print("Was received raw msg")
+
         response.ParseFromString(message.body)
 
-        # Emit the signal to update the GUI with the server's response
         self.communicate.received_response.emit(response.response)
         print(f"Received response: {response}")
 
@@ -112,9 +116,12 @@ class RMQClient(QThread):
 
     def handle_send_request(self, user_input):
         """Обработчик для отправки запроса на сервер"""
-        if not self.active:
+        loop = asyncio.get_event_loop()
+
+        if (loop.is_running):
+            asyncio.run_coroutine_threadsafe(self.send_request(user_input), loop)
+        
+        else:
             print("Connection is not active, request cannot be sent.")
             return
-
-        loop = asyncio.get_event_loop()
-        asyncio.run_coroutine_threadsafe(self.send_request(user_input), loop)
+        
