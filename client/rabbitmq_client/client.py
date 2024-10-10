@@ -4,7 +4,6 @@ import aio_pika
 import sys
 from PyQt5.QtCore import pyqtSignal, QObject, QThread
 from proto import msg3_pb2
-#from ...server.rabbitmq_server.proto import msg2_pb2
 
 class Communicate(QObject):
     """
@@ -29,15 +28,6 @@ class RMQClient(QThread):
         # Подключение сигнала к методу отправки запроса
         self.communicate.send_request.connect(self.handle_send_request)
         print("Client was connected")
-
-    # def run(self):
-    #     """
-    #     Переопределенный метод QThread для запуска асинхронного клиента.
-    #     """
-    #     loop = asyncio.new_event_loop()
-    #     asyncio.set_event_loop(loop)
-    #     loop.run_until_complete(self.connect())
-    #     loop.run_forever()
 
     async def connect(self):
         """
@@ -94,22 +84,26 @@ class RMQClient(QThread):
         """
         Обработка ответа с сервера.
         """
-        response = msg3_pb2.Response()
+        print("Message received from server...")  # Лог получения сообщения
+        try:
+            response = msg3_pb2.Response()
+            response.ParseFromString(message.body)
 
-        print("Was received raw msg")
-
-        response.ParseFromString(message.body)
-
-        self.communicate.received_response.emit(response.response)
-        print(f"Received response: {response}")
-
-        await message.ack()  # Подтверждаем обработку сообщения
+            print(f"Parsed response: {response}")  # Лог успешного парсинга
+            # Emit the signal to update the GUI with the server's response
+            self.communicate.received_response.emit(response.response)
+            print(f"Emitted signal with response: {response.response}")
+        except Exception as e:
+            print(f"Failed to parse response: {e}")
+        await message.ack()
 
     async def stop_connection(self):
         """
         Остановка соединения с RabbitMQ.
         """
         if self.connection:
+            print("Waiting for task")
+            await asyncio.sleep(2)
             await self.connection.close()
             self.active = False
             print("Connection closed")
@@ -118,10 +112,7 @@ class RMQClient(QThread):
         """Обработчик для отправки запроса на сервер"""
         loop = asyncio.get_event_loop()
 
-        if (loop.is_running):
+        if loop.is_running():
             asyncio.run_coroutine_threadsafe(self.send_request(user_input), loop)
-        
         else:
             print("Connection is not active, request cannot be sent.")
-            return
-        

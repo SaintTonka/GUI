@@ -32,10 +32,15 @@ class Window(QMainWindow):
         self.send_button.clicked.connect(self.send_request)
 
     def send_request(self):
-        user_input = self.input_field.text()
-        if user_input.isdigit():  
-            self.communicate.send_request.emit(int(user_input))
-            self.input_field.clear()  
-
+        """
+        Обработка нажатия кнопки "Отправить".
+        """
+        text = self.input_field.text().strip()
+        if not text.isdigit():
+            self.display_response("Введите целое число!")
+            return
+    
+        number = int(text)
+        self.communicate.send_request.emit(number)
     def display_response(self, response):
         self.label.setText(f"Ответ от сервера: {response}")

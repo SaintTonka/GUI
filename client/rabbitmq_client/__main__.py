@@ -11,7 +11,6 @@ def main():
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     
-    
     client = RMQClient(communicate)
 
     loop.run_until_complete(client.connect())
