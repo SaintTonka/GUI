@@ -9,7 +9,7 @@ class Communicate(QObject):
     """
     Класс для создания сигналов, используемых для связи между компонентами.
     """
-    received_response = pyqtSignal(int)  # Сигнал для передачи ответа в GUI
+    received_response = pyqtSignal(int)  
     send_request = pyqtSignal(int)
 
 
@@ -58,7 +58,7 @@ class RMQClient(QThread):
             print("Connection is not active")
             return
 
-        print("Request is ready to sent")
+        print("Request is ready to be sent")
 
         request = msg3_pb2.Request()
         request.return_address = self.callback_queue
@@ -69,7 +69,7 @@ class RMQClient(QThread):
         msg = request.SerializeToString()
 
         print(f"request: {request.request_id}")
-        # Отправляем запрос на сервер
+        
         await self.channel.default_exchange.publish(
             aio_pika.Message(
                 body=msg,
@@ -84,18 +84,18 @@ class RMQClient(QThread):
         """
         Обработка ответа с сервера.
         """
-        print("Message received from server...")  # Лог получения сообщения
+        print("Message received from server...")  
         try:
             response = msg3_pb2.Response()
             response.ParseFromString(message.body)
 
-            print(f"Parsed response: {response}")  # Лог успешного парсинга
-            # Emit the signal to update the GUI with the server's response
+            print(f"Parsed response: {response}") 
+
             self.communicate.received_response.emit(response.response)
             print(f"Emitted signal with response: {response.response}")
         except Exception as e:
             print(f"Failed to parse response: {e}")
-        await message.ack()
+            await message.nack(requeue=False)
 
     async def stop_connection(self):
         """
@@ -103,16 +103,21 @@ class RMQClient(QThread):
         """
         if self.connection:
             print("Waiting for task")
-            await asyncio.sleep(2)
             await self.connection.close()
             self.active = False
             print("Connection closed")
 
+    def run(self):
+        """
+        Этот метод запускается, когда поток стартует.
+        Мы создаем новый event loop и запускаем его, чтобы обрабатывать задачи асинхронно.
+        """
+        loop = asyncio.new_event_loop()  
+        asyncio.set_event_loop(loop)     
+        loop.run_until_complete(self.connect())  
+        loop.run_forever() 
+
     def handle_send_request(self, user_input):
         """Обработчик для отправки запроса на сервер"""
-        loop = asyncio.get_event_loop()
-
-        if loop.is_running():
-            asyncio.run_coroutine_threadsafe(self.send_request(user_input), loop)
-        else:
-            print("Connection is not active, request cannot be sent.")
+        loop = asyncio.new_event_loop()
+        asyncio.run_coroutine_threadsafe(self.send_request(user_input), loop)

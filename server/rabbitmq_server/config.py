@@ -12,11 +12,6 @@ connection_params = pika.ConnectionParameters(
     credentials=pika.PlainCredentials(RMQ_USER, RMQ_PASSWORD)
 )
 
-def get_connection() -> pika.BlockingConnection:
-    return pika.BlockingConnection(
-        parameters=connection_params
-    )
-
 def configure_logging(level:int = logging.INFO):
     logging.basicConfig(
         level = level,

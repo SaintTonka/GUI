@@ -12,7 +12,6 @@ async def handle_request(channel, message: aio_pika.IncomingMessage):
         req.ParseFromString(message.body)
         log.info(f"Received {req}")
 
-        # Искусственная задержка обработки, если задано
         if req.proccess_time_in_seconds:
             await asyncio.sleep(req.proccess_time_in_seconds)
 
