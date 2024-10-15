@@ -119,4 +119,6 @@ class RMQClient(QThread):
     def handle_send_request(self, user_input):
         """Обработчик для отправки запроса на сервер"""
         loop = asyncio.get_event_loop()
+        if user_input == "":
+            return
         asyncio.run_coroutine_threadsafe(self.send_request(user_input), self.loop)

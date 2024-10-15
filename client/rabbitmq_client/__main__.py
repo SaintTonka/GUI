@@ -22,4 +22,7 @@ def main():
         print("Application closed")
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\nProgram terminated by user.")

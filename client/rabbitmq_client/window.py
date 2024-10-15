@@ -116,10 +116,16 @@ class Window(QMainWindow):
     def sending_request(self):
         """Отправляет запрос немедленно или с задержкой"""
         text = self.input_field.text().strip()
-        if not text.isdigit() and int(text) > 1073741824:
-            self.display_response("Введите целое число не певышащее 1073741824!")
-            self.log_event("Попытка отправить некорректное число.")
+        if text == "":
+            self.display_response("Введите число!")
             return
+        
+        else:
+            if not text.isdigit() and int(text) > 1073741824:
+                self.display_response("Введите целое число не певышащее 1073741824!")
+                self.log_event("Попытка отправить некорректное число.")
+                return
+            
 
         if self.request_in_progress:
             self.display_response("Ожидается ответ на предыдущий запрос.")
