@@ -65,7 +65,6 @@ class RMQClient(QThread):
         request.request_id = str(uuid.uuid4())
         request.request = user_input
 
-        # Сериализация запроса
         msg = request.SerializeToString()
 
         print(f"request: {request.request_id}")
@@ -76,7 +75,7 @@ class RMQClient(QThread):
                 reply_to=self.callback_queue,
                 correlation_id=request.request_id
             ),
-            routing_key="news"
+            routing_key="bews"
         )
         print("Request was sent")
 
@@ -112,12 +111,12 @@ class RMQClient(QThread):
         Этот метод запускается, когда поток стартует.
         Мы создаем новый event loop и запускаем его, чтобы обрабатывать задачи асинхронно.
         """
-        loop = asyncio.new_event_loop()  
-        asyncio.set_event_loop(loop)     
-        loop.run_until_complete(self.connect())  
-        loop.run_forever() 
+        self.loop = asyncio.new_event_loop()  
+        asyncio.set_event_loop(self.loop)     
+        self.loop.run_until_complete(self.connect())  
+        self.loop.run_forever() 
 
     def handle_send_request(self, user_input):
         """Обработчик для отправки запроса на сервер"""
-        loop = asyncio.new_event_loop()
-        asyncio.run_coroutine_threadsafe(self.send_request(user_input), loop)
+        loop = asyncio.get_event_loop()
+        asyncio.run_coroutine_threadsafe(self.send_request(user_input), self.loop)

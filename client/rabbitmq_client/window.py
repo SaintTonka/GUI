@@ -22,7 +22,7 @@ class Window(QMainWindow):
         self.request_in_progress = False  
         self.process_time_in_seconds = 0  
         self.remaining_time = 0  
-        self.cancelled_request = False  #
+        self.cancelled_request = False  
 
     def initUI(self):
         central_widget = QWidget(self)
@@ -55,7 +55,7 @@ class Window(QMainWindow):
         layout.addWidget(self.cancel_button)
         layout.addWidget(self.log_widget)
 
-        self.send_button.clicked.connect(self.send_request)
+        self.send_button.clicked.connect(self.sending_request)
         self.set_delay_button.clicked.connect(self.set_delay)
         self.cancel_button.clicked.connect(self.cancel_request)
 
@@ -102,7 +102,7 @@ class Window(QMainWindow):
         self.remaining_time = self.process_time_in_seconds
         self.progress_bar.setMaximum(self.process_time_in_seconds)
         self.progress_bar.setValue(self.process_time_in_seconds)  
-        self.timer.start(100)
+        self.timer.start(1000)
 
     def updateTimer(self):
         self.remaining_time -= 1
@@ -113,11 +113,11 @@ class Window(QMainWindow):
             self.send_delayed_request()
 
 
-    def send_request(self):
+    def sending_request(self):
         """Отправляет запрос немедленно или с задержкой"""
         text = self.input_field.text().strip()
-        if not text.isdigit():
-            self.display_response("Введите целое число!")
+        if not text.isdigit() and int(text) > 1073741824:
+            self.display_response("Введите целое число не певышащее 1073741824!")
             self.log_event("Попытка отправить некорректное число.")
             return
 
@@ -138,12 +138,18 @@ class Window(QMainWindow):
     def send_delayed_request(self):
         """Отправка запроса после задержки или немедленно"""
         number = int(self.input_field.text().strip())
+
+        if number > 1073741824:
+            self.display_response("Введите целое число не певышащее 1073741823!")
+            self.log_event("Попытка отправить некорректное число.")
+            return
+
         self.communicate.send_request.emit(number)
         self.input_field.clear()  
         self.log_event(f"Запрос отправлен: {number}")
 
     def display_response(self, response):
-        if self.cancelled_request:
+        if self.cancelled_request == True:
             self.log_event(f"Ответ был проигнорирован, так как запрос был отменен: {response}")
             self.cancelled_request = False
             return

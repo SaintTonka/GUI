@@ -20,9 +20,11 @@ async def handle_request(channel, message: aio_pika.IncomingMessage):
         response.request_id = req.request_id
         response.response = req.request * 2
 
+        msg = response.SerializeToString()
+
         await channel.default_exchange.publish(
             aio_pika.Message(
-                body=response.SerializeToString(),
+                body=msg,
                 correlation_id=req.request_id
             ),
             routing_key=req.return_address
@@ -41,7 +43,7 @@ async def main():
 
     async with connection:
         channel = await connection.channel()
-        queue = await channel.declare_queue("news")
+        queue = await channel.declare_queue("bews")
 
         # Запуск асинхронного потребления сообщений с обработчиком handle_request
         await queue.consume(lambda message: asyncio.create_task(handle_request(channel, message)))
