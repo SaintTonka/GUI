@@ -1,11 +1,13 @@
-from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QLabel, QLineEdit, QPushButton, QTextEdit, QProgressBar
+from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QLabel, QLineEdit, QPushButton, QTextEdit, QProgressBar, QMessageBox
 from PyQt5.QtCore import QTimer, pyqtSignal, QObject
 from PyQt5.QtCore import Qt
 from datetime import datetime
 
+
 class Communicate(QObject):
     send_request = pyqtSignal(int)
     received_response = pyqtSignal(str)
+    error_sygnal = pyqtSignal(str)
 
 class Window(QMainWindow):
     def __init__(self, communicate):
@@ -19,6 +21,8 @@ class Window(QMainWindow):
         self.initUI()
 
         self.communicate.received_response.connect(self.display_response)
+        self.communicate.error_sygnal.connect(self.error_window)
+
         self.request_in_progress = False  
         self.process_time_in_seconds = 0  
         self.remaining_time = 0  
@@ -176,3 +180,10 @@ class Window(QMainWindow):
         self.label.setText("Запрос отменен.")
         self.log_event("Запрос был отменен.")
         self.unlock_ui()
+
+    def error_window(self, error_sygnal):
+        msg_box = QMessageBox()
+        msg_box.setIcon(QMessageBox.Critical)
+        msg_box.setText("Error connectio server!")
+        msg_box.setWindowTitle("Error message")
+        msg_box.exec()    

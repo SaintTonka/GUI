@@ -12,6 +12,7 @@ connection_params = pika.ConnectionParameters(
     credentials=pika.PlainCredentials(RMQ_USER, RMQ_PASSWORD)
 )
 
+
 def configure_logging(level:int = logging.INFO):
     logging.basicConfig(
         level = level,

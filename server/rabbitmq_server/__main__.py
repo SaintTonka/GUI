@@ -15,10 +15,13 @@ async def handle_request(channel, message: aio_pika.IncomingMessage):
         if req.proccess_time_in_seconds:
             await asyncio.sleep(req.proccess_time_in_seconds)
 
-        # Создание и отправка ответа
         response = msg2_pb2.Response()
+        if req.request == "Hi":
+            response.response = "Goida"
+        else:
+            response.response = req.request * 2
+
         response.request_id = req.request_id
-        response.response = req.request * 2
 
         msg = response.SerializeToString()
 
