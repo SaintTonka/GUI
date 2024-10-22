@@ -1,0 +1,13 @@
+2024-10-22 15:42:50 - INFO - aio_pika.robust_connection: Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-10-22 15:43:34 - INFO - __main__: Connected to RabbitMQ
+2024-10-22 15:43:34 - INFO - __main__: Server is listening on queue: bews
+2024-10-22 15:50:08 - INFO - __main__: Connected to RabbitMQ
+2024-10-22 15:50:08 - INFO - __main__: Server is listening on queue: bews
+2024-10-22 15:51:31 - INFO - __main__: Connected to RabbitMQ
+2024-10-22 15:51:31 - INFO - __main__: Server is listening on queue: bews
+2024-10-22 16:33:21 - INFO - __main__: Connected to RabbitMQ
+2024-10-22 16:33:21 - INFO - __main__: Server is listening on queue: bews
+2024-10-22 16:34:01 - INFO - __main__: Connected to RabbitMQ
+2024-10-22 16:34:01 - INFO - __main__: Server is listening on queue: bews
+2024-10-22 17:08:58 - INFO - __main__: Connected to RabbitMQ
+2024-10-22 17:08:58 - INFO - __main__: Server is listening on queue: bews

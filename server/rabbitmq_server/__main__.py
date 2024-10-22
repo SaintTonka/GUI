@@ -2,29 +2,29 @@ import logging
 import aio_pika
 import asyncio
 from config import configure_logging, load_config
-from proto import msg2_pb2  
+from proto import msg_serv_pb2  
 
 log = logging.getLogger(__name__)
 
 async def handle_request(channel, message: aio_pika.IncomingMessage):
     async with message.process():
         try:
-            req = msg2_pb2.Request()
+            req = msg_serv_pb2 .Request()
             req.ParseFromString(message.body)
             log.info(f"Received Request: ID={req.request_id}, Request={req.request}, Return Address={req.return_address}")
 
-            if req.HasField("proccess_time_in_seconds") and req.proccess_time_in_seconds > 0:
-                log.info(f"Processing request for {req.proccess_time_in_seconds} seconds")
-                await asyncio.sleep(req.proccess_time_in_seconds)
-
-            response = msg2_pb2.Response()
+            response = msg_serv_pb2 .Response()
             response.request_id = req.request_id
 
-            if req.request == 0:
-                response.response = 1  # Код готовности сервера
+            if req.request == "Hi":
+                response.response = "Hello"  # Код готовности сервера
                 log.info(f"Sent response: {response.response} (Server Ready) to {req.return_address}")
             else:
-                response.response = req.request * 2
+                if req.HasField("proccess_time_in_seconds") and req.proccess_time_in_seconds > 0:
+                    log.info(f"Processing request for {req.proccess_time_in_seconds} seconds")
+                    await asyncio.sleep(req.proccess_time_in_seconds)
+
+                response.response = int(req.request) * 2
                 log.info(f"Sent response: {response.response} to {req.return_address}")
 
             msg = response.SerializeToString()

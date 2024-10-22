@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import QTimer, pyqtSignal, QObject
 from datetime import datetime
 
+
 class Window(QMainWindow):
     def __init__(self, communicate, client):
         super().__init__()

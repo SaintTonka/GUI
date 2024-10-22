@@ -4,7 +4,7 @@ import logging
 import os
 from PyQt5.QtCore import pyqtSignal, QObject, QThread
 import pika
-from proto import msg3_pb2
+from proto import msg_client_pb2
 
 class Communicate(QObject):
     """
@@ -111,10 +111,10 @@ class RMQClient(QThread):
 
     def send_hi_to_serv(self):
         try:
-            request = msg3_pb2.Request()
+            request = msg_client_pb2.Request()
             request.return_address = self.callback_queue
             request.request_id = str(uuid.uuid4())
-            request.request = 0  
+            request.request = "Hi"  
 
             msg = request.SerializeToString()
 
@@ -131,6 +131,8 @@ class RMQClient(QThread):
         except Exception as e:
             self.logger.error(f"Error sending 'Hi': {e}")
             self.communicate.error_signal.emit(f"Error sending 'Hi': {e}")
+        response = msg_client_pb2.Response 
+
 
     def handle_send_request(self, user_input):
         if not self.active:
@@ -139,7 +141,7 @@ class RMQClient(QThread):
             return
 
         try:
-            request = msg3_pb2.Request()
+            request = msg_client_pb2.Request()
             request.return_address = self.callback_queue
             request.request_id = str(uuid.uuid4())
             request.request = int(user_input)
@@ -162,11 +164,11 @@ class RMQClient(QThread):
 
     def on_response(self, ch, method, props, body):
         try:
-            response = msg3_pb2.Response()
+            response = msg_client_pb2.Response()
             response.ParseFromString(body)
             self.logger.info(f"Received response: {response.response} for request ID: {response.request_id}")
 
-            if response.response == 1 and not self.check_server:
+            if response.response == "Hello":
                 self.check_server = True
                 self.communicate.server_ready_signal.emit()
                 self.logger.info("Server is ready.")
