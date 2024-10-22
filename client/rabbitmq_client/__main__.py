@@ -11,14 +11,13 @@ def main():
     client = RMQClient(communicate)
     client.start()  
 
-    window = Window(communicate)
+    window = Window(communicate, client)
     window.show()
 
     try:
         sys.exit(app.exec())
     finally:
-        client.quit()
-        client.wait()  
+        client.stop_client()
         print("Application closed")
 
 if __name__ == "__main__":
