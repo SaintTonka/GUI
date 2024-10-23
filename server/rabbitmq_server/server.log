@@ -27,3 +27,5 @@
 2024-10-23 13:02:52 - INFO - __main__: Server is listening on queue: bews
 2024-10-23 13:45:16 - INFO - __main__: Connected to RabbitMQ
 2024-10-23 13:45:16 - INFO - __main__: Server is listening on queue: bews
+2024-10-23 13:51:39 - INFO - __main__: Connected to RabbitMQ
+2024-10-23 13:51:39 - INFO - __main__: Server is listening on queue: bews

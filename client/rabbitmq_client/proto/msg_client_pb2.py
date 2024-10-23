@@ -18,7 +18,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='TestTask.Messages',
   syntax='proto2',
   serialized_options=None,
-  serialized_pb=b'\n\x10msg_client.proto\x12\x11TestTask.Messages\"h\n\x07Request\x12\x16\n\x0ereturn_address\x18\x01 \x02(\t\x12\x12\n\nrequest_id\x18\x02 \x02(\t\x12 \n\x18proccess_time_in_seconds\x18\x03 \x01(\x02\x12\x0f\n\x07request\x18\x04 \x02(\t\"0\n\x08Response\x12\x12\n\nrequest_id\x18\x01 \x02(\t\x12\x10\n\x08response\x18\x02 \x02(\t'
+  serialized_pb=b'\n\x10msg_client.proto\x12\x11TestTask.Messages\"h\n\x07Request\x12\x16\n\x0ereturn_address\x18\x01 \x02(\t\x12\x12\n\nrequest_id\x18\x02 \x02(\t\x12 \n\x18proccess_time_in_seconds\x18\x03 \x01(\x02\x12\x0f\n\x07request\x18\x04 \x02(\x05\"0\n\x08Response\x12\x12\n\nrequest_id\x18\x01 \x02(\t\x12\x10\n\x08response\x18\x02 \x02(\x05'
 )
 
 
@@ -54,8 +54,8 @@ _REQUEST = _descriptor.Descriptor(
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='request', full_name='TestTask.Messages.Request.request', index=3,
-      number=4, type=9, cpp_type=9, label=2,
-      has_default_value=False, default_value=b"".decode('utf-8'),
+      number=4, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
@@ -92,8 +92,8 @@ _RESPONSE = _descriptor.Descriptor(
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='response', full_name='TestTask.Messages.Response.response', index=1,
-      number=2, type=9, cpp_type=9, label=2,
-      has_default_value=False, default_value=b"".decode('utf-8'),
+      number=2, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
