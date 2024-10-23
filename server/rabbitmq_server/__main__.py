@@ -9,11 +9,11 @@ log = logging.getLogger(__name__)
 async def handle_request(channel, message: aio_pika.IncomingMessage):
     async with message.process():
         try:
-            req = msg_serv_pb2 .Request()
+            req = msg_serv_pb2.Request()
             req.ParseFromString(message.body)
             log.info(f"Received Request: ID={req.request_id}, Request={req.request}, Return Address={req.return_address}")
 
-            response = msg_serv_pb2 .Response()
+            response = msg_serv_pb2.Response()
             response.request_id = req.request_id
 
             if req.request == "Hi":
@@ -24,7 +24,7 @@ async def handle_request(channel, message: aio_pika.IncomingMessage):
                     log.info(f"Processing request for {req.proccess_time_in_seconds} seconds")
                     await asyncio.sleep(req.proccess_time_in_seconds)
 
-                response.response = int(req.request) * 2
+                response.response = str(int(req.request) * 2)  # Преобразуем ответ в строку
                 log.info(f"Sent response: {response.response} to {req.return_address}")
 
             msg = response.SerializeToString()
@@ -34,7 +34,7 @@ async def handle_request(channel, message: aio_pika.IncomingMessage):
                     body=msg,
                     correlation_id=req.request_id
                 ),
-                routing_key=req.return_address
+                routing_key=req.return_address  # Отправляем на callback очередь клиента
             )
         except Exception as e:
             log.error(f"Error processing message: {e}")
@@ -49,15 +49,22 @@ async def main():
 
     async with connection:
         channel = await connection.channel()
+        
+        # Объявляем Exchange 'bews' типа 'direct'
+        exchange = await channel.declare_exchange("bews", aio_pika.ExchangeType.DIRECT, durable=True)
+        
+        # Объявляем очередь 'bews'
         queue = await channel.declare_queue("bews", durable=True)
+        
+        # Привязываем очередь 'bews' к Exchange 'bews' с routing_key 'bews'
+        await queue.bind(exchange, routing_key="bews")
 
         await queue.consume(lambda message: asyncio.create_task(handle_request(channel, message)))
         log.info(f"Server is listening on queue: {queue.name}")
 
         try:
             while True:
-                await asyncio.sleep(3600)
-                 
+                await asyncio.sleep(3600) 
         except KeyboardInterrupt:
             log.info("Server shutdown initiated...")
 

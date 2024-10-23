@@ -4,14 +4,14 @@ import logging
 import os
 from PyQt5.QtCore import pyqtSignal, QObject, QThread
 import pika
-from proto import msg_client_pb2
+from proto import msg3_pb2
 
 class Communicate(QObject):
     """
     Класс для создания сигналов, используемых для связи между компонентами.
     """
-    received_response = pyqtSignal(int)
-    send_request = pyqtSignal(int)
+    received_response = pyqtSignal(str)  # Изменил тип на str
+    send_request = pyqtSignal(str)        # Изменил тип на str
     error_signal = pyqtSignal(str)
     server_ready_signal = pyqtSignal()
 
@@ -24,8 +24,8 @@ class RMQClient(QThread):
         self.connection = None
         self.channel = None
         self.callback_queue = None
-        self.active = True #1
-        self.check_server = True #2
+        self.active = False
+        self.check_server = False
         self._running = True
 
         self.communicate.send_request.connect(self.handle_send_request)
@@ -44,6 +44,7 @@ class RMQClient(QThread):
         self.log_file = config.get('logging', 'file', fallback='client.log')
         self.log_level = getattr(logging, self.log_level_str.upper(), logging.INFO)
 
+        # Configure logging
         logging.basicConfig(
             level=self.log_level,
             filename=self.log_file,
@@ -53,6 +54,7 @@ class RMQClient(QThread):
         )
         self.logger = logging.getLogger(__name__)
 
+        # Client UUID handling
         if not config.has_section('client'):
             config.add_section('client')
 
@@ -80,12 +82,15 @@ class RMQClient(QThread):
             )
             self.channel = self.connection.channel()
 
+            # Declare exchange if needed
             self.channel.exchange_declare(exchange=self.exchange, exchange_type='direct', durable=True)
 
+            # Declare a unique callback queue for this client
             result = self.channel.queue_declare(queue='', exclusive=True)
             self.callback_queue = result.method.queue
 
-            self.channel.queue_bind(exchange=self.exchange, queue=self.callback_queue)
+            # Удалили привязку callback_queue к Exchange 'bews'
+            # self.channel.queue_bind(exchange=self.exchange, queue=self.callback_queue)
 
             self.channel.basic_consume(
                 queue=self.callback_queue,
@@ -96,11 +101,10 @@ class RMQClient(QThread):
             self.active = True
             self.logger.info(f"Connected to RabbitMQ and listening on queue: {self.callback_queue}")
 
+            # Start sending 'Hi' to check server readiness
             while self._running:
                 if not self.check_server:
-                    print("Error")
-                    # self.send_hi_to_serv()
-                    # self.test_on_response
+                    self.send_hi_to_serv()
                 try:
                     self.connection.process_data_events(time_limit=1)
                 except pika.exceptions.AMQPError as e:
@@ -111,40 +115,28 @@ class RMQClient(QThread):
             self.communicate.error_signal.emit(f"Failed to connect to RabbitMQ: {e}")
             self.active = False
 
-    # def send_hi_to_serv (self):
-    #     try:
-    #         request = msg_client_pb2.Request()
-    #         request.return_address = self.callback_queue
-    #         request.request_id = str(uuid.uuid4())
-    #         request.request = "Hi"  
+    def send_hi_to_serv(self):
+        try:
+            request = msg3_pb2.Request()
+            request.return_address = self.callback_queue
+            request.request_id = str(uuid.uuid4())
+            request.request = "Hi"  # Используем строку
 
-    #         msg = request.SerializeToString()
+            msg = request.SerializeToString()
 
-    #         self.channel.basic_publish(
-    #             exchange=self.exchange,
-    #             routing_key=self.exchange,  
-    #             properties=pika.BasicProperties(
-    #                 reply_to=self.callback_queue,
-    #                 correlation_id=request.request_id
-    #             ),
-    #             body=msg
-    #         )
-    #         self.logger.info("Sent 'Hi' to server for readiness check.")
-    #     except Exception as e:
-    #         self.logger.error(f"Error sending 'Hi': {e}")
-    #         self.communicate.error_signal.emit(f"Error sending 'Hi': {e}")
-
-    # def test_on_response (self, ch, method, props, body):
-    #     try:
-    #         response = msg_client_pb2.Response
-    #         response.ParseFromString(body)
-    #         if response.response == "Hello":
-    #             self.check_server = True
-    #             self.communicate.server_ready_signal.emit()
-    #             self.logger.info("Server is ready.")
-    #     except Exception as e:
-    #             self.logger.error(f"Error processing response: {e}")
-    #             self.communicate.error_signal.emit(f"Error processing response: {e}")   
+            self.channel.basic_publish(
+                exchange=self.exchange,
+                routing_key=self.exchange,  # 'bews'
+                properties=pika.BasicProperties(
+                    reply_to=self.callback_queue,
+                    correlation_id=request.request_id
+                ),
+                body=msg
+            )
+            self.logger.info("Sent 'Hi' to server for readiness check.")
+        except Exception as e:
+            self.logger.error(f"Error sending 'Hi': {e}")
+            self.communicate.error_signal.emit(f"Error sending 'Hi': {e}")
 
     def handle_send_request(self, user_input):
         if not self.active:
@@ -153,10 +145,10 @@ class RMQClient(QThread):
             return
 
         try:
-            request = msg_client_pb2.Request()
+            request = msg3_pb2.Request()
             request.return_address = self.callback_queue
             request.request_id = str(uuid.uuid4())
-            request.request = int(user_input)
+            request.request = str(user_input)  # Отправляем как строку
 
             msg = request.SerializeToString()
 
@@ -176,11 +168,15 @@ class RMQClient(QThread):
 
     def on_response(self, ch, method, props, body):
         try:
-            response = msg_client_pb2.Response()
+            response = msg3_pb2.Response()
             response.ParseFromString(body)
             self.logger.info(f"Received response: {response.response} for request ID: {response.request_id}")
 
-            if self.check_server == True:
+            if response.response == "Hello" and not self.check_server:
+                self.check_server = True
+                self.communicate.server_ready_signal.emit()
+                self.logger.info("Server is ready.")
+            else:
                 self.communicate.received_response.emit(response.response)
         except Exception as e:
             self.logger.error(f"Error processing response: {e}")
