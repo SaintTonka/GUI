@@ -23,10 +23,15 @@ class Window(QMainWindow):
         self.communicate.error_signal.connect(self.handle_error_signal)
 
         self.request_in_progress = False
-        self.server_ready = False
+        self.server_ready = True
         self.process_time_in_seconds = 0
         self.remaining_time = 0
         self.cancelled_request = False
+
+        if self.server_ready == True:
+            self.unlock_ui()
+        else:
+            self.lock_ui()    
 
     def initUI(self):
         central_widget = QWidget(self)

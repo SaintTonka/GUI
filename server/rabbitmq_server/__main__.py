@@ -56,7 +56,8 @@ async def main():
 
         try:
             while True:
-                await asyncio.sleep(3600) 
+                await asyncio.sleep(3600)
+                 
         except KeyboardInterrupt:
             log.info("Server shutdown initiated...")
 

@@ -24,8 +24,8 @@ class RMQClient(QThread):
         self.connection = None
         self.channel = None
         self.callback_queue = None
-        self.active = False
-        self.check_server = False
+        self.active = True #1
+        self.check_server = True #2
         self._running = True
 
         self.communicate.send_request.connect(self.handle_send_request)
@@ -98,7 +98,9 @@ class RMQClient(QThread):
 
             while self._running:
                 if not self.check_server:
-                    self.send_hi_to_serv()
+                    print("Error")
+                    # self.send_hi_to_serv()
+                    # self.test_on_response
                 try:
                     self.connection.process_data_events(time_limit=1)
                 except pika.exceptions.AMQPError as e:
@@ -109,30 +111,40 @@ class RMQClient(QThread):
             self.communicate.error_signal.emit(f"Failed to connect to RabbitMQ: {e}")
             self.active = False
 
-    def send_hi_to_serv(self):
-        try:
-            request = msg_client_pb2.Request()
-            request.return_address = self.callback_queue
-            request.request_id = str(uuid.uuid4())
-            request.request = "Hi"  
+    # def send_hi_to_serv (self):
+    #     try:
+    #         request = msg_client_pb2.Request()
+    #         request.return_address = self.callback_queue
+    #         request.request_id = str(uuid.uuid4())
+    #         request.request = "Hi"  
 
-            msg = request.SerializeToString()
+    #         msg = request.SerializeToString()
 
-            self.channel.basic_publish(
-                exchange=self.exchange,
-                routing_key=self.exchange,  
-                properties=pika.BasicProperties(
-                    reply_to=self.callback_queue,
-                    correlation_id=request.request_id
-                ),
-                body=msg
-            )
-            self.logger.info("Sent 'Hi' to server for readiness check.")
-        except Exception as e:
-            self.logger.error(f"Error sending 'Hi': {e}")
-            self.communicate.error_signal.emit(f"Error sending 'Hi': {e}")
-        response = msg_client_pb2.Response 
+    #         self.channel.basic_publish(
+    #             exchange=self.exchange,
+    #             routing_key=self.exchange,  
+    #             properties=pika.BasicProperties(
+    #                 reply_to=self.callback_queue,
+    #                 correlation_id=request.request_id
+    #             ),
+    #             body=msg
+    #         )
+    #         self.logger.info("Sent 'Hi' to server for readiness check.")
+    #     except Exception as e:
+    #         self.logger.error(f"Error sending 'Hi': {e}")
+    #         self.communicate.error_signal.emit(f"Error sending 'Hi': {e}")
 
+    # def test_on_response (self, ch, method, props, body):
+    #     try:
+    #         response = msg_client_pb2.Response
+    #         response.ParseFromString(body)
+    #         if response.response == "Hello":
+    #             self.check_server = True
+    #             self.communicate.server_ready_signal.emit()
+    #             self.logger.info("Server is ready.")
+    #     except Exception as e:
+    #             self.logger.error(f"Error processing response: {e}")
+    #             self.communicate.error_signal.emit(f"Error processing response: {e}")   
 
     def handle_send_request(self, user_input):
         if not self.active:
@@ -168,11 +180,7 @@ class RMQClient(QThread):
             response.ParseFromString(body)
             self.logger.info(f"Received response: {response.response} for request ID: {response.request_id}")
 
-            if response.response == "Hello":
-                self.check_server = True
-                self.communicate.server_ready_signal.emit()
-                self.logger.info("Server is ready.")
-            else:
+            if self.check_server == True:
                 self.communicate.received_response.emit(response.response)
         except Exception as e:
             self.logger.error(f"Error processing response: {e}")
