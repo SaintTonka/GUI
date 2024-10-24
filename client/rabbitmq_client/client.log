@@ -1,18 +1,15 @@
-2024-10-23 12:15:40 - INFO - pika.adapters.utils.connection_workflow: Pika version 1.3.2 connecting to ('127.0.0.1', 5672)
-2024-10-23 12:15:40 - INFO - pika.adapters.utils.io_services_utils: Socket connected: <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 38238), raddr=('127.0.0.1', 5672)>
-2024-10-23 12:15:40 - INFO - pika.adapters.utils.connection_workflow: Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7c99738cfb80>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7c99738cfb80> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
-2024-10-23 12:15:40 - INFO - pika.adapters.utils.connection_workflow: AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7c99738cfb80> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 12:15:40 - INFO - pika.adapters.utils.connection_workflow: AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7c99738cfb80> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 12:15:40 - INFO - pika.adapters.blocking_connection: Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7c99738cfb80> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 12:15:40 - INFO - pika.adapters.blocking_connection: Created channel=1
-2024-10-23 12:15:40 - INFO - client: Connected to RabbitMQ and listening on queue: amq.gen-h3EF0H8uz4h-eHa3UwvHDA
-2024-10-23 12:15:40 - INFO - client: Sent 'Hi' to server for readiness check.
-2024-10-23 12:15:41 - INFO - client: Sent 'Hi' to server for readiness check.
-2024-10-23 12:15:42 - INFO - client: Sent 'Hi' to server for readiness check.
-2024-10-23 12:15:43 - INFO - client: Sent 'Hi' to server for readiness check.
-2024-10-23 12:15:44 - INFO - client: Sent 'Hi' to server for readiness check.
-2024-10-23 12:15:44 - INFO - pika.adapters.blocking_connection: Closing connection (200): Normal shutdown
-2024-10-23 12:15:44 - ERROR - pika.adapters.utils.io_services_utils: _AsyncBaseTransport._produce() failed, aborting connection: error=IndexError('pop from an empty deque'); sock=<socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 38238), raddr=('127.0.0.1', 5672)>; Caller's stack:
+2024-10-24 17:21:10 - INFO - pika.adapters.utils.connection_workflow: Pika version 1.3.2 connecting to ('127.0.0.1', 5672)
+2024-10-24 17:21:10 - INFO - pika.adapters.utils.io_services_utils: Socket connected: <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 37218), raddr=('127.0.0.1', 5672)>
+2024-10-24 17:21:10 - INFO - pika.adapters.utils.connection_workflow: Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7463c4cc34f0>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7463c4cc34f0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
+2024-10-24 17:21:10 - INFO - pika.adapters.utils.connection_workflow: AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7463c4cc34f0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-24 17:21:10 - INFO - pika.adapters.utils.connection_workflow: AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7463c4cc34f0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-24 17:21:10 - INFO - pika.adapters.blocking_connection: Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7463c4cc34f0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-24 17:21:10 - INFO - pika.adapters.blocking_connection: Created channel=1
+2024-10-24 17:21:10 - INFO - client: Connected to RabbitMQ and listening on queue: amq.gen-QPOxmjyuAf78UM3VZS2ErA
+2024-10-24 17:21:10 - INFO - client: Sent 'Hi' to server for readiness check.
+2024-10-24 17:21:10 - INFO - client: Received response: Hello for request ID: eee22e44-8854-4b6b-9b75-bc3b598208d5
+2024-10-24 17:21:10 - INFO - client: Server is ready.
+2024-10-24 17:21:14 - ERROR - pika.adapters.utils.io_services_utils: _AsyncBaseTransport._produce() failed, aborting connection: error=IndexError('pop from an empty deque'); sock=<socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 37218), raddr=('127.0.0.1', 5672)>; Caller's stack:
 Traceback (most recent call last):
   File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 1103, in _on_socket_writable
     self._produce()
@@ -25,28 +22,28 @@ Traceback (most recent call last):
   File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 822, in _produce
     chunk = self._tx_buffers.popleft()
 IndexError: pop from an empty deque
-2024-10-23 12:15:44 - ERROR - pika.channel: Unexpected frame: <METHOD(['channel_number=1', 'frame_type=1', "method=<Basic.CancelOk(['consumer_tag=ctag1.b8ce209598d54efa984d328aa1e5222e'])>"])>
-2024-10-23 12:15:44 - INFO - pika.adapters.utils.io_services_utils: _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=IndexError('pop from an empty deque'); <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 38238), raddr=('127.0.0.1', 5672)>
-2024-10-23 12:15:44 - INFO - pika.adapters.utils.io_services_utils: Deactivating transport: state=1; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 38238), raddr=('127.0.0.1', 5672)>
-2024-10-23 12:15:44 - INFO - pika.channel: Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=None params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
-2024-10-23 12:15:44 - ERROR - pika.adapters.base_connection: connection_lost: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 12:15:44 - ERROR - client: Error closing connection: 'NoneType' object has no attribute 'write'
-2024-10-23 12:15:44 - INFO - pika.connection: AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",); pending-error=None
-2024-10-23 12:15:44 - INFO - pika.connection: Stack terminated due to StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 12:15:44 - INFO - pika.adapters.utils.io_services_utils: Closing transport socket and unlinking: state=2; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 38238), raddr=('127.0.0.1', 5672)>
-2024-10-23 12:15:44 - ERROR - pika.adapters.blocking_connection: Unexpected connection close detected: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 12:15:44 - ERROR - client: AMQP Error: Stream connection lost: IndexError('pop from an empty deque')
-2024-10-23 12:19:54 - INFO - pika.adapters.utils.connection_workflow: Pika version 1.3.2 connecting to ('127.0.0.1', 5672)
-2024-10-23 12:19:54 - INFO - pika.adapters.utils.io_services_utils: Socket connected: <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 34592), raddr=('127.0.0.1', 5672)>
-2024-10-23 12:19:54 - INFO - pika.adapters.utils.connection_workflow: Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x700daee483a0>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x700daee483a0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
-2024-10-23 12:19:54 - INFO - pika.adapters.utils.connection_workflow: AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x700daee483a0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 12:19:54 - INFO - pika.adapters.utils.connection_workflow: AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x700daee483a0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 12:19:54 - INFO - pika.adapters.blocking_connection: Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x700daee483a0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 12:19:54 - INFO - pika.adapters.blocking_connection: Created channel=1
-2024-10-23 12:19:54 - INFO - client: Connected to RabbitMQ and listening on queue: amq.gen-Stq9PnplwYpdWOod2An8fQ
-2024-10-23 12:20:00 - INFO - pika.adapters.blocking_connection: Closing connection (200): Normal shutdown
-2024-10-23 12:20:00 - INFO - pika.channel: Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x700daee483a0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
-2024-10-23 12:20:00 - ERROR - pika.adapters.utils.io_services_utils: _AsyncBaseTransport._produce() failed, aborting connection: error=IndexError('pop from an empty deque'); sock=<socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 34592), raddr=('127.0.0.1', 5672)>; Caller's stack:
+2024-10-24 17:21:14 - INFO - pika.adapters.utils.io_services_utils: _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=IndexError('pop from an empty deque'); <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 37218), raddr=('127.0.0.1', 5672)>
+2024-10-24 17:21:14 - INFO - pika.adapters.utils.io_services_utils: Deactivating transport: state=1; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 37218), raddr=('127.0.0.1', 5672)>
+2024-10-24 17:21:14 - ERROR - pika.adapters.base_connection: connection_lost: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
+2024-10-24 17:21:14 - INFO - pika.connection: AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",); pending-error=None
+2024-10-24 17:21:14 - INFO - pika.connection: Stack terminated due to StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
+2024-10-24 17:21:14 - INFO - pika.adapters.utils.io_services_utils: Closing transport socket and unlinking: state=2; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 37218), raddr=('127.0.0.1', 5672)>
+2024-10-24 17:21:14 - ERROR - pika.adapters.blocking_connection: Unexpected connection close detected: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
+2024-10-24 17:21:14 - ERROR - client: Error sending request: Stream connection lost: IndexError('pop from an empty deque')
+2024-10-24 17:21:14 - ERROR - client: Failed to connect to RabbitMQ: 'NoneType' object has no attribute 'clear'
+2024-10-24 17:21:18 - INFO - pika.adapters.utils.connection_workflow: Pika version 1.3.2 connecting to ('127.0.0.1', 5672)
+2024-10-24 17:21:18 - INFO - pika.adapters.utils.io_services_utils: Socket connected: <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 37226), raddr=('127.0.0.1', 5672)>
+2024-10-24 17:21:18 - INFO - pika.adapters.utils.connection_workflow: Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x754d940b74c0>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x754d940b74c0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
+2024-10-24 17:21:18 - INFO - pika.adapters.utils.connection_workflow: AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x754d940b74c0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-24 17:21:18 - INFO - pika.adapters.utils.connection_workflow: AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x754d940b74c0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-24 17:21:18 - INFO - pika.adapters.blocking_connection: Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x754d940b74c0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-24 17:21:18 - INFO - pika.adapters.blocking_connection: Created channel=1
+2024-10-24 17:21:18 - INFO - client: Connected to RabbitMQ and listening on queue: amq.gen-Oj6NvpMlm_08Q8tiQpUdbA
+2024-10-24 17:21:18 - INFO - client: Sent 'Hi' to server for readiness check.
+2024-10-24 17:21:18 - INFO - client: Received response: Hello for request ID: 24aaae1f-2e5e-4624-b64f-badf82877302
+2024-10-24 17:21:18 - INFO - client: Server is ready.
+2024-10-24 17:21:19 - INFO - client: Sent request: 23
+2024-10-24 17:21:20 - ERROR - pika.adapters.utils.io_services_utils: _AsyncBaseTransport._produce() failed, aborting connection: error=IndexError('pop from an empty deque'); sock=<socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 37226), raddr=('127.0.0.1', 5672)>; Caller's stack:
 Traceback (most recent call last):
   File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 1103, in _on_socket_writable
     self._produce()
@@ -59,29 +56,29 @@ Traceback (most recent call last):
   File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 822, in _produce
     chunk = self._tx_buffers.popleft()
 IndexError: pop from an empty deque
-2024-10-23 12:20:00 - INFO - pika.channel: Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x700daee483a0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
-2024-10-23 12:20:00 - INFO - pika.adapters.utils.io_services_utils: _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=IndexError('pop from an empty deque'); <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 34592), raddr=('127.0.0.1', 5672)>
-2024-10-23 12:20:00 - CRITICAL - pika.connection: Received METHOD frame for unregistered channel 1 on <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x700daee483a0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 12:20:00 - INFO - pika.adapters.utils.io_services_utils: Deactivating transport: state=1; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 34592), raddr=('127.0.0.1', 5672)>
-2024-10-23 12:20:00 - INFO - pika.connection: Closing connection (200): 'Normal shutdown'
-2024-10-23 12:20:00 - ERROR - pika.adapters.base_connection: connection_lost: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 12:20:00 - INFO - pika.connection: AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",); pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
-2024-10-23 12:20:00 - INFO - pika.connection: Stack terminated due to StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 12:20:00 - INFO - pika.adapters.utils.io_services_utils: Closing transport socket and unlinking: state=2; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 34592), raddr=('127.0.0.1', 5672)>
-2024-10-23 12:20:00 - ERROR - pika.adapters.blocking_connection: Unexpected connection close detected: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 12:20:00 - ERROR - pika.adapters.blocking_connection: Unexpected connection close detected: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 12:20:00 - ERROR - client: Error closing connection: Stream connection lost: IndexError('pop from an empty deque')
-2024-10-23 12:20:00 - ERROR - client: AMQP Error: Stream connection lost: IndexError('pop from an empty deque')
-2024-10-23 12:21:07 - INFO - pika.adapters.utils.connection_workflow: Pika version 1.3.2 connecting to ('127.0.0.1', 5672)
-2024-10-23 12:21:07 - INFO - pika.adapters.utils.io_services_utils: Socket connected: <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 58826), raddr=('127.0.0.1', 5672)>
-2024-10-23 12:21:07 - INFO - pika.adapters.utils.connection_workflow: Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x77e60fc483d0>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x77e60fc483d0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
-2024-10-23 12:21:07 - INFO - pika.adapters.utils.connection_workflow: AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x77e60fc483d0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 12:21:07 - INFO - pika.adapters.utils.connection_workflow: AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x77e60fc483d0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 12:21:07 - INFO - pika.adapters.blocking_connection: Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x77e60fc483d0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 12:21:07 - INFO - pika.adapters.blocking_connection: Created channel=1
-2024-10-23 12:21:07 - INFO - client: Connected to RabbitMQ and listening on queue: amq.gen-ivAMKSmfdW8Jwz7FOM8g3g
-2024-10-23 12:22:15 - INFO - pika.adapters.blocking_connection: Closing connection (200): Normal shutdown
-2024-10-23 12:22:15 - ERROR - pika.adapters.utils.io_services_utils: _AsyncBaseTransport._produce() failed, aborting connection: error=IndexError('pop from an empty deque'); sock=<socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 58826), raddr=('127.0.0.1', 5672)>; Caller's stack:
+2024-10-24 17:21:20 - INFO - pika.adapters.utils.io_services_utils: _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=IndexError('pop from an empty deque'); <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 37226), raddr=('127.0.0.1', 5672)>
+2024-10-24 17:21:20 - INFO - pika.adapters.utils.io_services_utils: Deactivating transport: state=1; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 37226), raddr=('127.0.0.1', 5672)>
+2024-10-24 17:21:20 - ERROR - pika.adapters.base_connection: connection_lost: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
+2024-10-24 17:21:20 - INFO - pika.connection: AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",); pending-error=None
+2024-10-24 17:21:20 - INFO - pika.connection: Stack terminated due to StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
+2024-10-24 17:21:20 - INFO - pika.adapters.utils.io_services_utils: Closing transport socket and unlinking: state=2; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 37226), raddr=('127.0.0.1', 5672)>
+2024-10-24 17:21:20 - ERROR - pika.adapters.blocking_connection: Unexpected connection close detected: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
+2024-10-24 17:21:20 - ERROR - client: AMQP Error: Stream connection lost: IndexError('pop from an empty deque')
+2024-10-24 17:21:20 - ERROR - client: Failed to connect to RabbitMQ: Timeout closed before call
+2024-10-24 17:21:34 - INFO - pika.adapters.utils.connection_workflow: Pika version 1.3.2 connecting to ('127.0.0.1', 5672)
+2024-10-24 17:21:34 - INFO - pika.adapters.utils.io_services_utils: Socket connected: <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 47258), raddr=('127.0.0.1', 5672)>
+2024-10-24 17:21:34 - INFO - pika.adapters.utils.connection_workflow: Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x77e8a5cbada0>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x77e8a5cbada0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
+2024-10-24 17:21:34 - INFO - pika.adapters.utils.connection_workflow: AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x77e8a5cbada0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-24 17:21:34 - INFO - pika.adapters.utils.connection_workflow: AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x77e8a5cbada0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-24 17:21:34 - INFO - pika.adapters.blocking_connection: Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x77e8a5cbada0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-24 17:21:34 - INFO - pika.adapters.blocking_connection: Created channel=1
+2024-10-24 17:21:34 - INFO - client: Connected to RabbitMQ and listening on queue: amq.gen-SZOk45wiVUMlZBciuOhphg
+2024-10-24 17:21:34 - INFO - client: Sent 'Hi' to server for readiness check.
+2024-10-24 17:21:35 - INFO - client: Sent 'Hi' to server for readiness check.
+2024-10-24 17:21:35 - INFO - client: Received response: Hello for request ID: 2ea351a4-a25d-4dc6-bcb4-eb7a2cbf9999
+2024-10-24 17:21:35 - INFO - client: Server is ready.
+2024-10-24 17:21:38 - INFO - client: Sent request: 23
+2024-10-24 17:21:38 - ERROR - pika.adapters.utils.io_services_utils: _AsyncBaseTransport._produce() failed, aborting connection: error=IndexError('pop from an empty deque'); sock=<socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 47258), raddr=('127.0.0.1', 5672)>; Caller's stack:
 Traceback (most recent call last):
   File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 1103, in _on_socket_writable
     self._produce()
@@ -94,25 +91,28 @@ Traceback (most recent call last):
   File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 822, in _produce
     chunk = self._tx_buffers.popleft()
 IndexError: pop from an empty deque
-2024-10-23 12:22:15 - INFO - pika.adapters.utils.io_services_utils: _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=IndexError('pop from an empty deque'); <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 58826), raddr=('127.0.0.1', 5672)>
-2024-10-23 12:22:15 - INFO - pika.adapters.utils.io_services_utils: Deactivating transport: state=1; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 58826), raddr=('127.0.0.1', 5672)>
-2024-10-23 12:22:15 - ERROR - pika.adapters.base_connection: connection_lost: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 12:22:15 - INFO - pika.connection: AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",); pending-error=None
-2024-10-23 12:22:15 - INFO - pika.connection: Stack terminated due to StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 12:22:15 - INFO - pika.adapters.utils.io_services_utils: Closing transport socket and unlinking: state=2; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 58826), raddr=('127.0.0.1', 5672)>
-2024-10-23 12:22:15 - ERROR - pika.adapters.blocking_connection: Unexpected connection close detected: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 12:22:15 - ERROR - client: Error closing connection: Stream connection lost: IndexError('pop from an empty deque')
-2024-10-23 12:22:15 - ERROR - pika.channel: Unexpected frame: <METHOD(['channel_number=1', 'frame_type=1', "method=<Basic.CancelOk(['consumer_tag=ctag1.ce5431fc516c4fb1b4e75bec255f8cd1'])>"])>
-2024-10-23 13:02:55 - INFO - pika.adapters.utils.connection_workflow: Pika version 1.3.2 connecting to ('127.0.0.1', 5672)
-2024-10-23 13:02:55 - INFO - pika.adapters.utils.io_services_utils: Socket connected: <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 36664), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:02:55 - INFO - pika.adapters.utils.connection_workflow: Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7bea4f62fc40>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7bea4f62fc40> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
-2024-10-23 13:02:55 - INFO - pika.adapters.utils.connection_workflow: AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7bea4f62fc40> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:02:55 - INFO - pika.adapters.utils.connection_workflow: AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7bea4f62fc40> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:02:55 - INFO - pika.adapters.blocking_connection: Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7bea4f62fc40> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:02:55 - INFO - pika.adapters.blocking_connection: Created channel=1
-2024-10-23 13:02:55 - INFO - client: Connected to RabbitMQ and listening on queue: amq.gen-IxswIdcKlBPgm3PEbo_LvQ
-2024-10-23 13:03:05 - INFO - pika.adapters.blocking_connection: Closing connection (200): Normal shutdown
-2024-10-23 13:03:05 - ERROR - pika.adapters.utils.io_services_utils: _AsyncBaseTransport._produce() failed, aborting connection: error=IndexError('pop from an empty deque'); sock=<socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 36664), raddr=('127.0.0.1', 5672)>; Caller's stack:
+2024-10-24 17:21:38 - INFO - pika.adapters.utils.io_services_utils: _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=IndexError('pop from an empty deque'); <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 47258), raddr=('127.0.0.1', 5672)>
+2024-10-24 17:21:38 - INFO - pika.adapters.utils.io_services_utils: Deactivating transport: state=1; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 47258), raddr=('127.0.0.1', 5672)>
+2024-10-24 17:21:38 - ERROR - pika.adapters.base_connection: connection_lost: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
+2024-10-24 17:21:38 - INFO - pika.connection: AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",); pending-error=None
+2024-10-24 17:21:38 - INFO - pika.connection: Stack terminated due to StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
+2024-10-24 17:21:38 - INFO - pika.adapters.utils.io_services_utils: Closing transport socket and unlinking: state=2; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 47258), raddr=('127.0.0.1', 5672)>
+2024-10-24 17:21:38 - ERROR - pika.adapters.blocking_connection: Unexpected connection close detected: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
+2024-10-24 17:21:38 - ERROR - client: AMQP Error: Stream connection lost: IndexError('pop from an empty deque')
+2024-10-24 17:21:38 - ERROR - client: Failed to connect to RabbitMQ: Timeout closed before call
+2024-10-24 17:21:47 - INFO - pika.adapters.utils.connection_workflow: Pika version 1.3.2 connecting to ('127.0.0.1', 5672)
+2024-10-24 17:21:47 - INFO - pika.adapters.utils.io_services_utils: Socket connected: <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 47454), raddr=('127.0.0.1', 5672)>
+2024-10-24 17:21:47 - INFO - pika.adapters.utils.connection_workflow: Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7cb809cab4c0>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7cb809cab4c0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
+2024-10-24 17:21:47 - INFO - pika.adapters.utils.connection_workflow: AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7cb809cab4c0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-24 17:21:47 - INFO - pika.adapters.utils.connection_workflow: AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7cb809cab4c0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-24 17:21:47 - INFO - pika.adapters.blocking_connection: Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7cb809cab4c0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-24 17:21:47 - INFO - pika.adapters.blocking_connection: Created channel=1
+2024-10-24 17:21:47 - INFO - client: Connected to RabbitMQ and listening on queue: amq.gen-1XPWgE9ClOooO2kiaBnXWA
+2024-10-24 17:21:47 - INFO - client: Sent 'Hi' to server for readiness check.
+2024-10-24 17:21:47 - INFO - client: Received response: Hello for request ID: 2a9a459e-5ce1-4cde-9608-5802f6148958
+2024-10-24 17:21:47 - INFO - client: Server is ready.
+2024-10-24 17:21:50 - INFO - client: Sent request: 23
+2024-10-24 17:21:50 - ERROR - pika.adapters.utils.io_services_utils: _AsyncBaseTransport._produce() failed, aborting connection: error=IndexError('pop from an empty deque'); sock=<socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 47454), raddr=('127.0.0.1', 5672)>; Caller's stack:
 Traceback (most recent call last):
   File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 1103, in _on_socket_writable
     self._produce()
@@ -125,261 +125,12 @@ Traceback (most recent call last):
   File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 822, in _produce
     chunk = self._tx_buffers.popleft()
 IndexError: pop from an empty deque
-2024-10-23 13:03:05 - ERROR - pika.channel: Unexpected frame: <METHOD(['channel_number=1', 'frame_type=1', "method=<Basic.CancelOk(['consumer_tag=ctag1.6a9cc271653e428d8a5c90ffc7a05e2e'])>"])>
-2024-10-23 13:03:05 - INFO - pika.adapters.utils.io_services_utils: _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=IndexError('pop from an empty deque'); <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 36664), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:03:05 - INFO - pika.channel: Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7bea4f62fc40> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
-2024-10-23 13:03:05 - INFO - pika.adapters.utils.io_services_utils: Deactivating transport: state=1; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 36664), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:03:05 - ERROR - pika.adapters.base_connection: connection_lost: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 13:03:05 - INFO - pika.connection: AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",); pending-error=None
-2024-10-23 13:03:05 - INFO - pika.connection: Stack terminated due to StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 13:03:05 - INFO - pika.adapters.utils.io_services_utils: Closing transport socket and unlinking: state=2; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 36664), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:03:05 - ERROR - pika.adapters.blocking_connection: Unexpected connection close detected: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 13:03:05 - ERROR - client: Error closing connection: Stream connection lost: IndexError('pop from an empty deque')
-2024-10-23 13:07:50 - INFO - pika.adapters.utils.connection_workflow: Pika version 1.3.2 connecting to ('127.0.0.1', 5672)
-2024-10-23 13:07:50 - INFO - pika.adapters.utils.io_services_utils: Socket connected: <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 49992), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:07:50 - INFO - pika.adapters.utils.connection_workflow: Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fa2c682fb50>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fa2c682fb50> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
-2024-10-23 13:07:50 - INFO - pika.adapters.utils.connection_workflow: AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fa2c682fb50> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:07:50 - INFO - pika.adapters.utils.connection_workflow: AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fa2c682fb50> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:07:50 - INFO - pika.adapters.blocking_connection: Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fa2c682fb50> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:07:50 - INFO - pika.adapters.blocking_connection: Created channel=1
-2024-10-23 13:07:50 - INFO - client: Connected to RabbitMQ and listening on queue: amq.gen-ZdGh62Ma6IoRAaiCNoDWjw
-2024-10-23 13:08:01 - INFO - pika.adapters.blocking_connection: Closing connection (200): Normal shutdown
-2024-10-23 13:08:01 - INFO - pika.channel: Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fa2c682fb50> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
-2024-10-23 13:08:01 - INFO - pika.channel: Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fa2c682fb50> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
-2024-10-23 13:08:01 - CRITICAL - pika.connection: Received METHOD frame for unregistered channel 1 on <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fa2c682fb50> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:08:01 - INFO - pika.connection: Closing connection (200): 'Normal shutdown'
-2024-10-23 13:08:01 - ERROR - pika.adapters.utils.io_services_utils: _AsyncBaseTransport._produce() failed, aborting connection: error=IndexError('pop from an empty deque'); sock=<socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 49992), raddr=('127.0.0.1', 5672)>; Caller's stack:
-Traceback (most recent call last):
-  File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 1103, in _on_socket_writable
-    self._produce()
-  File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 822, in _produce
-    chunk = self._tx_buffers.popleft()
-IndexError: pop from an empty deque
-Traceback (most recent call last):
-  File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 1103, in _on_socket_writable
-    self._produce()
-  File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 822, in _produce
-    chunk = self._tx_buffers.popleft()
-IndexError: pop from an empty deque
-2024-10-23 13:08:01 - INFO - pika.adapters.utils.io_services_utils: _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=IndexError('pop from an empty deque'); <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 49992), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:08:01 - INFO - pika.adapters.utils.io_services_utils: Deactivating transport: state=1; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 49992), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:08:01 - ERROR - pika.adapters.base_connection: connection_lost: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 13:08:01 - INFO - pika.connection: AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",); pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
-2024-10-23 13:08:01 - INFO - pika.connection: Stack terminated due to StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 13:08:01 - INFO - pika.adapters.utils.io_services_utils: Closing transport socket and unlinking: state=2; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 49992), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:08:01 - ERROR - pika.adapters.blocking_connection: Unexpected connection close detected: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 13:08:01 - ERROR - client: AMQP Error: Stream connection lost: IndexError('pop from an empty deque')
-2024-10-23 13:08:02 - ERROR - client: Error closing connection: 'NoneType' object has no attribute 'clear'
-2024-10-23 13:10:05 - INFO - pika.adapters.utils.connection_workflow: Pika version 1.3.2 connecting to ('127.0.0.1', 5672)
-2024-10-23 13:10:05 - INFO - pika.adapters.utils.io_services_utils: Socket connected: <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 44448), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:10:05 - INFO - pika.adapters.utils.connection_workflow: Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x71b9d5da3be0>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x71b9d5da3be0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
-2024-10-23 13:10:05 - INFO - pika.adapters.utils.connection_workflow: AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x71b9d5da3be0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:10:05 - INFO - pika.adapters.utils.connection_workflow: AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x71b9d5da3be0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:10:05 - INFO - pika.adapters.blocking_connection: Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x71b9d5da3be0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:10:05 - INFO - pika.adapters.blocking_connection: Created channel=1
-2024-10-23 13:10:05 - INFO - client: Connected to RabbitMQ and listening on queue: amq.gen-x2CZefAdkKS23iMj6mX1fA
-2024-10-23 13:10:08 - ERROR - client: Error sending request: 23 has type int, but expected one of: bytes, unicode
-2024-10-23 13:10:26 - ERROR - client: Error sending request: 23 has type int, but expected one of: bytes, unicode
-2024-10-23 13:12:05 - INFO - pika.adapters.blocking_connection: Closing connection (200): Normal shutdown
-2024-10-23 13:12:05 - ERROR - pika.channel: Unexpected frame: <METHOD(['channel_number=1', 'frame_type=1', "method=<Basic.CancelOk(['consumer_tag=ctag1.47e202c3d5ba43ba9225a73fa40a5080'])>"])>
-2024-10-23 13:12:05 - INFO - pika.channel: Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x71b9d5da3be0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
-2024-10-23 13:12:05 - ERROR - pika.adapters.utils.io_services_utils: _AsyncBaseTransport._produce() failed, aborting connection: error=IndexError('pop from an empty deque'); sock=<socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 44448), raddr=('127.0.0.1', 5672)>; Caller's stack:
-Traceback (most recent call last):
-  File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 1103, in _on_socket_writable
-    self._produce()
-  File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 822, in _produce
-    chunk = self._tx_buffers.popleft()
-IndexError: pop from an empty deque
-Traceback (most recent call last):
-  File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 1103, in _on_socket_writable
-    self._produce()
-  File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 822, in _produce
-    chunk = self._tx_buffers.popleft()
-IndexError: pop from an empty deque
-2024-10-23 13:12:05 - INFO - pika.adapters.utils.io_services_utils: _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=IndexError('pop from an empty deque'); <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 44448), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:12:05 - INFO - pika.adapters.utils.io_services_utils: Deactivating transport: state=1; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 44448), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:12:05 - ERROR - pika.adapters.base_connection: connection_lost: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 13:12:05 - INFO - pika.connection: AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",); pending-error=None
-2024-10-23 13:12:05 - INFO - pika.connection: Stack terminated due to StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 13:12:05 - INFO - pika.adapters.utils.io_services_utils: Closing transport socket and unlinking: state=2; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 44448), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:12:05 - ERROR - pika.adapters.blocking_connection: Unexpected connection close detected: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 13:12:05 - ERROR - pika.adapters.blocking_connection: Unexpected connection close detected: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 13:12:05 - ERROR - client: Error closing connection: Stream connection lost: IndexError('pop from an empty deque')
-2024-10-23 13:12:05 - ERROR - client: AMQP Error: Stream connection lost: IndexError('pop from an empty deque')
-2024-10-23 13:13:23 - INFO - pika.adapters.utils.connection_workflow: Pika version 1.3.2 connecting to ('127.0.0.1', 5672)
-2024-10-23 13:13:23 - INFO - pika.adapters.utils.io_services_utils: Socket connected: <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 41770), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:13:23 - INFO - pika.adapters.utils.connection_workflow: Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x78234fcad330>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x78234fcad330> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
-2024-10-23 13:13:23 - INFO - pika.adapters.utils.connection_workflow: AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x78234fcad330> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:13:23 - INFO - pika.adapters.utils.connection_workflow: AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x78234fcad330> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:13:23 - INFO - pika.adapters.blocking_connection: Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x78234fcad330> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:13:23 - INFO - pika.adapters.blocking_connection: Created channel=1
-2024-10-23 13:13:23 - INFO - client: Connected to RabbitMQ and listening on queue: amq.gen-36Z2gdx-g_L6xfGHzhrn0A
-2024-10-23 13:13:28 - ERROR - client: Error sending request: 2 has type int, but expected one of: bytes, unicode
-2024-10-23 13:13:35 - INFO - pika.adapters.blocking_connection: Closing connection (200): Normal shutdown
-2024-10-23 13:13:35 - INFO - pika.channel: Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x78234fcad330> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
-2024-10-23 13:13:35 - INFO - pika.channel: Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x78234fcad330> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
-2024-10-23 13:13:35 - INFO - pika.connection: Closing connection (200): 'Normal shutdown'
-2024-10-23 13:13:35 - INFO - pika.adapters.utils.io_services_utils: Aborting transport connection: state=1; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 41770), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:13:35 - INFO - pika.adapters.utils.io_services_utils: _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=None; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 41770), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:13:35 - INFO - pika.adapters.utils.io_services_utils: Deactivating transport: state=1; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 41770), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:13:35 - INFO - pika.connection: AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=None; pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
-2024-10-23 13:13:35 - INFO - pika.connection: Stack terminated due to ConnectionClosedByClient: (200) 'Normal shutdown'
-2024-10-23 13:13:35 - INFO - pika.adapters.utils.io_services_utils: Closing transport socket and unlinking: state=3; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 41770), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:13:35 - INFO - pika.adapters.blocking_connection: User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
-2024-10-23 13:13:35 - INFO - client: Connection to RabbitMQ closed.
-2024-10-23 13:14:09 - INFO - pika.adapters.utils.connection_workflow: Pika version 1.3.2 connecting to ('127.0.0.1', 5672)
-2024-10-23 13:14:09 - INFO - pika.adapters.utils.io_services_utils: Socket connected: <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 37814), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:14:09 - INFO - pika.adapters.utils.connection_workflow: Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7bd2025ffe50>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7bd2025ffe50> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
-2024-10-23 13:14:09 - INFO - pika.adapters.utils.connection_workflow: AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7bd2025ffe50> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:14:09 - INFO - pika.adapters.utils.connection_workflow: AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7bd2025ffe50> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:14:09 - INFO - pika.adapters.blocking_connection: Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7bd2025ffe50> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:14:09 - INFO - pika.adapters.blocking_connection: Created channel=1
-2024-10-23 13:14:09 - INFO - client: Connected to RabbitMQ and listening on queue: amq.gen-WZCzIghJ-urUi1VMu6XwEA
-2024-10-23 13:14:11 - ERROR - client: Error sending request: 3 has type int, but expected one of: bytes, unicode
-2024-10-23 13:14:21 - INFO - pika.adapters.blocking_connection: Closing connection (200): Normal shutdown
-2024-10-23 13:14:21 - ERROR - pika.channel: Unexpected frame: <METHOD(['channel_number=1', 'frame_type=1', "method=<Basic.CancelOk(['consumer_tag=ctag1.ee4170a773eb4a2393b4c55e005620a4'])>"])>
-2024-10-23 13:14:21 - INFO - pika.channel: Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7bd2025ffe50> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
-2024-10-23 13:14:21 - INFO - pika.channel: Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7bd2025ffe50> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
-2024-10-23 13:14:21 - INFO - pika.connection: Closing connection (200): 'Normal shutdown'
-2024-10-23 13:14:21 - ERROR - pika.adapters.utils.io_services_utils: _AsyncBaseTransport._produce() failed, aborting connection: error=IndexError('pop from an empty deque'); sock=<socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 37814), raddr=('127.0.0.1', 5672)>; Caller's stack:
-Traceback (most recent call last):
-  File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 1103, in _on_socket_writable
-    self._produce()
-  File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 822, in _produce
-    chunk = self._tx_buffers.popleft()
-IndexError: pop from an empty deque
-Traceback (most recent call last):
-  File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 1103, in _on_socket_writable
-    self._produce()
-  File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 822, in _produce
-    chunk = self._tx_buffers.popleft()
-IndexError: pop from an empty deque
-2024-10-23 13:14:21 - INFO - pika.adapters.utils.io_services_utils: _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=IndexError('pop from an empty deque'); <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 37814), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:14:21 - INFO - pika.adapters.utils.io_services_utils: Deactivating transport: state=1; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 37814), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:14:21 - ERROR - pika.adapters.base_connection: connection_lost: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 13:14:21 - INFO - pika.connection: AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",); pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
-2024-10-23 13:14:21 - INFO - pika.connection: Stack terminated due to StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 13:14:21 - INFO - pika.adapters.utils.io_services_utils: Closing transport socket and unlinking: state=2; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 37814), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:14:21 - ERROR - pika.adapters.blocking_connection: Unexpected connection close detected: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 13:14:21 - ERROR - client: Error closing connection: Stream connection lost: IndexError('pop from an empty deque')
-2024-10-23 13:15:30 - INFO - pika.adapters.utils.connection_workflow: Pika version 1.3.2 connecting to ('127.0.0.1', 5672)
-2024-10-23 13:15:30 - INFO - pika.adapters.utils.io_services_utils: Socket connected: <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 52350), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:15:30 - INFO - pika.adapters.utils.connection_workflow: Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7018d2b9d360>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7018d2b9d360> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
-2024-10-23 13:15:30 - INFO - pika.adapters.utils.connection_workflow: AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7018d2b9d360> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:15:30 - INFO - pika.adapters.utils.connection_workflow: AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7018d2b9d360> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:15:30 - INFO - pika.adapters.blocking_connection: Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7018d2b9d360> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:15:30 - INFO - pika.adapters.blocking_connection: Created channel=1
-2024-10-23 13:15:30 - INFO - client: Connected to RabbitMQ and listening on queue: amq.gen-7vEIh6swISG08CvPG7WKGA
-2024-10-23 13:15:32 - ERROR - client: Error sending request: 2 has type int, but expected one of: bytes, unicode
-2024-10-23 13:22:31 - ERROR - client: Error sending request: 222 has type int, but expected one of: bytes, unicode
-2024-10-23 13:22:51 - ERROR - client: Error sending request: 222 has type int, but expected one of: bytes, unicode
-2024-10-23 13:22:55 - INFO - pika.adapters.blocking_connection: Closing connection (200): Normal shutdown
-2024-10-23 13:22:55 - ERROR - pika.adapters.utils.io_services_utils: _AsyncBaseTransport._produce() failed, aborting connection: error=IndexError('pop from an empty deque'); sock=<socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 52350), raddr=('127.0.0.1', 5672)>; Caller's stack:
-Traceback (most recent call last):
-  File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 1103, in _on_socket_writable
-    self._produce()
-  File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 822, in _produce
-    chunk = self._tx_buffers.popleft()
-IndexError: pop from an empty deque
-Traceback (most recent call last):
-  File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 1103, in _on_socket_writable
-    self._produce()
-  File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 822, in _produce
-    chunk = self._tx_buffers.popleft()
-IndexError: pop from an empty deque
-2024-10-23 13:22:55 - ERROR - pika.channel: Unexpected frame: <METHOD(['channel_number=1', 'frame_type=1', "method=<Basic.CancelOk(['consumer_tag=ctag1.0457240c14624e1b97e571dd311f4e4c'])>"])>
-2024-10-23 13:22:55 - INFO - pika.adapters.utils.io_services_utils: _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=IndexError('pop from an empty deque'); <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 52350), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:22:55 - INFO - pika.adapters.utils.io_services_utils: Deactivating transport: state=1; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 52350), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:22:55 - INFO - pika.channel: Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7018d2b9d360> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
-2024-10-23 13:22:55 - ERROR - pika.adapters.base_connection: connection_lost: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 13:22:55 - INFO - pika.connection: AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",); pending-error=None
-2024-10-23 13:22:55 - INFO - pika.connection: Stack terminated due to StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 13:22:55 - INFO - pika.adapters.utils.io_services_utils: Closing transport socket and unlinking: state=2; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 52350), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:22:55 - ERROR - pika.adapters.blocking_connection: Unexpected connection close detected: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 13:22:55 - ERROR - pika.adapters.blocking_connection: Unexpected connection close detected: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 13:22:55 - ERROR - client: AMQP Error: Stream connection lost: IndexError('pop from an empty deque')
-2024-10-23 13:22:55 - ERROR - client: Error closing connection: Stream connection lost: IndexError('pop from an empty deque')
-2024-10-23 13:45:24 - INFO - pika.adapters.utils.connection_workflow: Pika version 1.3.2 connecting to ('127.0.0.1', 5672)
-2024-10-23 13:45:24 - INFO - pika.adapters.utils.io_services_utils: Socket connected: <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 59322), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:45:24 - INFO - pika.adapters.utils.connection_workflow: Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x75a6430cb8e0>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x75a6430cb8e0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
-2024-10-23 13:45:24 - INFO - pika.adapters.utils.connection_workflow: AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x75a6430cb8e0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:45:24 - INFO - pika.adapters.utils.connection_workflow: AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x75a6430cb8e0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:45:24 - INFO - pika.adapters.blocking_connection: Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x75a6430cb8e0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:45:24 - INFO - pika.adapters.blocking_connection: Created channel=1
-2024-10-23 13:45:24 - INFO - client: Connected to RabbitMQ and listening on queue: amq.gen-NfVw8KlJEB5B6V-X3KqscQ
-2024-10-23 13:45:27 - ERROR - client: Error sending request: 23 has type int, but expected one of: bytes, unicode
-2024-10-23 13:45:32 - INFO - pika.adapters.blocking_connection: Closing connection (200): Normal shutdown
-2024-10-23 13:45:32 - INFO - pika.channel: Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x75a6430cb8e0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
-2024-10-23 13:45:32 - ERROR - pika.adapters.utils.io_services_utils: _AsyncBaseTransport._produce() failed, aborting connection: error=IndexError('pop from an empty deque'); sock=<socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 59322), raddr=('127.0.0.1', 5672)>; Caller's stack:
-Traceback (most recent call last):
-  File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 1103, in _on_socket_writable
-    self._produce()
-  File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 822, in _produce
-    chunk = self._tx_buffers.popleft()
-IndexError: pop from an empty deque
-Traceback (most recent call last):
-  File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 1103, in _on_socket_writable
-    self._produce()
-  File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 822, in _produce
-    chunk = self._tx_buffers.popleft()
-IndexError: pop from an empty deque
-2024-10-23 13:45:32 - INFO - pika.adapters.utils.io_services_utils: _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=IndexError('pop from an empty deque'); <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 59322), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:45:32 - INFO - pika.adapters.utils.io_services_utils: Deactivating transport: state=1; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 59322), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:45:32 - ERROR - pika.adapters.base_connection: connection_lost: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 13:45:32 - INFO - pika.connection: AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",); pending-error=None
-2024-10-23 13:45:32 - INFO - pika.connection: Stack terminated due to StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 13:45:32 - INFO - pika.adapters.utils.io_services_utils: Closing transport socket and unlinking: state=2; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 59322), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:45:32 - ERROR - pika.adapters.blocking_connection: Unexpected connection close detected: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 13:45:32 - ERROR - client: Error closing connection: Stream connection lost: IndexError('pop from an empty deque')
-2024-10-23 13:46:56 - INFO - pika.adapters.utils.connection_workflow: Pika version 1.3.2 connecting to ('127.0.0.1', 5672)
-2024-10-23 13:46:56 - INFO - pika.adapters.utils.io_services_utils: Socket connected: <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 48410), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:46:56 - INFO - pika.adapters.utils.connection_workflow: Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x72ef646cc3a0>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x72ef646cc3a0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
-2024-10-23 13:46:56 - INFO - pika.adapters.utils.connection_workflow: AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x72ef646cc3a0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:46:56 - INFO - pika.adapters.utils.connection_workflow: AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x72ef646cc3a0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:46:56 - INFO - pika.adapters.blocking_connection: Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x72ef646cc3a0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:46:56 - INFO - pika.adapters.blocking_connection: Created channel=1
-2024-10-23 13:46:56 - INFO - client: Connected to RabbitMQ and listening on queue: amq.gen-Dr3hklzLXPN1jw3G7L9jcw
-2024-10-23 13:46:58 - ERROR - client: Error sending request: 1609744944 has type int, but expected one of: bytes, unicode
-2024-10-23 13:47:04 - INFO - pika.adapters.blocking_connection: Closing connection (200): Normal shutdown
-2024-10-23 13:47:04 - INFO - pika.channel: Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x72ef646cc3a0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
-2024-10-23 13:47:04 - INFO - pika.channel: Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x72ef646cc3a0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
-2024-10-23 13:47:05 - INFO - pika.connection: Closing connection (200): 'Normal shutdown'
-2024-10-23 13:47:05 - INFO - pika.adapters.utils.io_services_utils: Aborting transport connection: state=1; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 48410), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:47:05 - INFO - pika.adapters.utils.io_services_utils: _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=None; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 48410), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:47:05 - INFO - pika.adapters.utils.io_services_utils: Deactivating transport: state=1; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 48410), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:47:05 - INFO - pika.connection: AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=None; pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
-2024-10-23 13:47:05 - INFO - pika.connection: Stack terminated due to ConnectionClosedByClient: (200) 'Normal shutdown'
-2024-10-23 13:47:05 - INFO - pika.adapters.utils.io_services_utils: Closing transport socket and unlinking: state=3; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 48410), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:47:05 - INFO - pika.adapters.blocking_connection: User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
-2024-10-23 13:47:05 - INFO - client: Connection to RabbitMQ closed.
-2024-10-23 13:51:49 - INFO - pika.adapters.utils.connection_workflow: Pika version 1.3.2 connecting to ('127.0.0.1', 5672)
-2024-10-23 13:51:49 - INFO - pika.adapters.utils.io_services_utils: Socket connected: <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 49836), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:51:49 - INFO - pika.adapters.utils.connection_workflow: Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7bfcb88af8e0>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7bfcb88af8e0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
-2024-10-23 13:51:49 - INFO - pika.adapters.utils.connection_workflow: AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7bfcb88af8e0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:51:49 - INFO - pika.adapters.utils.connection_workflow: AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7bfcb88af8e0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:51:49 - INFO - pika.adapters.blocking_connection: Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7bfcb88af8e0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
-2024-10-23 13:51:49 - INFO - pika.adapters.blocking_connection: Created channel=1
-2024-10-23 13:51:49 - INFO - client: Connected to RabbitMQ and listening on queue: amq.gen-EF3wPP-aSY1P_5Z_NBp3kw
-2024-10-23 13:51:51 - INFO - client: Sent request: 2
-2024-10-23 13:51:51 - ERROR - pika.adapters.utils.io_services_utils: _AsyncBaseTransport._produce() failed, aborting connection: error=IndexError('pop from an empty deque'); sock=<socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 49836), raddr=('127.0.0.1', 5672)>; Caller's stack:
-Traceback (most recent call last):
-  File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 1103, in _on_socket_writable
-    self._produce()
-  File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 822, in _produce
-    chunk = self._tx_buffers.popleft()
-IndexError: pop from an empty deque
-Traceback (most recent call last):
-  File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 1103, in _on_socket_writable
-    self._produce()
-  File "/home/user/Desktop/GUI/venv/lib/python3.10/site-packages/pika/adapters/utils/io_services_utils.py", line 822, in _produce
-    chunk = self._tx_buffers.popleft()
-IndexError: pop from an empty deque
-2024-10-23 13:51:51 - INFO - pika.adapters.utils.io_services_utils: _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=IndexError('pop from an empty deque'); <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 49836), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:51:51 - INFO - pika.adapters.utils.io_services_utils: Deactivating transport: state=1; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 49836), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:51:51 - ERROR - pika.adapters.base_connection: connection_lost: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 13:51:51 - INFO - pika.connection: AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",); pending-error=None
-2024-10-23 13:51:51 - INFO - pika.connection: Stack terminated due to StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 13:51:51 - INFO - pika.adapters.utils.io_services_utils: Closing transport socket and unlinking: state=2; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 49836), raddr=('127.0.0.1', 5672)>
-2024-10-23 13:51:51 - ERROR - pika.adapters.blocking_connection: Unexpected connection close detected: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
-2024-10-23 13:51:51 - ERROR - client: AMQP Error: Stream connection lost: IndexError('pop from an empty deque')
-2024-10-23 13:51:51 - ERROR - client: Failed to connect to RabbitMQ: Timeout closed before call
+2024-10-24 17:21:50 - INFO - pika.adapters.utils.io_services_utils: _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=IndexError('pop from an empty deque'); <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 47454), raddr=('127.0.0.1', 5672)>
+2024-10-24 17:21:50 - INFO - pika.adapters.utils.io_services_utils: Deactivating transport: state=1; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 47454), raddr=('127.0.0.1', 5672)>
+2024-10-24 17:21:50 - ERROR - pika.adapters.base_connection: connection_lost: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
+2024-10-24 17:21:50 - INFO - pika.connection: AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",); pending-error=None
+2024-10-24 17:21:50 - INFO - pika.connection: Stack terminated due to StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
+2024-10-24 17:21:50 - INFO - pika.adapters.utils.io_services_utils: Closing transport socket and unlinking: state=2; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 47454), raddr=('127.0.0.1', 5672)>
+2024-10-24 17:21:50 - ERROR - pika.adapters.blocking_connection: Unexpected connection close detected: StreamLostError: ("Stream connection lost: IndexError('pop from an empty deque')",)
+2024-10-24 17:21:50 - ERROR - client: AMQP Error: Stream connection lost: IndexError('pop from an empty deque')
+2024-10-24 17:21:50 - ERROR - client: Failed to connect to RabbitMQ: Timeout closed before call

@@ -17,14 +17,14 @@ async def handle_request(channel, message: aio_pika.IncomingMessage):
             response.request_id = req.request_id
 
             if req.request == "Hi":
-                response.response = "Hello"  # Код готовности сервера
+                response.response = "Hello"  
                 log.info(f"Sent response: {response.response} (Server Ready) to {req.return_address}")
             else:
                 if req.HasField("proccess_time_in_seconds") and req.proccess_time_in_seconds > 0:
                     log.info(f"Processing request for {req.proccess_time_in_seconds} seconds")
                     await asyncio.sleep(req.proccess_time_in_seconds)
 
-                response.response = str(int(req.request) * 2)  # Преобразуем ответ в строку
+                response.response = str(int(req.request) * 2)  
                 log.info(f"Sent response: {response.response} to {req.return_address}")
 
             msg = response.SerializeToString()
@@ -34,7 +34,7 @@ async def handle_request(channel, message: aio_pika.IncomingMessage):
                     body=msg,
                     correlation_id=req.request_id
                 ),
-                routing_key=req.return_address  # Отправляем на callback очередь клиента
+                routing_key=req.return_address  
             )
         except Exception as e:
             log.error(f"Error processing message: {e}")

@@ -1,31 +1,102 @@
-2024-10-22 15:42:50 - INFO - aio_pika.robust_connection: Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
-2024-10-22 15:43:34 - INFO - __main__: Connected to RabbitMQ
-2024-10-22 15:43:34 - INFO - __main__: Server is listening on queue: bews
-2024-10-22 15:50:08 - INFO - __main__: Connected to RabbitMQ
-2024-10-22 15:50:08 - INFO - __main__: Server is listening on queue: bews
-2024-10-22 15:51:31 - INFO - __main__: Connected to RabbitMQ
-2024-10-22 15:51:31 - INFO - __main__: Server is listening on queue: bews
-2024-10-22 16:33:21 - INFO - __main__: Connected to RabbitMQ
-2024-10-22 16:33:21 - INFO - __main__: Server is listening on queue: bews
-2024-10-22 16:34:01 - INFO - __main__: Connected to RabbitMQ
-2024-10-22 16:34:01 - INFO - __main__: Server is listening on queue: bews
-2024-10-22 17:08:58 - INFO - __main__: Connected to RabbitMQ
-2024-10-22 17:08:58 - INFO - __main__: Server is listening on queue: bews
-2024-10-23 10:51:47 - INFO - __main__: Connected to RabbitMQ
-2024-10-23 10:51:47 - INFO - __main__: Server is listening on queue: bews
-2024-10-23 10:52:11 - INFO - __main__: Connected to RabbitMQ
-2024-10-23 10:52:11 - INFO - __main__: Server is listening on queue: bews
-2024-10-23 10:54:21 - INFO - __main__: Connected to RabbitMQ
-2024-10-23 10:54:21 - INFO - __main__: Server is listening on queue: bews
-2024-10-23 11:05:40 - INFO - __main__: Connected to RabbitMQ
-2024-10-23 11:05:40 - INFO - __main__: Server is listening on queue: bews
-2024-10-23 11:11:38 - INFO - __main__: Connected to RabbitMQ
-2024-10-23 11:11:38 - INFO - __main__: Server is listening on queue: bews
-2024-10-23 11:39:54 - INFO - __main__: Connected to RabbitMQ
-2024-10-23 11:39:54 - INFO - __main__: Server is listening on queue: bews
-2024-10-23 13:02:52 - INFO - __main__: Connected to RabbitMQ
-2024-10-23 13:02:52 - INFO - __main__: Server is listening on queue: bews
-2024-10-23 13:45:16 - INFO - __main__: Connected to RabbitMQ
-2024-10-23 13:45:16 - INFO - __main__: Server is listening on queue: bews
-2024-10-23 13:51:39 - INFO - __main__: Connected to RabbitMQ
-2024-10-23 13:51:39 - INFO - __main__: Server is listening on queue: bews
+2024-10-24 16:43:28 - INFO - __main__: Received Request: ID=16d0c9d9-cba9-4f86-8ff1-3f687061329e, Request=Hi, Return Address=amq.gen-thHLaxcrVgmLkasXwYVIkQ
+2024-10-24 16:43:28 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-thHLaxcrVgmLkasXwYVIkQ
+2024-10-24 16:49:29 - INFO - __main__: Received Request: ID=ec045379-b4e1-40ce-97e9-6b7be76fbe31, Request=Hi, Return Address=amq.gen-KgK2vBXmBbkdu99Jt4VCBA
+2024-10-24 16:49:29 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-KgK2vBXmBbkdu99Jt4VCBA
+2024-10-24 16:49:29 - INFO - __main__: Received Request: ID=c7c23350-5e51-4911-8b30-de7e72996603, Request=Hi, Return Address=amq.gen-KgK2vBXmBbkdu99Jt4VCBA
+2024-10-24 16:49:29 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-KgK2vBXmBbkdu99Jt4VCBA
+2024-10-24 16:49:29 - INFO - __main__: Received Request: ID=0f96332c-067f-4c9d-b09b-4fb335f79de6, Request=Hi, Return Address=amq.gen-KgK2vBXmBbkdu99Jt4VCBA
+2024-10-24 16:49:29 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-KgK2vBXmBbkdu99Jt4VCBA
+2024-10-24 16:50:02 - INFO - __main__: Received Request: ID=dd232d46-486b-44d6-b13c-78b9c084474d, Request=Hi, Return Address=amq.gen-W07Hwe3wdf6ytihG69vlGw
+2024-10-24 16:50:02 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-W07Hwe3wdf6ytihG69vlGw
+2024-10-24 16:50:04 - INFO - __main__: Received Request: ID=1525a039-0dd4-483a-a954-4c9cc78eb2a3, Request=23, Return Address=amq.gen-W07Hwe3wdf6ytihG69vlGw
+2024-10-24 16:50:04 - INFO - __main__: Sent response: 46 to amq.gen-W07Hwe3wdf6ytihG69vlGw
+2024-10-24 16:50:12 - INFO - __main__: Received Request: ID=05187762-1820-4f4d-b8b3-65ca310168db, Request=3, Return Address=amq.gen-W07Hwe3wdf6ytihG69vlGw
+2024-10-24 16:50:12 - INFO - __main__: Sent response: 6 to amq.gen-W07Hwe3wdf6ytihG69vlGw
+2024-10-24 16:50:49 - INFO - __main__: Connected to RabbitMQ
+2024-10-24 16:50:49 - INFO - __main__: Server is listening on queue: bews
+2024-10-24 16:50:50 - INFO - __main__: Received Request: ID=949fad0b-f6d3-4a07-a376-30941be27a56, Request=Hi, Return Address=amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:50:50 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:50:51 - INFO - __main__: Received Request: ID=f483f2df-0866-4f80-b8d1-bb4a285afec4, Request=Hi, Return Address=amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:50:51 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=a0ad9242-df11-4ebf-b21c-251500084f02, Request=Hi, Return Address=amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=04580bb9-f017-4bf5-9c51-34be083148af, Request=Hi, Return Address=amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=8e93f1d9-e8be-4d4a-9217-443972f5cbd0, Request=Hi, Return Address=amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=4b7b8b2c-5872-4b25-8016-c2f497a56bf5, Request=Hi, Return Address=amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=0a401deb-cae5-42cf-893c-f33a6809a97e, Request=Hi, Return Address=amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=c20ff5eb-0668-4fed-bddf-2445267e605f, Request=Hi, Return Address=amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=71aa173a-e6c0-4298-94f1-114f6f782174, Request=Hi, Return Address=amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=1a45208d-18f1-4a22-97a5-02d2a252b80d, Request=Hi, Return Address=amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=f8a4b47d-332c-45ab-9cb1-4a1ccf8c69d0, Request=Hi, Return Address=amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=6af19827-17f8-460f-be77-d4097479b431, Request=Hi, Return Address=amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=7010beb0-2661-4d37-a84f-e58760ed2ea3, Request=Hi, Return Address=amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=eb23743f-f1d7-4aaf-8adb-13755c356465, Request=Hi, Return Address=amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=85fdc5fb-b2dc-4d2d-91d4-5e807a80c4da, Request=Hi, Return Address=amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=a322ade2-61a8-4b33-b459-9b0c9f7c541b, Request=Hi, Return Address=amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=bd084572-4625-4b80-a44c-5791e390e2b4, Request=Hi, Return Address=amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=199912ca-ad22-41de-af52-90378c2521a2, Request=Hi, Return Address=amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=a8ca83bb-4eb1-4de6-a79c-c398bab14282, Request=Hi, Return Address=amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=a6376988-2e92-4443-83e6-7902ee82bd54, Request=Hi, Return Address=amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=8e65b3e7-24e5-43e3-867c-dd2cd8dd64d7, Request=Hi, Return Address=amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=ec52008d-88fd-4328-b826-e535628fb03d, Request=Hi, Return Address=amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=19f95a68-77f2-4669-bfbf-5d1485bfc7d7, Request=Hi, Return Address=amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=bbd7ffab-d2dc-4dce-ada9-3254c6510b2b, Request=Hi, Return Address=amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=9b158145-e808-4e1a-bdac-df259662cdfb, Request=Hi, Return Address=amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=c14254d3-37f9-4243-9225-ea0eef5eae82, Request=Hi, Return Address=amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=0060974b-eba8-46d1-8eb6-43c4b937e61c, Request=Hi, Return Address=amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=5332f0dc-f8d7-48c1-aefc-9748d3026544, Request=Hi, Return Address=amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=b77115dd-107a-4520-9212-a630c0d50038, Request=Hi, Return Address=amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=2af283b1-1f17-446c-93e4-ea5fa6515788, Request=Hi, Return Address=amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=b7c874c2-b637-4d35-a47d-215d4f9c7bda, Request=Hi, Return Address=amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=df06c05e-26eb-42f8-aed5-a5f7fa6cb6ad, Request=Hi, Return Address=amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=8410af07-20e9-4198-bfd8-725b7503779f, Request=Hi, Return Address=amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=ef00ba22-7d53-4ff3-b546-797805912e76, Request=Hi, Return Address=amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-HhLLuBnoy_s_xRr1zgQ55Q
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=41cd3a22-4241-4a70-8ccb-3296209ba551, Request=Hi, Return Address=amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Received Request: ID=f12e8765-3b46-4a5d-a954-f2e7cb2e5505, Request=Hi, Return Address=amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 16:52:42 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-ZM-pEueMG6uSGJh0-Rkjhg
+2024-10-24 17:20:15 - INFO - __main__: Received Request: ID=8ecc1755-f2a5-4f9f-9a4e-0a56e1cebaf0, Request=Hi, Return Address=amq.gen-4rCpNN3mJy7hMYM2Dhtcug
+2024-10-24 17:20:15 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-4rCpNN3mJy7hMYM2Dhtcug
+2024-10-24 17:21:10 - INFO - __main__: Received Request: ID=eee22e44-8854-4b6b-9b75-bc3b598208d5, Request=Hi, Return Address=amq.gen-QPOxmjyuAf78UM3VZS2ErA
+2024-10-24 17:21:10 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-QPOxmjyuAf78UM3VZS2ErA
+2024-10-24 17:21:18 - INFO - __main__: Received Request: ID=24aaae1f-2e5e-4624-b64f-badf82877302, Request=Hi, Return Address=amq.gen-Oj6NvpMlm_08Q8tiQpUdbA
+2024-10-24 17:21:18 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-Oj6NvpMlm_08Q8tiQpUdbA
+2024-10-24 17:21:19 - INFO - __main__: Received Request: ID=a3fb61ab-3847-41ef-8152-4469b9edad50, Request=23, Return Address=amq.gen-Oj6NvpMlm_08Q8tiQpUdbA
+2024-10-24 17:21:20 - INFO - __main__: Sent response: 46 to amq.gen-Oj6NvpMlm_08Q8tiQpUdbA
+2024-10-24 17:21:31 - INFO - __main__: Connected to RabbitMQ
+2024-10-24 17:21:31 - INFO - __main__: Server is listening on queue: bews
+2024-10-24 17:21:35 - INFO - __main__: Received Request: ID=2ea351a4-a25d-4dc6-bcb4-eb7a2cbf9999, Request=Hi, Return Address=amq.gen-SZOk45wiVUMlZBciuOhphg
+2024-10-24 17:21:35 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-SZOk45wiVUMlZBciuOhphg
+2024-10-24 17:21:47 - INFO - __main__: Received Request: ID=2a9a459e-5ce1-4cde-9608-5802f6148958, Request=Hi, Return Address=amq.gen-1XPWgE9ClOooO2kiaBnXWA
+2024-10-24 17:21:47 - INFO - __main__: Sent response: Hello (Server Ready) to amq.gen-1XPWgE9ClOooO2kiaBnXWA

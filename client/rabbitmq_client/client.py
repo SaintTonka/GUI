@@ -4,14 +4,15 @@ import logging
 import os
 from PyQt5.QtCore import pyqtSignal, QObject, QThread
 import pika
-from proto import msg3_pb2
+from proto import msg_client_pb2
+from retry import retry
 
 class Communicate(QObject):
     """
     Класс для создания сигналов, используемых для связи между компонентами.
     """
-    received_response = pyqtSignal(str)  # Изменил тип на str
-    send_request = pyqtSignal(str)        # Изменил тип на str
+    received_response = pyqtSignal(str)  
+    send_request = pyqtSignal(str)        
     error_signal = pyqtSignal(str)
     server_ready_signal = pyqtSignal()
 
@@ -44,7 +45,6 @@ class RMQClient(QThread):
         self.log_file = config.get('logging', 'file', fallback='client.log')
         self.log_level = getattr(logging, self.log_level_str.upper(), logging.INFO)
 
-        # Configure logging
         logging.basicConfig(
             level=self.log_level,
             filename=self.log_file,
@@ -54,7 +54,6 @@ class RMQClient(QThread):
         )
         self.logger = logging.getLogger(__name__)
 
-        # Client UUID handling
         if not config.has_section('client'):
             config.add_section('client')
 
@@ -70,6 +69,8 @@ class RMQClient(QThread):
         self.timeout_send = config.getint('client', 'timeout_send', fallback=5)
         self.timeout_response = config.getint('client', 'timeout_response', fallback=10)
 
+
+    @retry(pika.exceptions.AMQPConnectionError, delay=5, jitter=(1, 3))
     def run(self):
         try:
             credentials = pika.PlainCredentials(self.rmq_user, self.rmq_password)
@@ -82,15 +83,10 @@ class RMQClient(QThread):
             )
             self.channel = self.connection.channel()
 
-            # Declare exchange if needed
             self.channel.exchange_declare(exchange=self.exchange, exchange_type='direct', durable=True)
 
-            # Declare a unique callback queue for this client
             result = self.channel.queue_declare(queue='', exclusive=True)
             self.callback_queue = result.method.queue
-
-            # Удалили привязку callback_queue к Exchange 'bews'
-            # self.channel.queue_bind(exchange=self.exchange, queue=self.callback_queue)
 
             self.channel.basic_consume(
                 queue=self.callback_queue,
@@ -101,7 +97,6 @@ class RMQClient(QThread):
             self.active = True
             self.logger.info(f"Connected to RabbitMQ and listening on queue: {self.callback_queue}")
 
-            # Start sending 'Hi' to check server readiness
             while self._running:
                 if not self.check_server:
                     self.send_hi_to_serv()
@@ -117,16 +112,16 @@ class RMQClient(QThread):
 
     def send_hi_to_serv(self):
         try:
-            request = msg3_pb2.Request()
+            request = msg_client_pb2.Request()
             request.return_address = self.callback_queue
             request.request_id = str(uuid.uuid4())
-            request.request = "Hi"  # Используем строку
+            request.request = "Hi"  
 
             msg = request.SerializeToString()
 
             self.channel.basic_publish(
                 exchange=self.exchange,
-                routing_key=self.exchange,  # 'bews'
+                routing_key=self.exchange,  
                 properties=pika.BasicProperties(
                     reply_to=self.callback_queue,
                     correlation_id=request.request_id
@@ -142,13 +137,13 @@ class RMQClient(QThread):
         if not self.active:
             self.logger.error("Connection is not active.")
             self.communicate.error_signal.emit("Connection is not active.")
-            return
+            self.run()
 
         try:
-            request = msg3_pb2.Request()
+            request = msg_client_pb2.Request()
             request.return_address = self.callback_queue
             request.request_id = str(uuid.uuid4())
-            request.request = str(user_input)  # Отправляем как строку
+            request.request = str(user_input) 
 
             msg = request.SerializeToString()
 
@@ -168,7 +163,7 @@ class RMQClient(QThread):
 
     def on_response(self, ch, method, props, body):
         try:
-            response = msg3_pb2.Response()
+            response = msg_client_pb2.Response()
             response.ParseFromString(body)
             self.logger.info(f"Received response: {response.response} for request ID: {response.request_id}")
 
@@ -192,3 +187,6 @@ class RMQClient(QThread):
             self.logger.error(f"Error closing connection: {e}")
         self.quit()
         self.wait()
+
+            
+
