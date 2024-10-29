@@ -3,7 +3,7 @@ import configparser
 import logging
 import os
 from PyQt5.QtCore import pyqtSignal, QObject, QThread
-import pika
+import pika, queue
 from proto import msg_client_pb2
 from retry import retry
 
@@ -28,6 +28,8 @@ class RMQClient(QThread):
         self.active = False
         self.check_server = False
         self._running = True
+
+        self.send_queue = queue.Queue()
 
         self.communicate.send_request.connect(self.handle_send_request)
 
@@ -100,11 +102,18 @@ class RMQClient(QThread):
             while self._running:
                 if not self.check_server:
                     self.send_hi_to_serv()
-                try:
-                    self.connection.process_data_events(time_limit=1)
-                except pika.exceptions.AMQPError as e:
-                    self.logger.error(f"AMQP Error: {e}")
-                    self.communicate.error_signal.emit(f"AMQP Error: {e}")
+                else:
+                    try:
+                        try:
+                            user_input = self.send_queue.get_nowait()
+                            self._send_request(user_input)
+                        except queue.Empty:
+                            pass
+
+                        self.connection.process_data_events(time_limit=1)
+                    except pika.exceptions.AMQPError as e:
+                        self.logger.error(f"AMQP Error: {e}")
+                        self.communicate.error_signal.emit(f"AMQP Error: {e}")
         except Exception as e:
             self.logger.error(f"Failed to connect to RabbitMQ: {e}")
             self.communicate.error_signal.emit(f"Failed to connect to RabbitMQ: {e}")
@@ -133,12 +142,7 @@ class RMQClient(QThread):
             self.logger.error(f"Error sending 'Hi': {e}")
             self.communicate.error_signal.emit(f"Error sending 'Hi': {e}")
 
-    def handle_send_request(self, user_input):
-        if not self.active:
-            self.logger.error("Connection is not active.")
-            self.communicate.error_signal.emit("Connection is not active.")
-            self.run()
-
+    def _send_request(self, user_input):
         try:
             request = msg_client_pb2.Request()
             request.return_address = self.callback_queue
@@ -159,7 +163,10 @@ class RMQClient(QThread):
             self.logger.info(f"Sent request: {user_input}")
         except Exception as e:
             self.logger.error(f"Error sending request: {e}")
-            self.communicate.error_signal.emit(f"Error sending request: {e}")
+            self.communicate.error_signal.emit(f"Error sending request: {e}")        
+
+    def handle_send_request(self, user_input):
+        self.send_queue.put(user_input)
 
     def on_response(self, ch, method, props, body):
         try:
