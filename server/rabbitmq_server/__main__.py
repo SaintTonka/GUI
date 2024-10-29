@@ -3,6 +3,7 @@ import aio_pika
 import asyncio
 from config import configure_logging, load_config
 from proto import msg_serv_pb2  
+from utils import double_number  
 
 log = logging.getLogger(__name__)
 
@@ -20,13 +21,19 @@ async def handle_request(channel, message: aio_pika.IncomingMessage):
                 response.response = "Hello"  
                 log.info(f"Sent response: {response.response} (Server Ready) to {req.return_address}")
             else:
-                if req.HasField("proccess_time_in_seconds") and req.proccess_time_in_seconds > 0:
+                if hasattr(req, 'proccess_time_in_seconds') and req.proccess_time_in_seconds > 0:
                     log.info(f"Processing request for {req.proccess_time_in_seconds} seconds")
                     await asyncio.sleep(req.proccess_time_in_seconds)
 
-                response.response = str(int(req.request) * 2)  
-                log.info(f"Sent response: {response.response} to {req.return_address}")
-
+                try:
+                    number = int(req.request)
+                    doubled_number = double_number(number) 
+                    response.response = str(doubled_number)
+                    log.info(f"Sent response: {response.response} to {req.return_address}")
+                except ValueError:
+                    response.response = "Invalid number provided."
+                    log.error(f"Invalid number received: {req.request}")
+            
             msg = response.SerializeToString()
 
             await channel.default_exchange.publish(
@@ -50,19 +57,17 @@ async def main():
     async with connection:
         channel = await connection.channel()
         
-        # Объявляем Exchange 'bews' типа 'direct'
         exchange = await channel.declare_exchange("bews", aio_pika.ExchangeType.DIRECT, durable=True)
         
-        # Объявляем очередь 'bews'
         queue = await channel.declare_queue("bews", durable=True)
         
-        # Привязываем очередь 'bews' к Exchange 'bews' с routing_key 'bews'
         await queue.bind(exchange, routing_key="bews")
 
         await queue.consume(lambda message: asyncio.create_task(handle_request(channel, message)))
         log.info(f"Server is listening on queue: {queue.name}")
 
         try:
+            log.info("Server is running. Press Ctrl+C to stop.")
             while True:
                 await asyncio.sleep(3600) 
         except KeyboardInterrupt:

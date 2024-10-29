@@ -3,3 +3,4 @@ pika>=1.2.0
 aio_pika>=6.8.0
 protobuf>=3.19.0
 retry
+pytest

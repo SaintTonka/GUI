@@ -12,7 +12,7 @@ class Communicate(QObject):
     Класс для создания сигналов, используемых для связи между компонентами.
     """
     received_response = pyqtSignal(str)  
-    send_request = pyqtSignal(str)        
+    send_request = pyqtSignal(str, float) 
     error_signal = pyqtSignal(str)
     server_ready_signal = pyqtSignal()
 
@@ -76,13 +76,14 @@ class RMQClient(QThread):
     def run(self):
         try:
             credentials = pika.PlainCredentials(self.rmq_user, self.rmq_password)
-            self.connection = pika.BlockingConnection(
-                pika.ConnectionParameters(
-                    host=self.rmq_host,
-                    port=self.rmq_port,
-                    credentials=credentials
-                )
+            parameters = pika.ConnectionParameters(
+                host=self.rmq_host,
+                port=self.rmq_port,
+                credentials=credentials,
+                heartbeat=600, 
+                blocked_connection_timeout=300
             )
+            self.connection = pika.BlockingConnection(parameters)
             self.channel = self.connection.channel()
 
             self.channel.exchange_declare(exchange=self.exchange, exchange_type='direct', durable=True)
@@ -99,21 +100,30 @@ class RMQClient(QThread):
             self.active = True
             self.logger.info(f"Connected to RabbitMQ and listening on queue: {self.callback_queue}")
 
-            while self._running:
-                if not self.check_server:
-                    self.send_hi_to_serv()
-                else:
-                    try:
-                        try:
-                            user_input = self.send_queue.get_nowait()
-                            self._send_request(user_input)
-                        except queue.Empty:
-                            pass
+            self.send_hi_to_serv()
 
+            while self._running:
+                try:
+                    try:
+                        user_input, delay = self.send_queue.get_nowait()
+                        self._send_request(user_input, delay)
+                    except queue.Empty:
+                        pass
+
+                    if self.connection.is_open:
                         self.connection.process_data_events(time_limit=1)
-                    except pika.exceptions.AMQPError as e:
-                        self.logger.error(f"AMQP Error: {e}")
-                        self.communicate.error_signal.emit(f"AMQP Error: {e}")
+                    else:
+                        self.logger.warning("Connection is closed.")
+                        self.communicate.error_signal.emit("Connection to RabbitMQ is closed.")
+                        self._running = False
+                except pika.exceptions.AMQPError as e:
+                    self.logger.error(f"AMQP Error: {e}")
+                    self.communicate.error_signal.emit(f"AMQP Error: {e}")
+                    self._running = False
+                except ValueError as ve:
+                    self.logger.error(f"ValueError in process_data_events: {ve}")
+                    self.communicate.error_signal.emit(f"Error processing events: {ve}")
+                    self._running = False
         except Exception as e:
             self.logger.error(f"Failed to connect to RabbitMQ: {e}")
             self.communicate.error_signal.emit(f"Failed to connect to RabbitMQ: {e}")
@@ -142,12 +152,14 @@ class RMQClient(QThread):
             self.logger.error(f"Error sending 'Hi': {e}")
             self.communicate.error_signal.emit(f"Error sending 'Hi': {e}")
 
-    def _send_request(self, user_input):
+    def _send_request(self, user_input, delay):
         try:
             request = msg_client_pb2.Request()
             request.return_address = self.callback_queue
             request.request_id = str(uuid.uuid4())
-            request.request = str(user_input) 
+            request.request = str(user_input)
+            if delay > 0:
+                request.proccess_time_in_seconds = int(delay) 
 
             msg = request.SerializeToString()
 
@@ -160,13 +172,13 @@ class RMQClient(QThread):
                 ),
                 body=msg
             )
-            self.logger.info(f"Sent request: {user_input}")
+            self.logger.info(f"Sent request: {user_input} with delay: {delay} sec")
         except Exception as e:
             self.logger.error(f"Error sending request: {e}")
             self.communicate.error_signal.emit(f"Error sending request: {e}")        
 
-    def handle_send_request(self, user_input):
-        self.send_queue.put(user_input)
+    def handle_send_request(self, user_input, delay):
+        self.send_queue.put((user_input, delay))
 
     def on_response(self, ch, method, props, body):
         try:
@@ -185,7 +197,7 @@ class RMQClient(QThread):
             self.communicate.error_signal.emit(f"Error processing response: {e}")
 
     def stop_client(self):
-        self._running = False
+        self._running = False  # Сначала сигнализируем о завершении
         try:
             if self.connection and self.connection.is_open:
                 self.connection.close()
@@ -194,6 +206,3 @@ class RMQClient(QThread):
             self.logger.error(f"Error closing connection: {e}")
         self.quit()
         self.wait()
-
-            
-

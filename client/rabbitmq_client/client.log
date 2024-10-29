@@ -11002,3 +11002,181 @@ IndexError: pop from an empty deque
 2024-10-29 17:29:49 - INFO - pika.adapters.utils.io_services_utils: Closing transport socket and unlinking: state=3; <socket.socket fd=15, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 45670), raddr=('127.0.0.1', 5672)>
 2024-10-29 17:29:49 - INFO - pika.adapters.blocking_connection: User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
 2024-10-29 17:29:49 - INFO - client: Connection to RabbitMQ closed.
+2024-10-29 23:33:58 - INFO - pika.adapters.utils.connection_workflow: Pika version 1.3.2 connecting to ('::1', 5672, 0, 0)
+2024-10-29 23:33:58 - INFO - pika.adapters.utils.io_services_utils: Socket connected: <socket.socket fd=844, family=23, type=1, proto=6, laddr=('::1', 57128, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-29 23:33:58 - INFO - pika.adapters.utils.connection_workflow: Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001E5D4106330>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001E5D4106330> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
+2024-10-29 23:33:58 - INFO - pika.adapters.utils.connection_workflow: AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001E5D4106330> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-29 23:33:58 - INFO - pika.adapters.utils.connection_workflow: AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001E5D4106330> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-29 23:33:58 - INFO - pika.adapters.blocking_connection: Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001E5D4106330> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-29 23:33:58 - INFO - pika.adapters.blocking_connection: Created channel=1
+2024-10-29 23:33:58 - INFO - client: Connected to RabbitMQ and listening on queue: amq.gen-u0ydaMOqY_zKOeHZs7YfpA
+2024-10-29 23:33:58 - INFO - client: Sent 'Hi' to server for readiness check.
+2024-10-29 23:33:58 - INFO - client: Received response: Hello for request ID: fab7506e-0291-40e3-9a36-cbccc9f6054d
+2024-10-29 23:33:58 - INFO - client: Server is ready.
+2024-10-29 23:36:11 - INFO - pika.adapters.utils.connection_workflow: Pika version 1.3.2 connecting to ('::1', 5672, 0, 0)
+2024-10-29 23:36:11 - INFO - pika.adapters.utils.io_services_utils: Socket connected: <socket.socket fd=1424, family=23, type=1, proto=6, laddr=('::1', 49980, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-29 23:36:11 - INFO - pika.adapters.utils.connection_workflow: Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001D5B6BD1DC0>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001D5B6BD1DC0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
+2024-10-29 23:36:12 - INFO - pika.adapters.utils.connection_workflow: AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001D5B6BD1DC0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-29 23:36:12 - INFO - pika.adapters.utils.connection_workflow: AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001D5B6BD1DC0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-29 23:36:12 - INFO - pika.adapters.blocking_connection: Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001D5B6BD1DC0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-29 23:36:12 - INFO - pika.adapters.blocking_connection: Created channel=1
+2024-10-29 23:36:12 - INFO - client: Connected to RabbitMQ and listening on queue: amq.gen-394G8iSl-vY7iwRPqez90w
+2024-10-29 23:36:12 - INFO - client: Sent 'Hi' to server for readiness check.
+2024-10-29 23:36:12 - INFO - client: Received response: Hello for request ID: 4e75f3ea-504f-4285-b418-54c6ca97d302
+2024-10-29 23:36:12 - INFO - client: Server is ready.
+2024-10-29 23:36:14 - INFO - client: Sent request: 23 with delay: 0.0 sec
+2024-10-29 23:36:14 - INFO - client: Received response: 46 for request ID: 57fce23b-a96f-4e6c-b826-8060de964bb0
+2024-10-29 23:36:17 - INFO - client: Sent request: 231 with delay: 0.0 sec
+2024-10-29 23:36:17 - INFO - client: Received response: 462 for request ID: 6723dcdc-0835-450b-a41e-937ae6375646
+2024-10-29 23:36:19 - INFO - client: Sent request: 321321231 with delay: 0.0 sec
+2024-10-29 23:36:19 - INFO - client: Received response: 642642462 for request ID: af29a578-1ada-4984-ac30-26394329f92b
+2024-10-29 23:36:22 - INFO - client: Sent request: 23123131 with delay: 0.0 sec
+2024-10-29 23:36:22 - INFO - client: Received response: 46246262 for request ID: 4c8be4a2-ddf4-4b68-b90a-2e0a7310ce0d
+2024-10-29 23:36:24 - INFO - pika.adapters.blocking_connection: Closing connection (200): Normal shutdown
+2024-10-29 23:36:24 - INFO - pika.channel: Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001D5B6BD1DC0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
+2024-10-29 23:36:24 - INFO - pika.channel: Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001D5B6BD1DC0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
+2024-10-29 23:36:24 - INFO - pika.connection: Closing connection (200): 'Normal shutdown'
+2024-10-29 23:36:24 - INFO - pika.adapters.utils.io_services_utils: Aborting transport connection: state=1; <socket.socket fd=1424, family=23, type=1, proto=6, laddr=('::1', 49980, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-29 23:36:24 - INFO - pika.adapters.utils.io_services_utils: _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=None; <socket.socket fd=1424, family=23, type=1, proto=6, laddr=('::1', 49980, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-29 23:36:24 - INFO - pika.adapters.utils.io_services_utils: Deactivating transport: state=1; <socket.socket fd=1424, family=23, type=1, proto=6, laddr=('::1', 49980, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-29 23:36:24 - INFO - pika.connection: AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=None; pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
+2024-10-29 23:36:24 - INFO - pika.connection: Stack terminated due to ConnectionClosedByClient: (200) 'Normal shutdown'
+2024-10-29 23:36:24 - INFO - pika.adapters.utils.io_services_utils: Closing transport socket and unlinking: state=3; <socket.socket fd=1424, family=23, type=1, proto=6, laddr=('::1', 49980, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-29 23:36:24 - INFO - pika.adapters.blocking_connection: User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
+2024-10-29 23:36:24 - INFO - client: Connection to RabbitMQ closed.
+2024-10-29 23:39:34 - INFO - pika.adapters.utils.connection_workflow: Pika version 1.3.2 connecting to ('::1', 5672, 0, 0)
+2024-10-29 23:39:34 - INFO - pika.adapters.utils.io_services_utils: Socket connected: <socket.socket fd=1372, family=23, type=1, proto=6, laddr=('::1', 55156, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-29 23:39:34 - INFO - pika.adapters.utils.connection_workflow: Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x00000163CD8FAAB0>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x00000163CD8FAAB0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
+2024-10-29 23:39:34 - INFO - pika.adapters.utils.connection_workflow: AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x00000163CD8FAAB0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-29 23:39:34 - INFO - pika.adapters.utils.connection_workflow: AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x00000163CD8FAAB0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-29 23:39:34 - INFO - pika.adapters.blocking_connection: Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x00000163CD8FAAB0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-29 23:39:34 - INFO - pika.adapters.blocking_connection: Created channel=1
+2024-10-29 23:39:34 - INFO - client: Connected to RabbitMQ and listening on queue: amq.gen-bosKOe5DrN9Sq8iG8bpEag
+2024-10-29 23:39:34 - INFO - client: Sent 'Hi' to server for readiness check.
+2024-10-29 23:39:34 - INFO - client: Received response: Hello for request ID: 81fddf16-b6ef-406b-9b0a-e5c1dd65210c
+2024-10-29 23:39:34 - INFO - client: Server is ready.
+2024-10-29 23:39:37 - INFO - client: Sent request: 23132131231231231231 with delay: 0.0 sec
+2024-10-29 23:39:37 - INFO - client: Received response: 46264262462462462462 for request ID: 4232b8bd-b4e5-416d-813e-d82c7f707ccc
+2024-10-29 23:39:41 - INFO - client: Sent request: 33333333333333333333333333333333 with delay: 0.0 sec
+2024-10-29 23:39:41 - INFO - client: Received response: 66666666666666666666666666666666 for request ID: 5fc25e5c-6414-4e93-afda-3a8b3263bf8d
+2024-10-29 23:39:49 - INFO - client: Sent request: 333333333333333333333333333333333333333333333333333 with delay: 2.0 sec
+2024-10-29 23:39:51 - INFO - client: Received response: 666666666666666666666666666666666666666666666666666 for request ID: b3049a7a-dccc-40d7-b4b2-17eb60da83bb
+2024-10-29 23:39:54 - INFO - pika.adapters.blocking_connection: Closing connection (200): Normal shutdown
+2024-10-29 23:39:54 - INFO - pika.channel: Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x00000163CD8FAAB0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
+2024-10-29 23:39:54 - INFO - pika.channel: Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x00000163CD8FAAB0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
+2024-10-29 23:39:54 - INFO - pika.connection: Closing connection (200): 'Normal shutdown'
+2024-10-29 23:39:54 - INFO - pika.adapters.utils.io_services_utils: Aborting transport connection: state=1; <socket.socket fd=1372, family=23, type=1, proto=6, laddr=('::1', 55156, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-29 23:39:54 - INFO - pika.adapters.utils.io_services_utils: _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=None; <socket.socket fd=1372, family=23, type=1, proto=6, laddr=('::1', 55156, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-29 23:39:54 - INFO - pika.adapters.utils.io_services_utils: Deactivating transport: state=1; <socket.socket fd=1372, family=23, type=1, proto=6, laddr=('::1', 55156, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-29 23:39:54 - INFO - pika.connection: AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=None; pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
+2024-10-29 23:39:54 - INFO - pika.connection: Stack terminated due to ConnectionClosedByClient: (200) 'Normal shutdown'
+2024-10-29 23:39:54 - INFO - pika.adapters.utils.io_services_utils: Closing transport socket and unlinking: state=3; <socket.socket fd=1372, family=23, type=1, proto=6, laddr=('::1', 55156, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-29 23:39:54 - INFO - pika.adapters.blocking_connection: User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
+2024-10-29 23:39:54 - INFO - client: Connection to RabbitMQ closed.
+2024-10-29 23:40:55 - INFO - pika.adapters.utils.connection_workflow: Pika version 1.3.2 connecting to ('::1', 5672, 0, 0)
+2024-10-29 23:40:55 - INFO - pika.adapters.utils.io_services_utils: Socket connected: <socket.socket fd=1424, family=23, type=1, proto=6, laddr=('::1', 55262, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-29 23:40:55 - INFO - pika.adapters.utils.connection_workflow: Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x0000015FA387AAB0>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x0000015FA387AAB0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
+2024-10-29 23:40:55 - INFO - pika.adapters.utils.connection_workflow: AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x0000015FA387AAB0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-29 23:40:55 - INFO - pika.adapters.utils.connection_workflow: AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x0000015FA387AAB0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-29 23:40:55 - INFO - pika.adapters.blocking_connection: Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x0000015FA387AAB0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-29 23:40:55 - INFO - pika.adapters.blocking_connection: Created channel=1
+2024-10-29 23:40:55 - INFO - client: Connected to RabbitMQ and listening on queue: amq.gen-vJK-VGm7wBX8YEUP6R_oJA
+2024-10-29 23:40:56 - INFO - client: Sent 'Hi' to server for readiness check.
+2024-10-29 23:40:56 - INFO - client: Received response: Hello for request ID: 14afe8db-f948-40f9-a7ad-3412e72b4b46
+2024-10-29 23:40:56 - INFO - client: Server is ready.
+2024-10-29 23:41:01 - INFO - pika.adapters.utils.connection_workflow: Pika version 1.3.2 connecting to ('::1', 5672, 0, 0)
+2024-10-29 23:41:01 - INFO - pika.adapters.utils.io_services_utils: Socket connected: <socket.socket fd=1408, family=23, type=1, proto=6, laddr=('::1', 55271, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-29 23:41:01 - INFO - pika.adapters.utils.connection_workflow: Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001D47E4F1DC0>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001D47E4F1DC0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
+2024-10-29 23:41:01 - INFO - pika.adapters.utils.connection_workflow: AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001D47E4F1DC0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-29 23:41:01 - INFO - pika.adapters.utils.connection_workflow: AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001D47E4F1DC0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-29 23:41:01 - INFO - pika.adapters.blocking_connection: Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001D47E4F1DC0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-29 23:41:01 - INFO - pika.adapters.blocking_connection: Created channel=1
+2024-10-29 23:41:01 - INFO - client: Connected to RabbitMQ and listening on queue: amq.gen-ig95FT8ZdlKYdx_A9cSjZA
+2024-10-29 23:41:01 - INFO - client: Sent 'Hi' to server for readiness check.
+2024-10-29 23:41:01 - INFO - client: Received response: Hello for request ID: a13a68f2-7f5e-4fb6-bc6f-a4937aa3408c
+2024-10-29 23:41:01 - INFO - client: Server is ready.
+2024-10-29 23:41:22 - INFO - client: Sent request: 23231 with delay: 5.0 sec
+2024-10-29 23:41:22 - INFO - client: Sent request: 323232321 with delay: 5.0 sec
+2024-10-29 23:41:27 - INFO - client: Received response: 46462 for request ID: 2883f94e-85da-4bcb-9dc2-e5f3bb375258
+2024-10-29 23:41:27 - INFO - client: Received response: 646464642 for request ID: 0de0b1cc-ebcc-49cb-9cd1-fb2707e4704b
+2024-10-29 23:41:49 - INFO - client: Sent request: 9 with delay: 5.0 sec
+2024-10-29 23:41:50 - INFO - client: Sent request: 11 with delay: 6.0 sec
+2024-10-29 23:41:54 - INFO - client: Received response: 18 for request ID: 18945c3e-ff5d-4151-8f13-eed94728001d
+2024-10-29 23:41:55 - INFO - pika.adapters.blocking_connection: Closing connection (200): Normal shutdown
+2024-10-29 23:41:55 - INFO - pika.channel: Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001D47E4F1DC0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
+2024-10-29 23:41:55 - INFO - pika.channel: Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001D47E4F1DC0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
+2024-10-29 23:41:55 - INFO - pika.connection: Closing connection (200): 'Normal shutdown'
+2024-10-29 23:41:55 - INFO - pika.adapters.utils.io_services_utils: Aborting transport connection: state=1; <socket.socket fd=1408, family=23, type=1, proto=6, laddr=('::1', 55271, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-29 23:41:55 - INFO - pika.adapters.utils.io_services_utils: _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=None; <socket.socket fd=1408, family=23, type=1, proto=6, laddr=('::1', 55271, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-29 23:41:55 - INFO - pika.adapters.utils.io_services_utils: Deactivating transport: state=1; <socket.socket fd=1408, family=23, type=1, proto=6, laddr=('::1', 55271, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-29 23:41:55 - INFO - pika.connection: AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=None; pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
+2024-10-29 23:41:55 - INFO - pika.connection: Stack terminated due to ConnectionClosedByClient: (200) 'Normal shutdown'
+2024-10-29 23:41:55 - INFO - pika.adapters.utils.io_services_utils: Closing transport socket and unlinking: state=3; <socket.socket fd=1408, family=23, type=1, proto=6, laddr=('::1', 55271, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-29 23:41:55 - INFO - pika.adapters.blocking_connection: User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
+2024-10-29 23:41:55 - INFO - client: Connection to RabbitMQ closed.
+2024-10-29 23:41:56 - INFO - pika.adapters.blocking_connection: Closing connection (200): Normal shutdown
+2024-10-29 23:41:56 - INFO - pika.channel: Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x0000015FA387AAB0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
+2024-10-29 23:41:56 - INFO - pika.channel: Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x0000015FA387AAB0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
+2024-10-29 23:41:56 - INFO - pika.connection: Closing connection (200): 'Normal shutdown'
+2024-10-29 23:41:56 - INFO - pika.adapters.utils.io_services_utils: Aborting transport connection: state=1; <socket.socket fd=1424, family=23, type=1, proto=6, laddr=('::1', 55262, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-29 23:41:56 - INFO - pika.adapters.utils.io_services_utils: _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=None; <socket.socket fd=1424, family=23, type=1, proto=6, laddr=('::1', 55262, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-29 23:41:56 - INFO - pika.adapters.utils.io_services_utils: Deactivating transport: state=1; <socket.socket fd=1424, family=23, type=1, proto=6, laddr=('::1', 55262, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-29 23:41:56 - INFO - pika.connection: AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=None; pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
+2024-10-29 23:41:56 - INFO - pika.connection: Stack terminated due to ConnectionClosedByClient: (200) 'Normal shutdown'
+2024-10-29 23:41:56 - INFO - pika.adapters.utils.io_services_utils: Closing transport socket and unlinking: state=3; <socket.socket fd=1424, family=23, type=1, proto=6, laddr=('::1', 55262, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-29 23:41:56 - INFO - pika.adapters.blocking_connection: User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
+2024-10-29 23:41:56 - INFO - client: Connection to RabbitMQ closed.
+2024-10-29 23:55:50 - INFO - pika.adapters.utils.connection_workflow: Pika version 1.3.2 connecting to ('::1', 5672, 0, 0)
+2024-10-29 23:55:50 - INFO - pika.adapters.utils.io_services_utils: Socket connected: <socket.socket fd=1416, family=23, type=1, proto=6, laddr=('::1', 56338, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-29 23:55:50 - INFO - pika.adapters.utils.connection_workflow: Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x0000024811F8F2F0>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x0000024811F8F2F0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
+2024-10-29 23:55:50 - INFO - pika.adapters.utils.connection_workflow: AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x0000024811F8F2F0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-29 23:55:50 - INFO - pika.adapters.utils.connection_workflow: AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x0000024811F8F2F0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-29 23:55:50 - INFO - pika.adapters.blocking_connection: Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x0000024811F8F2F0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-29 23:55:50 - INFO - pika.adapters.blocking_connection: Created channel=1
+2024-10-29 23:55:50 - INFO - client: Connected to RabbitMQ and listening on queue: amq.gen-CliLT8pOfrQit7r5-142vg
+2024-10-29 23:55:50 - INFO - client: Sent 'Hi' to server for readiness check.
+2024-10-29 23:55:54 - INFO - client: Received response: Hello for request ID: 764f86fb-5f64-43c5-8f6b-279c28c3026b
+2024-10-29 23:55:54 - INFO - client: Server is ready.
+2024-10-29 23:56:09 - INFO - client: Sent request: 23 with delay: 0.0 sec
+2024-10-29 23:56:09 - INFO - client: Received response: 46 for request ID: e4d0189b-8fc5-4dce-aee3-5f676f400471
+2024-10-29 23:56:16 - INFO - client: Sent request: 3231 with delay: 2.0 sec
+2024-10-29 23:56:18 - INFO - client: Received response: 6462 for request ID: 416cd9ba-6dbf-4a97-bf60-b61d1e05f181
+2024-10-29 23:56:25 - INFO - client: Sent request: 23321 with delay: 2.0 sec
+2024-10-29 23:56:27 - INFO - client: Received response: 46642 for request ID: 95001968-f6f5-4dd4-bc06-cd714719497e
+2024-10-29 23:56:29 - INFO - pika.adapters.blocking_connection: Closing connection (200): Normal shutdown
+2024-10-29 23:56:29 - INFO - pika.channel: Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x0000024811F8F2F0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
+2024-10-29 23:56:29 - INFO - pika.channel: Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x0000024811F8F2F0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
+2024-10-29 23:56:29 - INFO - pika.connection: Closing connection (200): 'Normal shutdown'
+2024-10-29 23:56:29 - INFO - pika.adapters.utils.io_services_utils: Aborting transport connection: state=1; <socket.socket fd=1416, family=23, type=1, proto=6, laddr=('::1', 56338, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-29 23:56:29 - INFO - pika.adapters.utils.io_services_utils: _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=None; <socket.socket fd=1416, family=23, type=1, proto=6, laddr=('::1', 56338, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-29 23:56:29 - INFO - pika.adapters.utils.io_services_utils: Deactivating transport: state=1; <socket.socket fd=1416, family=23, type=1, proto=6, laddr=('::1', 56338, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-29 23:56:29 - INFO - pika.connection: AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=None; pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
+2024-10-29 23:56:29 - INFO - pika.connection: Stack terminated due to ConnectionClosedByClient: (200) 'Normal shutdown'
+2024-10-29 23:56:29 - INFO - pika.adapters.utils.io_services_utils: Closing transport socket and unlinking: state=3; <socket.socket fd=1416, family=23, type=1, proto=6, laddr=('::1', 56338, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-29 23:56:29 - INFO - pika.adapters.blocking_connection: User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
+2024-10-29 23:56:29 - INFO - client: Connection to RabbitMQ closed.
+2024-10-30 00:07:10 - INFO - pika.adapters.utils.connection_workflow: Pika version 1.3.2 connecting to ('::1', 5672, 0, 0)
+2024-10-30 00:07:10 - INFO - pika.adapters.utils.io_services_utils: Socket connected: <socket.socket fd=1464, family=23, type=1, proto=6, laddr=('::1', 59255, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-30 00:07:10 - INFO - pika.adapters.utils.connection_workflow: Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x0000017B04072A80>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x0000017B04072A80> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
+2024-10-30 00:07:10 - INFO - pika.adapters.utils.connection_workflow: AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x0000017B04072A80> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-30 00:07:10 - INFO - pika.adapters.utils.connection_workflow: AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x0000017B04072A80> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-30 00:07:10 - INFO - pika.adapters.blocking_connection: Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x0000017B04072A80> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2024-10-30 00:07:10 - INFO - pika.adapters.blocking_connection: Created channel=1
+2024-10-30 00:07:10 - INFO - client: Connected to RabbitMQ and listening on queue: amq.gen-IVHL3ZfScn7AnbKKUg5lzw
+2024-10-30 00:07:10 - INFO - client: Sent 'Hi' to server for readiness check.
+2024-10-30 00:07:27 - INFO - client: Received response: Hello for request ID: 7b43ed95-abaf-455f-bd38-a69fe9959c72
+2024-10-30 00:07:27 - INFO - client: Server is ready.
+2024-10-30 00:07:47 - INFO - client: Sent request: 3232 with delay: 2.0 sec
+2024-10-30 00:07:49 - INFO - client: Received response: 6464 for request ID: 90aa37d1-8ea2-4a19-93cc-d05a60734951
+2024-10-30 00:07:54 - INFO - pika.adapters.blocking_connection: Closing connection (200): Normal shutdown
+2024-10-30 00:07:54 - INFO - pika.channel: Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x0000017B04072A80> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
+2024-10-30 00:07:54 - INFO - pika.channel: Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x0000017B04072A80> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>>
+2024-10-30 00:07:54 - INFO - pika.connection: Closing connection (200): 'Normal shutdown'
+2024-10-30 00:07:54 - INFO - pika.adapters.utils.io_services_utils: Aborting transport connection: state=1; <socket.socket fd=1464, family=23, type=1, proto=6, laddr=('::1', 59255, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-30 00:07:54 - INFO - pika.adapters.utils.io_services_utils: _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=None; <socket.socket fd=1464, family=23, type=1, proto=6, laddr=('::1', 59255, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-30 00:07:54 - INFO - pika.adapters.utils.io_services_utils: Deactivating transport: state=1; <socket.socket fd=1464, family=23, type=1, proto=6, laddr=('::1', 59255, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-30 00:07:54 - INFO - pika.connection: AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=None; pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
+2024-10-30 00:07:54 - INFO - pika.connection: Stack terminated due to ConnectionClosedByClient: (200) 'Normal shutdown'
+2024-10-30 00:07:54 - INFO - pika.adapters.utils.io_services_utils: Closing transport socket and unlinking: state=3; <socket.socket fd=1464, family=23, type=1, proto=6, laddr=('::1', 59255, 0, 0), raddr=('::1', 5672, 0, 0)>
+2024-10-30 00:07:54 - INFO - pika.adapters.blocking_connection: User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
+2024-10-30 00:07:54 - INFO - client: Connection to RabbitMQ closed.
