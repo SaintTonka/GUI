@@ -1,58 +1,75 @@
 import logging
 import aio_pika
 import asyncio
-from config import configure_logging
-from proto import msg2_pb2  
+from config import configure_logging, load_config
+from proto import msg_serv_pb2  
+from utils import double_number  
 
 log = logging.getLogger(__name__)
 
 async def handle_request(channel, message: aio_pika.IncomingMessage):
-    try:
-        req = msg2_pb2.Request()
-        req.ParseFromString(message.body)
-        log.info(f"Received {req}")
+    async with message.process():
+        try:
+            req = msg_serv_pb2.Request()
+            req.ParseFromString(message.body)
+            log.info(f"Received Request: ID={req.request_id}, Request={req.request}, Return Address={req.return_address}")
 
-        if req.proccess_time_in_seconds:
-            await asyncio.sleep(req.proccess_time_in_seconds)
+            response = msg_serv_pb2.Response()
+            response.request_id = req.request_id
 
-        # Создание и отправка ответа
-        response = msg2_pb2.Response()
-        response.request_id = req.request_id
-        response.response = req.request * 2
+            if req.request == "Hi":
+                response.response = "Hello"  
+                log.info(f"Sent response: {response.response} (Server Ready) to {req.return_address}")
+            else:
+                if hasattr(req, 'proccess_time_in_seconds') and req.proccess_time_in_seconds > 0:
+                    log.info(f"Processing request for {req.proccess_time_in_seconds} seconds")
+                    await asyncio.sleep(req.proccess_time_in_seconds)
 
-        msg = response.SerializeToString()
+                try:
+                    number = int(req.request)
+                    doubled_number = double_number(number) 
+                    response.response = str(doubled_number)
+                    log.info(f"Sent response: {response.response} to {req.return_address}")
+                except ValueError:
+                    response.response = "Invalid number provided."
+                    log.error(f"Invalid number received: {req.request}")
+            
+            msg = response.SerializeToString()
 
-        await channel.default_exchange.publish(
-            aio_pika.Message(
-                body=msg,
-                correlation_id=req.request_id
-            ),
-            routing_key=req.return_address
-        )
-
-        log.info(f"Sent response: {response} to {req.return_address}")
-        await message.ack()
-    except Exception as e:
-        log.error(f"Error processing message: {e}")
-        await message.nack(requeue=False)
+            await channel.default_exchange.publish(
+                aio_pika.Message(
+                    body=msg,
+                    correlation_id=req.request_id
+                ),
+                routing_key=req.return_address  
+            )
+        except Exception as e:
+            log.error(f"Error processing message: {e}")
+            await message.nack(requeue=False)
 
 async def main():
-    configure_logging(level=logging.INFO)
-    connection = await aio_pika.connect_robust("amqp://guest:guest@localhost/")
+    config = load_config()
+    configure_logging(level=config['log_level'], log_file=config['log_file'])
+    connection_string = f"amqp://{config['rmq_user']}:{config['rmq_password']}@{config['rmq_host']}:{config['rmq_port']}/"
+    connection = await aio_pika.connect_robust(connection_string)
     log.info("Connected to RabbitMQ")
 
     async with connection:
         channel = await connection.channel()
-        queue = await channel.declare_queue("bews")
+        
+        exchange = await channel.declare_exchange("bews", aio_pika.ExchangeType.DIRECT, durable=True)
+        
+        queue = await channel.declare_queue("bews", durable=True)
+        
+        await queue.bind(exchange, routing_key="bews")
 
-        # Запуск асинхронного потребления сообщений с обработчиком handle_request
         await queue.consume(lambda message: asyncio.create_task(handle_request(channel, message)))
         log.info(f"Server is listening on queue: {queue.name}")
 
-        # Удерживаем соединение активным
         try:
+            log.info("Server is running. Press Ctrl+C to stop.")
             while True:
-                await asyncio.sleep(3600)  # Удерживаем программу запущенной
+                await asyncio.sleep(3600) 
         except KeyboardInterrupt:
             log.info("Server shutdown initiated...")
 
