@@ -6,6 +6,7 @@ from PyQt5.QtCore import pyqtSignal, QObject, QThread
 import pika, queue
 from proto import msg_client_pb2
 from retry import retry
+from config_params import ConfigEditor
 
 class Communicate(QObject):
     """
@@ -37,14 +38,14 @@ class RMQClient(QThread):
         config = configparser.ConfigParser()
         config.read(self.config_file)
         
-        self.rmq_host = config.get('rabbitmq', 'host', fallback='localhost')
-        self.rmq_port = config.getint('rabbitmq', 'port', fallback=5672)
-        self.rmq_user = config.get('rabbitmq', 'user', fallback='guest')
-        self.rmq_password = config.get('rabbitmq', 'password', fallback='guest')
-        self.exchange = config.get('rabbitmq', 'exchange', fallback='bews')
+        self.rmq_host = config.get('rabbitmq', 'host')
+        self.rmq_port = config.getint('rabbitmq', 'port')
+        self.rmq_user = config.get('rabbitmq', 'user')
+        self.rmq_password = config.get('rabbitmq', 'password')
+        self.exchange = config.get('rabbitmq', 'exchange')
         
-        self.log_level_str = config.get('logging', 'level', fallback='INFO')
-        self.log_file = config.get('logging', 'file', fallback='client.log')
+        self.log_level_str = config.get('logging', 'level')
+        self.log_file = config.get('logging', 'file')
         self.log_level = getattr(logging, self.log_level_str.upper(), logging.INFO)
 
         logging.basicConfig(
@@ -68,8 +69,8 @@ class RMQClient(QThread):
                 config.write(configfile)
             self.logger.info(f"Generated new UUID for client: {self.client_uuid}")
 
-        self.timeout_send = config.getint('client', 'timeout_send', fallback=5)
-        self.timeout_response = config.getint('client', 'timeout_response', fallback=10)
+        self.timeout_send = config.getint('client', 'timeout_send')
+        self.timeout_response = config.getint('client', 'timeout_response')
 
 
     @retry(pika.exceptions.AMQPConnectionError, delay=5, jitter=(1, 3))
@@ -99,9 +100,9 @@ class RMQClient(QThread):
 
             self.active = True
             self.logger.info(f"Connected to RabbitMQ and listening on queue: {self.callback_queue}")
-
+            
             self.send_hi_to_serv()
-
+            
             while self._running:
                 try:
                     try:
@@ -197,7 +198,7 @@ class RMQClient(QThread):
             self.communicate.error_signal.emit(f"Error processing response: {e}")
 
     def stop_client(self):
-        self._running = False  # Сначала сигнализируем о завершении
+        self._running = False  
         try:
             if self.connection and self.connection.is_open:
                 self.connection.close()

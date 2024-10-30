@@ -91,7 +91,7 @@ class Window(QMainWindow):
         self.input_field.setEnabled(False)
         self.set_delay_button.setEnabled(False)
         self.input_field2.setEnabled(False)
-        self.cancel_button.setEnabled(False)
+        self.cancel_button.setEnabled(True)
 
     def unlock_ui(self):
         self.send_button.setEnabled(True)
@@ -215,7 +215,6 @@ class Window(QMainWindow):
             return
         self.request_in_progress = False
         self.timer.stop()
-        self.cancelled_request = True
         self.progress_bar.reset()  
         self.label.setText("Запрос отменен.")
         self.log_event("Запрос был отменен.")
