@@ -46,7 +46,6 @@ class Window(QMainWindow):
 
         self.cancel_button = QPushButton("Отмена текущего запроса")
 
-        # Лог событий
         self.log_widget = QTextEdit()
         self.log_widget.setReadOnly(True)
 

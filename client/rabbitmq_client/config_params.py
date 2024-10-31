@@ -1,15 +1,13 @@
 import sys
-from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QVBoxLayout, QLabel, QLineEdit, QPushButton, QFileDialog, QMessageBox
+from PyQt5.QtWidgets import QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox, QDialog, QApplication
 from configparser import ConfigParser
 
-class ConfigEditor(QtWidgets.QWidget):
+class ConfigEditor(QDialog):
     def __init__(self, config_file):
         super().__init__()
         self.config_file = config_file
         self.config = ConfigParser()
         self.config.read(self.config_file)
-        self.exec()
         
         self.initUI()
 
@@ -62,11 +60,24 @@ class ConfigEditor(QtWidgets.QWidget):
         self.config.set("client", "timeout_response", self.timeout_response_input.text())
 
         with open(self.config_file, "w") as configfile:
-            self.config.write(configfile)
+            self.config.write(configfile)   
 
         QMessageBox.information(self, "Success", "Settings saved successfully!")
 
+    def run(self):
+        return self.exec_() == QDialog.accepted
 
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    editor = ConfigEditor()
+    if editor.run():
+        print("Saved")
+    else:
+        print("Not Saves")
+
+    sys.exit(app.exec_())        
+
+        
 
         
 

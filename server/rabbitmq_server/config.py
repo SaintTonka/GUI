@@ -9,7 +9,7 @@ def configure_logging(level=logging.INFO, log_file='server.log'):
         format='%(asctime)s - %(levelname)s - %(name)s: %(message)s',
         datefmt="%Y-%m-%d %H:%M:%S"
     )
-    # Добавление консольного обработчика
+
     console = logging.StreamHandler()
     console.setLevel(level)
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(name)s: %(message)s', "%Y-%m-%d %H:%M:%S")
