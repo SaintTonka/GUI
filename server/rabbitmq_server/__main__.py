@@ -3,7 +3,7 @@ import aio_pika
 import asyncio
 from config import configure_logging, load_config
 from proto import msg_serv_pb2  
-from utils import double_number  
+from utils import double_number
 
 log = logging.getLogger(__name__)
 
@@ -17,9 +17,9 @@ async def handle_request(channel, message: aio_pika.IncomingMessage):
             response = msg_serv_pb2.Response()
             response.request_id = req.request_id
 
-            if req.request == "Hi":
-                response.response = "Hello"  
-                log.info(f"Sent response: {response.response} (Server Ready) to {req.return_address}")
+            if req.request == "Hi" or req.request == "PING":
+                response.response = "PONG"
+                log.info(f"Sent heartbeat response: {response.response} to {req.return_address}")
             else:
                 if hasattr(req, 'proccess_time_in_seconds') and req.proccess_time_in_seconds > 0:
                     log.info(f"Processing request for {req.proccess_time_in_seconds} seconds")
@@ -27,13 +27,13 @@ async def handle_request(channel, message: aio_pika.IncomingMessage):
 
                 try:
                     number = int(req.request)
-                    doubled_number = double_number(number) 
+                    doubled_number = double_number(number)
                     response.response = str(doubled_number)
                     log.info(f"Sent response: {response.response} to {req.return_address}")
                 except ValueError:
                     response.response = "Invalid number provided."
                     log.error(f"Invalid number received: {req.request}")
-            
+
             msg = response.SerializeToString()
 
             await channel.default_exchange.publish(
@@ -41,7 +41,7 @@ async def handle_request(channel, message: aio_pika.IncomingMessage):
                     body=msg,
                     correlation_id=req.request_id
                 ),
-                routing_key=req.return_address  
+                routing_key=req.return_address
             )
         except Exception as e:
             log.error(f"Error processing message: {e}")
@@ -56,11 +56,11 @@ async def main():
 
     async with connection:
         channel = await connection.channel()
-        
+
         exchange = await channel.declare_exchange("bews", aio_pika.ExchangeType.DIRECT, durable=True)
-        
+
         queue = await channel.declare_queue("bews", durable=True)
-        
+
         await queue.bind(exchange, routing_key="bews")
 
         await queue.consume(lambda message: asyncio.create_task(handle_request(channel, message)))
@@ -69,7 +69,7 @@ async def main():
         try:
             log.info("Server is running. Press Ctrl+C to stop.")
             while True:
-                await asyncio.sleep(3600) 
+                await asyncio.sleep(3600)
         except KeyboardInterrupt:
             log.info("Server shutdown initiated...")
 

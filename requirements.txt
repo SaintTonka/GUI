@@ -2,5 +2,4 @@ protobuf==3.20.0
 PyQt5>=5.15.4
 pika>=1.2.0
 aio_pika>=6.8.0
-retry
 pytest

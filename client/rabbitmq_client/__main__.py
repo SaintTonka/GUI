@@ -6,17 +6,21 @@ from client import RMQClient, Communicate
 from config_params import ConfigEditor
 
 def main():
-    
     communicate = Communicate()
 
     app = QApplication(sys.argv)
 
-    config_file = QFileDialog.getOpenFileName(None, "Select Configuration File", "", "Config Files (*.ini)")[0]
-    if config_file:
-        settings = ConfigEditor(config_file)
-        settings.exec_()   
+    config_file = 'client_config.ini'  # Используем стандартный файл конфигурации
+    # Если хотите дать возможность выбрать файл конфигурации:
+    # config_file = QFileDialog.getOpenFileName(None, "Выберите файл конфигурации", "", "Config Files (*.ini)")[0]
+    # if not config_file:
+    #     config_file = 'client_config.ini'  # Файл по умолчанию
 
-    client = RMQClient(communicate)
+    # Открываем редактор настроек
+    settings = ConfigEditor(config_file)
+    settings.exec_()
+
+    client = RMQClient(communicate, config_file)
     window = Window(communicate, client)
 
     client.start()
@@ -32,4 +36,4 @@ if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
-        print("\nProgram terminated by user.")
+        print("\nПрограмма остановлена пользователем.")

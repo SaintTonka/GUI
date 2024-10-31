@@ -3,19 +3,21 @@ import configparser
 import logging
 import os
 from PyQt5.QtCore import pyqtSignal, QObject, QThread
-import pika, queue
+import pika
+import queue
 from proto import msg_client_pb2
-from retry import retry
 from config_params import ConfigEditor
+import time
 
 class Communicate(QObject):
     """
-    Класс для создания сигналов, используемых для связи между компонентами.
+    Class for creating signals used for communication between components.
     """
-    received_response = pyqtSignal(str)  
-    send_request = pyqtSignal(str, float) 
+    received_response = pyqtSignal(str)
+    send_request = pyqtSignal(str, float)
     error_signal = pyqtSignal(str)
     server_ready_signal = pyqtSignal()
+    server_unavailable_signal = pyqtSignal()
 
 class RMQClient(QThread):
     def __init__(self, communicate, config_file='client_config.ini'):
@@ -34,16 +36,24 @@ class RMQClient(QThread):
 
         self.communicate.send_request.connect(self.handle_send_request)
 
+        # Heartbeat settings
+        self.heartbeat_interval = 10  # Heartbeat interval in seconds
+        self.last_heartbeat = time.time()
+        self.last_pong_received = time.time()
+        self.heartbeat_timeout = 2 * self.heartbeat_interval  # Timeout to consider server unavailable
+        self.server_available = False
+        self.server_ready = False  # Initialize server_ready
+
     def load_config(self):
         config = configparser.ConfigParser()
         config.read(self.config_file)
-        
+
         self.rmq_host = config.get('rabbitmq', 'host')
         self.rmq_port = config.getint('rabbitmq', 'port')
         self.rmq_user = config.get('rabbitmq', 'user')
         self.rmq_password = config.get('rabbitmq', 'password')
         self.exchange = config.get('rabbitmq', 'exchange')
-        
+
         self.log_level_str = config.get('logging', 'level')
         self.log_file = config.get('logging', 'file')
         self.log_level = getattr(logging, self.log_level_str.upper(), logging.INFO)
@@ -72,8 +82,6 @@ class RMQClient(QThread):
         self.timeout_send = config.getint('client', 'timeout_send')
         self.timeout_response = config.getint('client', 'timeout_response')
 
-
-    @retry(pika.exceptions.AMQPConnectionError, delay=5, jitter=(1, 3))
     def run(self):
         try:
             credentials = pika.PlainCredentials(self.rmq_user, self.rmq_password)
@@ -81,8 +89,8 @@ class RMQClient(QThread):
                 host=self.rmq_host,
                 port=self.rmq_port,
                 credentials=credentials,
-                heartbeat=600, 
-                blocked_connection_timeout=300
+                heartbeat=self.heartbeat_interval,
+                blocked_connection_timeout=5
             )
             self.connection = pika.BlockingConnection(parameters)
             self.channel = self.connection.channel()
@@ -100,30 +108,55 @@ class RMQClient(QThread):
 
             self.active = True
             self.logger.info(f"Connected to RabbitMQ and listening on queue: {self.callback_queue}")
-            
-            self.send_hi_to_serv()
-            
+
+            self.send_hi_to_serv()  # Send the first message to check server readiness
+
             while self._running:
                 try:
+                    self.connection.process_data_events(time_limit=1)
+                    current_time = time.time()
+
+                    if current_time - self.last_heartbeat >= self.heartbeat_interval:
+                        self.send_hi_to_serv()
+                        self.last_heartbeat = current_time
+
+                    # Check for server unavailability
+                    if self.server_available and (current_time - self.last_pong_received) > self.heartbeat_timeout:
+                        self.logger.warning("Server heartbeat timed out. Server is considered unavailable.")
+                        self.server_available = False
+                        self.server_ready = False
+                        self.communicate.server_unavailable_signal.emit()
+
+                    # Check connection status
+                    if self.connection.is_closed:
+                        self.logger.warning("Connection to RabbitMQ is closed.")
+                        self.communicate.error_signal.emit("Connection to RabbitMQ is closed.")
+                        self.server_available = False
+                        self.server_ready = False
+                        self.communicate.server_unavailable_signal.emit()
+                        self._running = False
+                        break
+
+                    # Handle sending requests
                     try:
                         user_input, delay = self.send_queue.get_nowait()
                         self._send_request(user_input, delay)
                     except queue.Empty:
                         pass
 
-                    if self.connection.is_open:
-                        self.connection.process_data_events(time_limit=1)
-                    else:
-                        self.logger.warning("Connection is closed.")
-                        self.communicate.error_signal.emit("Connection to RabbitMQ is closed.")
-                        self._running = False
                 except pika.exceptions.AMQPError as e:
                     self.logger.error(f"AMQP Error: {e}")
                     self.communicate.error_signal.emit(f"AMQP Error: {e}")
+                    self.server_available = False
+                    self.server_ready = False
+                    self.communicate.server_unavailable_signal.emit()
                     self._running = False
-                except ValueError as ve:
-                    self.logger.error(f"ValueError in process_data_events: {ve}")
-                    self.communicate.error_signal.emit(f"Error processing events: {ve}")
+                except Exception as e:
+                    self.logger.error(f"Unexpected error: {e}")
+                    self.communicate.error_signal.emit(f"Unexpected error: {e}")
+                    self.server_available = False
+                    self.server_ready = False
+                    self.communicate.server_unavailable_signal.emit()
                     self._running = False
         except Exception as e:
             self.logger.error(f"Failed to connect to RabbitMQ: {e}")
@@ -135,23 +168,26 @@ class RMQClient(QThread):
             request = msg_client_pb2.Request()
             request.return_address = self.callback_queue
             request.request_id = str(uuid.uuid4())
-            request.request = "Hi"  
+            request.request = "PING"  # Use "PING" for heartbeat
 
             msg = request.SerializeToString()
 
             self.channel.basic_publish(
                 exchange=self.exchange,
-                routing_key=self.exchange,  
+                routing_key=self.exchange,
                 properties=pika.BasicProperties(
                     reply_to=self.callback_queue,
                     correlation_id=request.request_id
                 ),
                 body=msg
             )
-            self.logger.info("Sent 'Hi' to server for readiness check.")
+            self.logger.info("Sent heartbeat message 'PING' to server.")
         except Exception as e:
-            self.logger.error(f"Error sending 'Hi': {e}")
-            self.communicate.error_signal.emit(f"Error sending 'Hi': {e}")
+            self.logger.error(f"Error sending heartbeat: {e}")
+            self.communicate.error_signal.emit(f"Error sending heartbeat: {e}")
+            self.server_available = False
+            self.server_ready = False
+            self.communicate.server_unavailable_signal.emit()
 
     def _send_request(self, user_input, delay):
         try:
@@ -160,7 +196,7 @@ class RMQClient(QThread):
             request.request_id = str(uuid.uuid4())
             request.request = str(user_input)
             if delay > 0:
-                request.proccess_time_in_seconds = int(delay) 
+                request.proccess_time_in_seconds = int(delay)
 
             msg = request.SerializeToString()
 
@@ -176,7 +212,7 @@ class RMQClient(QThread):
             self.logger.info(f"Sent request: {user_input} with delay: {delay} sec")
         except Exception as e:
             self.logger.error(f"Error sending request: {e}")
-            self.communicate.error_signal.emit(f"Error sending request: {e}")        
+            self.communicate.error_signal.emit(f"Error sending request: {e}")
 
     def handle_send_request(self, user_input, delay):
         self.send_queue.put((user_input, delay))
@@ -187,18 +223,22 @@ class RMQClient(QThread):
             response.ParseFromString(body)
             self.logger.info(f"Received response: {response.response} for request ID: {response.request_id}")
 
-            if response.response == "Hello" and not self.check_server:
-                self.check_server = True
-                self.communicate.server_ready_signal.emit()
-                self.logger.info("Server is ready.")
+            if response.response == "PONG":
+                self.logger.info("Received heartbeat response PONG from server.")
+                self.server_available = True
+                self.last_pong_received = time.time()
+                if not self.server_ready:
+                    self.server_ready = True
+                    self.communicate.server_ready_signal.emit()
             else:
+                # This is a regular response to the user's request
                 self.communicate.received_response.emit(response.response)
         except Exception as e:
             self.logger.error(f"Error processing response: {e}")
             self.communicate.error_signal.emit(f"Error processing response: {e}")
 
     def stop_client(self):
-        self._running = False  
+        self._running = False
         try:
             if self.connection and self.connection.is_open:
                 self.connection.close()
