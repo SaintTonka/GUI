@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import QTimer, pyqtSignal, QObject
 from datetime import datetime
 from math import inf
-from config_params import ConfigEditor  
+from config_params import ConfigEditor  # Импортируем редактор конфигурации
 import sys
 
 MAX_NUMBER = inf  # Максимальное число, если необходимо
