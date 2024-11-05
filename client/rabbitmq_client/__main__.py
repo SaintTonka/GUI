@@ -1,21 +1,18 @@
 import sys
 from PyQt5 import QtGui
-from PyQt5.QtWidgets import QApplication, QFileDialog
+from PyQt5.QtWidgets import QApplication
 from window import Window
 from client import RMQClient, Communicate
-from config_params import ConfigEditor
 
 def main():
     communicate = Communicate()
 
     app = QApplication(sys.argv)
 
-    config_file = 'client_config.ini' 
-    settings = ConfigEditor(config_file)
-    settings.exec_()
+    config_file = 'client_config.ini'
 
     client = RMQClient(communicate, config_file)
-    window = Window(communicate, client)
+    window = Window(communicate, client, config_file)  
 
     client.start()
     window.show()
