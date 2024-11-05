@@ -17,7 +17,7 @@ async def handle_request(channel, message: aio_pika.IncomingMessage):
             response = msg_serv_pb2.Response()
             response.request_id = req.request_id
 
-            if req.request == "Hi" or req.request == "PING":
+            if req.request == "PING":
                 response.response = "PONG"
                 log.info(f"Sent heartbeat response: {response.response} to {req.return_address}")
             else:

@@ -74,7 +74,6 @@ class Window(QMainWindow):
         self.progress_bar.setMaximum(100)
         layout.addWidget(self.progress_bar)
 
-        # Метка для сообщений пользователю
         self.status_label = QLabel("")
         layout.addWidget(self.status_label)
 
@@ -117,7 +116,7 @@ class Window(QMainWindow):
         self.server_ready = False
         self.notify_user("Сервер недоступен.", success=False)
         self.lock_ui()
-        self.progress_bar.setValue(0)  # Сбросить progress_bar
+        self.progress_bar.setValue(0)  
 
     def handle_error_signal(self, error_message):
         """Обработка ошибок."""
@@ -153,7 +152,7 @@ class Window(QMainWindow):
             elapsed_time = self.total_wait_time - self.remaining_time
             progress_percentage = int((elapsed_time / self.total_wait_time) * 100)
             if progress_percentage > 100:
-                progress_percentage = 100  # Ограничиваем максимум до 100%
+                progress_percentage = 100  
         else:
             progress_percentage = 100
 
@@ -202,10 +201,9 @@ class Window(QMainWindow):
         self.input_field.clear()
         self.log_event(f"Запрос отправлен: {number} с задержкой {self.process_time_in_seconds} сек.")
 
-        # Запускаем таймер ожидания ответа от сервера
         total_wait_time = self.process_time_in_seconds + self.client.timeout_response
         if total_wait_time <= 0:
-            total_wait_time = 1  # Минимальное время ожидания
+            total_wait_time = 1  
         self.start_timer(total_wait_time)
 
     def display_response(self, response):
@@ -216,7 +214,7 @@ class Window(QMainWindow):
         self.label.setText(f"Ответ от сервера: {response}")
         self.log_event(f"Ответ от сервера: {response}")
         self.request_in_progress = False
-        self.progress_bar.setValue(100)  # Устанавливаем прогрессбар на 100%
+        self.progress_bar.setValue(100) 
         self.unlock_ui()
         self.timer.stop()
 
