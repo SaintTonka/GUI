@@ -10,13 +10,7 @@ def main():
 
     app = QApplication(sys.argv)
 
-    config_file = 'client_config.ini'  # Используем стандартный файл конфигурации
-    # Если хотите дать возможность выбрать файл конфигурации:
-    # config_file = QFileDialog.getOpenFileName(None, "Выберите файл конфигурации", "", "Config Files (*.ini)")[0]
-    # if not config_file:
-    #     config_file = 'client_config.ini'  # Файл по умолчанию
-
-    # Открываем редактор настроек
+    config_file = 'client_config.ini' 
     settings = ConfigEditor(config_file)
     settings.exec_()
 
