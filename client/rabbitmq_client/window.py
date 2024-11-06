@@ -2,10 +2,10 @@ from PyQt5.QtWidgets import (
     QMainWindow, QVBoxLayout, QWidget, QLabel, QLineEdit,
     QPushButton, QTextEdit, QProgressBar
 )
-from PyQt5.QtCore import QTimer, pyqtSignal, QObject
+from PyQt5.QtCore import QTimer
 from datetime import datetime
 from math import inf
-from config_params import ConfigEditor  # Импортируем редактор конфигурации
+from config_params import ConfigEditor 
 import sys
 
 MAX_NUMBER = inf  # Максимальное число, если необходимо
@@ -80,7 +80,6 @@ class Window(QMainWindow):
         self.progress_bar.setMaximum(100)
         layout.addWidget(self.progress_bar)
 
-        # Метка для сообщений пользователю
         self.status_label = QLabel("")
         layout.addWidget(self.status_label)
 

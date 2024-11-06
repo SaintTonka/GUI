@@ -1,12 +1,10 @@
 import uuid
 import configparser
 import logging
-import os
 from PyQt5.QtCore import pyqtSignal, QObject, QThread
 import pika
 import queue
 from proto import msg_client_pb2
-from config_params import ConfigEditor
 import time
 
 class Communicate(QObject):
