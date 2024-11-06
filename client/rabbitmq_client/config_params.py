@@ -51,13 +51,19 @@ class ConfigEditor(QDialog):
         self.config.set("rabbitmq", "user", self.user_input.text())
         self.config.set("rabbitmq", "password", self.password_input.text())
         self.config.set("rabbitmq", "exchange", self.exchange_input.text())
-
         self.config.set("logging", "level", self.log_level_input.text())
         self.config.set("logging", "file", self.log_file_input.text())
 
         self.config.set("client", "uuid", self.uuid_input.text())
-        self.config.set("client", "timeout_send", self.timeout_send_input.text())
-        self.config.set("client", "timeout_response", self.timeout_response_input.text())
+        num1 = self.timeout_send_input.text()
+        num2 = self.timeout_response_input.text()
+        self.config.set("client", "timeout_send", num1)
+        self.config.set("client", "timeout_send", num2)
+
+
+        if  (not num1.isdigit() or not num2.isdigit()) or (int(num1) < 0 or int(num2) < 0):
+            QMessageBox.information(self, "ERROR", "Use correct digits for timers!")
+            return
 
         with open(self.config_file, "w") as configfile:
             self.config.write(configfile)   
