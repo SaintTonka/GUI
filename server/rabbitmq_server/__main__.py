@@ -21,9 +21,10 @@ async def handle_request(channel, message: aio_pika.IncomingMessage):
                 response.response = "PONG"
                 log.info(f"Sent heartbeat response: {response.response} to {req.return_address}")
             else:
-                if hasattr(req, 'proccess_time_in_seconds') and req.proccess_time_in_seconds > 0:
-                    log.info(f"Processing request for {req.proccess_time_in_seconds} seconds")
-                    await asyncio.sleep(req.proccess_time_in_seconds)
+                
+                if hasattr(req, 'process_time_in_seconds') and req.process_time_in_seconds > 0:
+                    log.info(f"Processing request with delay of {req.process_time_in_seconds} seconds")
+                    await asyncio.sleep(req.process_time_in_seconds)
 
                 try:
                     number = int(req.request)
@@ -46,6 +47,7 @@ async def handle_request(channel, message: aio_pika.IncomingMessage):
         except Exception as e:
             log.error(f"Error processing message: {e}")
             await message.nack(requeue=False)
+
 
 async def main():
     config = load_config()

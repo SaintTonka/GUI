@@ -2,10 +2,10 @@ from PyQt5.QtWidgets import (
     QMainWindow, QVBoxLayout, QWidget, QLabel, QLineEdit,
     QPushButton, QTextEdit, QProgressBar
 )
-from PyQt5.QtCore import QTimer, pyqtSignal, QObject
+from PyQt5.QtCore import QTimer
 from datetime import datetime
 from math import inf
-from config_params import ConfigEditor  # Импортируем редактор конфигурации
+from config_params import ConfigEditor 
 import sys
 
 MAX_NUMBER = inf  # Максимальное число, если необходимо
@@ -80,7 +80,6 @@ class Window(QMainWindow):
         self.progress_bar.setMaximum(100)
         layout.addWidget(self.progress_bar)
 
-        # Метка для сообщений пользователю
         self.status_label = QLabel("")
         layout.addWidget(self.status_label)
 
@@ -160,6 +159,7 @@ class Window(QMainWindow):
         self.timer.start(1000)
 
     def updateTimer(self):
+        """Обновляет таймер каждую секунду и управляет состоянием прогресс-бара."""
         self.remaining_time -= 1
 
         if self.total_wait_time > 0:
@@ -179,7 +179,7 @@ class Window(QMainWindow):
             self.log_event("Время ожидания ответа от сервера истекло.")
             self.request_in_progress = False
             self.unlock_ui()
-
+    
     def sending_request(self):
         """Отправляет запрос немедленно."""
         if not self.server_ready:
@@ -215,9 +215,7 @@ class Window(QMainWindow):
         self.input_field.clear()
         self.log_event(f"Запрос отправлен: {number} с задержкой {self.process_time_in_seconds} сек.")
 
-        total_wait_time = self.process_time_in_seconds + self.client.timeout_response
-        if total_wait_time <= 0:
-            total_wait_time = 1  
+        total_wait_time = max(self.process_time_in_seconds, self.client.timeout_response)
         self.start_timer(total_wait_time)
 
     def display_response(self, response):

@@ -1,12 +1,10 @@
 import uuid
 import configparser
 import logging
-import os
 from PyQt5.QtCore import pyqtSignal, QObject, QThread
 import pika
 import queue
 from proto import msg_client_pb2
-from config_params import ConfigEditor
 import time
 
 class Communicate(QObject):
@@ -192,7 +190,7 @@ class RMQClient(QThread):
             request.request_id = str(uuid.uuid4())
             request.request = str(user_input)
             if delay > 0:
-                request.proccess_time_in_seconds = int(delay)
+                request.process_time_in_seconds = int(delay)
 
             msg = request.SerializeToString()
 
