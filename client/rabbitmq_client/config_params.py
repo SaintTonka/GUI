@@ -58,12 +58,7 @@ class ConfigEditor(QDialog):
         num1 = self.timeout_send_input.text()
         num2 = self.timeout_response_input.text()
         self.config.set("client", "timeout_send", num1)
-<<<<<<< HEAD
         self.config.set("client", "timeout_response", num2)
-=======
-        self.config.set("client", "timeout_send", num2)
->>>>>>> 9ad912f771a09886e91724cb82b6ee6dc3e3bd69
-
 
         if  (not num1.isdigit() or not num2.isdigit()) or (int(num1) < 0 or int(num2) < 0):
             QMessageBox.information(self, "ERROR", "Use correct digits for timers!")

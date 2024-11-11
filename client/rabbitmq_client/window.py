@@ -104,6 +104,7 @@ class Window(QMainWindow):
         self.input_field.setEnabled(False)
         self.set_delay_button.setEnabled(False)
         self.input_field2.setEnabled(False)
+        self.config_button.setEnabled(False)
         self.cancel_button.setEnabled(True)
 
     def unlock_ui(self):
@@ -112,6 +113,7 @@ class Window(QMainWindow):
         self.set_delay_button.setEnabled(True)
         self.input_field2.setEnabled(True)
         self.cancel_button.setEnabled(True)
+        self.config_button.setEnabled(True)
 
     def log_event(self, event_message):
         """Запись события в лог."""
