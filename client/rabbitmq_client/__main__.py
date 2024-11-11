@@ -1,5 +1,4 @@
 import sys
-from PyQt5 import QtGui
 from PyQt5.QtWidgets import QApplication
 from window import Window
 from client import RMQClient, Communicate
