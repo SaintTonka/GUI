@@ -1,12 +1,15 @@
-import sys
+import sys, pathlib
 import uuid
 from PyQt5.QtWidgets import QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox, QDialog, QApplication, QComboBox
 from configparser import ConfigParser
+from PyQt5.QtCore import pyqtSignal 
 
 class ConfigEditor(QDialog):
+    config_saved = pyqtSignal()
+
     def __init__(self, config_file="client_config.ini"):
         super().__init__()
-        self.config_file = config_file
+        self.config_file = pathlib.Path(__file__).parent.parent / "client_config.ini"
         self.config = ConfigParser()
 
         if not self.config.read(self.config_file):
@@ -24,14 +27,12 @@ class ConfigEditor(QDialog):
 
         self.config.add_section("logging")
         self.config.set("logging", "level", "INFO")
-        self.config.set("logging", "file", "client.log")
+        self.config.set("logging", "file", "Log_File.log")
 
         self.config.add_section("client")
-        # Генерация UUID только при первом запуске
         self.config.set("client", "uuid", str(uuid.uuid4()))
         self.config.set("client", "timeout_send", "10")
         self.config.set("client", "timeout_response", "10")
-
 
     def initUI(self):
         layout = QVBoxLayout()
@@ -96,15 +97,19 @@ class ConfigEditor(QDialog):
 
             with open(self.config_file, "w") as configfile:
                 self.config.write(configfile)
-            QMessageBox.information(self, "Success", "Settings saved successfully!")
+
+            QMessageBox.information(self, "Success", "Настройки добавяться с автоматическим перезапуском!")
+
+            self.config_saved.emit()
+
         except ValueError as e:
             QMessageBox.information(self, "ERROR", f"Invalid input: {str(e)}")
         except Exception as e:
             QMessageBox.information(self, "ERROR", f"Failed to save settings: {str(e)}")
 
-
     def run(self):
         return self.exec_() == QDialog.accepted
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
@@ -113,5 +118,3 @@ if __name__ == "__main__":
         print("Settings saved")
     else:
         print("Settings not saved")
-
-    sys.exit(app.exec_())

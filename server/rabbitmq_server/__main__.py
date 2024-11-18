@@ -1,6 +1,13 @@
 import logging
 import aio_pika
 import asyncio
+import pathlib
+import configparser
+import pathlib,sys
+import logging
+server_directory = pathlib.Path(__file__).resolve().parent
+
+sys.path.append(str(server_directory))
 from config import configure_logging, load_config
 from proto import msg_serv_pb2
 from utils import double_number

@@ -3,7 +3,7 @@ import pathlib
 import logging
 
 def load_config():
-    config_path = pathlib.Path(__file__).parent.parent.parent / 'client' / 'rabbitmq_client' / 'client_config.ini'
+    config_path = pathlib.Path(__file__).parent.parent.parent / 'client' / 'client_config.ini'
 
     if not config_path.exists():
         raise FileNotFoundError(f"Config file {config_path} not found!")

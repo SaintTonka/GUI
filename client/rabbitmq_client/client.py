@@ -1,13 +1,17 @@
+import os
+import sys
 import uuid
-from config_params import ConfigParser
 import configparser
 import logging
 from PyQt5.QtCore import pyqtSignal, QObject, QThread
 import pika
 import queue
-from proto import msg_client_pb2
+from .proto import msg_client_pb2
 import time
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
 from pathlib import Path
+import threading
 
 class Communicate(QObject):
     received_response = pyqtSignal(str)
@@ -16,12 +20,35 @@ class Communicate(QObject):
     server_ready_signal = pyqtSignal()
     server_unavailable_signal = pyqtSignal()
 
+class ConfigFileWatcher(FileSystemEventHandler):
+    def __init__(self, config_file, client):
+        self.config_file = config_file
+        self.client = client
+
+    def on_modified(self, event):
+        if event.src_path == self.config_file:
+            print(f"Файл {self.config_file} был изменен. Перезагрузка приложения...")
+            self.client.restart_application()  
+
+def start_watchdog(config_file, client):
+    event_handler = ConfigFileWatcher(config_file, client)
+    observer = Observer()
+    observer.schedule(event_handler, path=config_file, recursive=False)
+    observer.start()
+
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        observer.stop()
+    observer.join()
+
 class RMQClient(QThread):
     def __init__(self, communicate, config_file='client_config.ini'):
         super().__init__()
         self.communicate = communicate
         self.config_file = config_file
-        self.load_config()
+        self.load_config()  # Загружаем конфигурацию
         self.connection = None
         self.channel = None
         self.callback_queue = None
@@ -49,9 +76,24 @@ class RMQClient(QThread):
             datefmt="%Y-%m-%d %H:%M:%S"
         )
 
+        # Запускаем поток для наблюдения за конфигурацией
+        watchdog_thread = threading.Thread(target=start_watchdog, args=(self.config_file, self))
+        watchdog_thread.daemon = True
+        watchdog_thread.start()
+
     def load_config(self):
         config = configparser.ConfigParser()
-        config.read(self.config_file)
+
+        config_file_path = Path(__file__).parent.parent / self.config_file
+
+        if not config_file_path.exists():
+            self.logger.error(f"Config file not found: {config_file_path}")
+            return
+
+        config.read(config_file_path)
+
+        if not config.has_section('client'):
+            config.add_section('client')
 
         self.rmq_host = config.get('rabbitmq', 'host', fallback='localhost')
         self.rmq_port = config.getint('rabbitmq', 'port', fallback=5672)
@@ -64,14 +106,14 @@ class RMQClient(QThread):
         self.log_level = getattr(logging, self.log_level_str.upper(), logging.INFO)
 
         self.client_uuid = config.get('client', 'uuid', fallback=str(uuid.uuid4()))
-        config.set('client', 'uuid', self.client_uuid)  # обновляем UUID, если он был изменён
-        self.timeout_send = config.getint('client', 'timeout_send', fallback=5)
-        self.timeout_response = config.getint('client', 'timeout_response', fallback=5)
+        config.set('client', 'uuid', self.client_uuid)
+        self.timeout_send = config.getint('client', 'timeout_send', fallback=10)
+        self.timeout_response = config.getint('client', 'timeout_response', fallback=10)
 
-        with open(self.config_file, 'w') as configfile:
+        with open(config_file_path, 'w') as configfile:
             config.write(configfile)
 
-        self.client_uuid = self.client_uuid 
+        self.client_uuid = self.client_uuid
 
     def run(self):
         try:
@@ -88,7 +130,7 @@ class RMQClient(QThread):
 
             self.channel.exchange_declare(exchange=self.exchange, exchange_type='direct', durable=True)
 
-            result = self.channel.queue_declare(queue='', exclusive=True)
+            result = self.channel.queue_declare(queue=self.client_uuid, exclusive=True)
             self.callback_queue = result.method.queue
 
             self.channel.basic_consume(
@@ -150,6 +192,14 @@ class RMQClient(QThread):
             self.logger.error(f"Failed to connect to RabbitMQ: {e}")
             self.communicate.error_signal.emit(f"Failed to connect to RabbitMQ: {e}")
             self.active = False
+
+    def restart_application(self):
+        """ Перезапус"""
+        self._running = False
+        self.quit()
+        self.wait()
+        python = sys.executable
+        os.execv(python, [python] + sys.argv) 
 
     def send_hi_to_serv(self):
         try:

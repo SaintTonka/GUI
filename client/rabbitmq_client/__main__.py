@@ -1,8 +1,13 @@
 import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import QThread
-from window import Window
-from client import RMQClient, Communicate
+from rabbitmq_client.window import Window
+
+from rabbitmq_client.client import RMQClient, Communicate
+
 
 def main():
     communicate = Communicate()

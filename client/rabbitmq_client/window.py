@@ -4,13 +4,13 @@ from PyQt5.QtWidgets import (
     QMainWindow, QVBoxLayout, QWidget, QLabel, QLineEdit,
     QPushButton, QTextEdit, QProgressBar
 )
-from PyQt5.QtCore import QTimer
+from PyQt5.QtCore import QTimer, Qt
 from datetime import datetime
-from math import inf
-from config_params import ConfigEditor 
-import uuid  
+import uuid
+import sys, os
+from .config_params import ConfigEditor
 
-MAX_NUMBER = inf  # Максимальное число, если необходимо
+MAX_NUMBER = float('inf')  
 
 class Window(QMainWindow):
     def __init__(self, communicate, client, config_file):
@@ -86,6 +86,7 @@ class Window(QMainWindow):
         self.cancel_button.clicked.connect(self.cancel_request)
         self.config_button.clicked.connect(self.open_config_editor)
         self.uuid_button.clicked.connect(self.generate_uuid)  
+
         self.timer = QTimer()
         self.timer.timeout.connect(self.updateTimer)
 
@@ -103,15 +104,23 @@ class Window(QMainWindow):
         self.notify_user("Ожидание готовности сервера...", success=False)
 
     def open_config_editor(self):
-        """
-        Метод для открытия редактора конфигурации.
-        """
+        """Метод для открытия редактора конфигурации."""
         if self.config_editor is None:
             self.config_editor = ConfigEditor(self.config_file)  
-        if self.config_editor.isVisible():
-            self.config_editor.setUIEnabled(False)  
-        else:
-            self.config_editor.show()
+            self.config_editor.config_saved.connect(self.on_config_saved)
+
+        self.config_editor.setWindowModality(Qt.ApplicationModal)
+        self.config_editor.show()
+
+    def restart_application(self):
+        """Перезапуск приложения."""
+        self.close()
+        python = sys.executable
+        os.execl(python, python, *sys.argv)
+
+    def on_config_saved(self):
+        """Когда конфигурация сохранена, перезапускаем приложение"""
+        self.client.restart_application()  
 
     def closeEvent(self, event):
         """Обработка закрытия окна: остановка клиента и закрытие соединений."""
@@ -243,14 +252,15 @@ class Window(QMainWindow):
     def display_response(self, response):
         if self.cancelled_request:
             self.log_event(f"Ответ был проигнорирован, так как запрос был отменен: {response}")
-            self.cancelled_request = False
+            self.cancelled_request = False 
             return
-        self.label.setText(f"Ответ от сервера: {response}")
-        self.log_event(f"Ответ от сервера: {response}")
-        self.request_in_progress = False
+        self.label.setText(f"Ответ от сервера: {response}")  
+        self.log_event(f"Ответ от сервера: {response}")  
+        self.request_in_progress = False  
         self.progress_bar.setValue(100)  
-        self.unlock_ui()
-        self.timer.stop()
+        self.unlock_ui()  
+        self.timer.stop()  
+
     
     def generate_uuid(self):
         """Генерация UUID для клиента"""
@@ -261,12 +271,13 @@ class Window(QMainWindow):
         if not self.request_in_progress:
             return
         self.request_in_progress = False
-        self.cancelled_request = True
-        self.timer.stop()
-        self.progress_bar.setValue(0)
-        self.label.setText("Запрос отменен.")
-        self.log_event("Запрос был отменен.")
-        self.unlock_ui()
+        self.cancelled_request = True 
+        self.timer.stop()  
+        self.progress_bar.setValue(0)  
+        self.label.setText("Запрос отменен.") 
+        self.log_event("Запрос был отменен.") 
+        self.unlock_ui()  
+
 
     def notify_user(self, message, success=True):
         """Уведомить пользователя о текущем статусе."""
