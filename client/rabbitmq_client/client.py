@@ -1,4 +1,5 @@
 import uuid
+from config_params import ConfigParser
 import configparser
 import logging
 from PyQt5.QtCore import pyqtSignal, QObject, QThread
@@ -6,11 +7,9 @@ import pika
 import queue
 from proto import msg_client_pb2
 import time
+from pathlib import Path
 
 class Communicate(QObject):
-    """
-    Class for creating signals used for communication between components.
-    """
     received_response = pyqtSignal(str)
     send_request = pyqtSignal(str, float)
     error_signal = pyqtSignal(str)
@@ -34,27 +33,14 @@ class RMQClient(QThread):
 
         self.communicate.send_request.connect(self.handle_send_request)
 
-        self.heartbeat_interval = 10 
+        self.heartbeat_interval = 10
         self.last_heartbeat = time.time()
         self.last_pong_received = time.time()
-        self.heartbeat_timeout = 2 * self.heartbeat_interval  
+        self.heartbeat_timeout = 2 * self.heartbeat_interval
         self.server_available = False
-        self.server_ready = False  
+        self.server_ready = False
 
-    def load_config(self):
-        config = configparser.ConfigParser()
-        config.read(self.config_file)
-
-        self.rmq_host = config.get('rabbitmq', 'host')
-        self.rmq_port = config.getint('rabbitmq', 'port')
-        self.rmq_user = config.get('rabbitmq', 'user')
-        self.rmq_password = config.get('rabbitmq', 'password')
-        self.exchange = config.get('rabbitmq', 'exchange')
-
-        self.log_level_str = config.get('logging', 'level')
-        self.log_file = config.get('logging', 'file')
-        self.log_level = getattr(logging, self.log_level_str.upper(), logging.INFO)
-
+        self.logger = logging.getLogger(__name__)
         logging.basicConfig(
             level=self.log_level,
             filename=self.log_file,
@@ -62,22 +48,30 @@ class RMQClient(QThread):
             format='%(asctime)s - %(levelname)s - %(name)s: %(message)s',
             datefmt="%Y-%m-%d %H:%M:%S"
         )
-        self.logger = logging.getLogger(__name__)
 
-        if not config.has_section('client'):
-            config.add_section('client')
+    def load_config(self):
+        config = configparser.ConfigParser()
+        config.read(self.config_file)
 
-        if config.has_option('client', 'uuid') and config.get('client', 'uuid'):
-            self.client_uuid = config.get('client', 'uuid')
-        else:
-            self.client_uuid = str(uuid.uuid4())
-            config.set('client', 'uuid', self.client_uuid)
-            with open(self.config_file, 'w') as configfile:
-                config.write(configfile)
-            self.logger.info(f"Generated new UUID for client: {self.client_uuid}")
+        self.rmq_host = config.get('rabbitmq', 'host', fallback='localhost')
+        self.rmq_port = config.getint('rabbitmq', 'port', fallback=5672)
+        self.rmq_user = config.get('rabbitmq', 'user', fallback='guest')
+        self.rmq_password = config.get('rabbitmq', 'password', fallback='guest')
+        self.exchange = config.get('rabbitmq', 'exchange', fallback='bews')
 
-        self.timeout_send = config.getint('client', 'timeout_send')
-        self.timeout_response = config.getint('client', 'timeout_response')
+        self.log_level_str = config.get('logging', 'level', fallback='INFO')
+        self.log_file = config.get('logging', 'file', fallback='client.log')
+        self.log_level = getattr(logging, self.log_level_str.upper(), logging.INFO)
+
+        self.client_uuid = config.get('client', 'uuid', fallback=str(uuid.uuid4()))
+        config.set('client', 'uuid', self.client_uuid)  # обновляем UUID, если он был изменён
+        self.timeout_send = config.getint('client', 'timeout_send', fallback=5)
+        self.timeout_response = config.getint('client', 'timeout_response', fallback=5)
+
+        with open(self.config_file, 'w') as configfile:
+            config.write(configfile)
+
+        self.client_uuid = self.client_uuid 
 
     def run(self):
         try:
@@ -106,7 +100,7 @@ class RMQClient(QThread):
             self.active = True
             self.logger.info(f"Connected to RabbitMQ and listening on queue: {self.callback_queue}")
 
-            self.send_hi_to_serv()  
+            self.send_hi_to_serv()
 
             while self._running:
                 try:
@@ -160,18 +154,17 @@ class RMQClient(QThread):
     def send_hi_to_serv(self):
         try:
             request = msg_client_pb2.Request()
-            request.return_address = self.callback_queue
-            request.request_id = str(uuid.uuid4())
-            request.request = "PING" 
-
+            request.return_address = self.client_uuid
+            request.request_id = str(uuid.uuid4())  
+            request.request = "PING"
             msg = request.SerializeToString()
 
             self.channel.basic_publish(
                 exchange=self.exchange,
                 routing_key=self.exchange,
                 properties=pika.BasicProperties(
-                    reply_to=self.callback_queue,
-                    correlation_id=request.request_id
+                    reply_to=self.client_uuid,
+                    correlation_id=request.request_id 
                 ),
                 body=msg
             )
@@ -186,8 +179,8 @@ class RMQClient(QThread):
     def _send_request(self, user_input, delay):
         try:
             request = msg_client_pb2.Request()
-            request.return_address = self.callback_queue
-            request.request_id = str(uuid.uuid4())
+            request.return_address = self.client_uuid
+            request.request_id = str(uuid.uuid4())  
             request.request = str(user_input)
             if delay > 0:
                 request.process_time_in_seconds = int(delay)
@@ -198,8 +191,8 @@ class RMQClient(QThread):
                 exchange=self.exchange,
                 routing_key=self.exchange,
                 properties=pika.BasicProperties(
-                    reply_to=self.callback_queue,
-                    correlation_id=request.request_id
+                    reply_to=self.client_uuid,
+                    correlation_id=request.request_id 
                 ),
                 body=msg
             )
@@ -212,23 +205,46 @@ class RMQClient(QThread):
         self.send_queue.put((user_input, delay))
 
     def on_response(self, ch, method, props, body):
+        self.logger.info(f"Received message on queue: {self.callback_queue}")
         try:
             response = msg_client_pb2.Response()
             response.ParseFromString(body)
-            self.logger.info(f"Received response: {response.response} for request ID: {response.request_id}")
+            self.logger.info(f"Received response: {response.response} for request ID: {response.request_id}, correlation_id={props.correlation_id}")
 
-            if response.response == "PONG":
-                self.logger.info("Received heartbeat response PONG from server.")
-                self.server_available = True
-                self.last_pong_received = time.time()
-                if not self.server_ready:
-                    self.server_ready = True
-                    self.communicate.server_ready_signal.emit()
+            # Сравнение correlation_id
+            if props.correlation_id == response.request_id:
+                if response.response == "PONG":
+                    self.logger.info("Received heartbeat response PONG from server.")
+                    self.server_available = True
+                    self.last_pong_received = time.time()
+                    if not self.server_ready:
+                        self.server_ready = True
+                        self.communicate.server_ready_signal.emit()
+                else:
+                    self.communicate.received_response.emit(response.response)
             else:
-                self.communicate.received_response.emit(response.response)
+                self.logger.error(f"Unexpected correlation_id: {props.correlation_id}")
+                self.communicate.error_signal.emit(f"Unexpected correlation_id: {props.correlation_id}")
         except Exception as e:
             self.logger.error(f"Error processing response: {e}")
             self.communicate.error_signal.emit(f"Error processing response: {e}")
+
+
+
+    def reconnect_to_rabbitmq(self):
+        if self.connection and self.connection.is_open:
+            self.connection.close()
+
+        credentials = pika.PlainCredentials(self.rmq_user, self.rmq_password)
+        parameters = pika.ConnectionParameters(
+            host=self.rmq_host,
+            port=self.rmq_port,
+            credentials=credentials,
+            heartbeat=self.heartbeat_interval,
+            blocked_connection_timeout=5
+        )
+        self.connection = pika.BlockingConnection(parameters)
+        self.channel = self.connection.channel()
 
     def stop_client(self):
         self._running = False

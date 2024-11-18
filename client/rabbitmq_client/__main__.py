@@ -1,5 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication
+from PyQt5.QtCore import QThread
 from window import Window
 from client import RMQClient, Communicate
 
@@ -10,6 +11,7 @@ def main():
 
     config_file = 'client_config.ini'
 
+    thread = QThread()
     client = RMQClient(communicate, config_file)
     window = Window(communicate, client, config_file)  
 

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from PyQt5.QtWidgets import (
     QMainWindow, QVBoxLayout, QWidget, QLabel, QLineEdit,
     QPushButton, QTextEdit, QProgressBar
@@ -6,7 +8,7 @@ from PyQt5.QtCore import QTimer
 from datetime import datetime
 from math import inf
 from config_params import ConfigEditor 
-import sys
+import uuid  
 
 MAX_NUMBER = inf  # Максимальное число, если необходимо
 
@@ -34,6 +36,7 @@ class Window(QMainWindow):
         self.remaining_time = 0
         self.total_wait_time = 0
         self.cancelled_request = False
+        self.config_editor = None
 
     def initUI(self):
         central_widget = QWidget(self)
@@ -52,8 +55,19 @@ class Window(QMainWindow):
         self.cancel_button = QPushButton("Отмена текущего запроса")
         self.config_button = QPushButton("Настройки клиента")
 
+        self.label3 = QLabel("UUID клиента")
+        self.uuid_input = QLineEdit(self)  
+        self.uuid_input.setReadOnly(True)  
+        self.uuid_button = QPushButton("Сгенерировать UUID", self)
+        self.uuid_button.setStyleSheet("background-color: #4CAF50; color: white;")
+        layout.addWidget(self.uuid_input)
+
         self.log_widget = QTextEdit()
         self.log_widget.setReadOnly(True)
+
+        layout.addWidget(self.label3)
+        layout.addWidget(self.uuid_input)
+        layout.addWidget(self.uuid_button)
 
         layout.addWidget(self.label)
         layout.addWidget(self.input_field)
@@ -70,8 +84,8 @@ class Window(QMainWindow):
         self.send_button.clicked.connect(self.sending_request)
         self.set_delay_button.clicked.connect(self.set_delay)
         self.cancel_button.clicked.connect(self.cancel_request)
-        self.config_button.clicked.connect(self.open_config_editor)  
-
+        self.config_button.clicked.connect(self.open_config_editor)
+        self.uuid_button.clicked.connect(self.generate_uuid)  
         self.timer = QTimer()
         self.timer.timeout.connect(self.updateTimer)
 
@@ -83,6 +97,8 @@ class Window(QMainWindow):
         self.status_label = QLabel("")
         layout.addWidget(self.status_label)
 
+        layout.setSpacing(20)
+
         self.lock_ui()
         self.notify_user("Ожидание готовности сервера...", success=False)
 
@@ -90,8 +106,12 @@ class Window(QMainWindow):
         """
         Метод для открытия редактора конфигурации.
         """
-        editor = ConfigEditor(self.config_file)
-        editor.exec_()  
+        if self.config_editor is None:
+            self.config_editor = ConfigEditor(self.config_file)  
+        if self.config_editor.isVisible():
+            self.config_editor.setUIEnabled(False)  
+        else:
+            self.config_editor.show()
 
     def closeEvent(self, event):
         """Обработка закрытия окна: остановка клиента и закрытие соединений."""
@@ -231,7 +251,11 @@ class Window(QMainWindow):
         self.progress_bar.setValue(100)  
         self.unlock_ui()
         self.timer.stop()
-
+    
+    def generate_uuid(self):
+        """Генерация UUID для клиента"""
+        self.uuid_input.setText(str(uuid.uuid4()))
+        
     def cancel_request(self):
         """Отмена текущего запроса."""
         if not self.request_in_progress:
