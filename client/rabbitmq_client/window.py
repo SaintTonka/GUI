@@ -1,42 +1,42 @@
+# window.py
 # -*- coding: utf-8 -*-
-
+import uuid, os, sys
 from PyQt5.QtWidgets import (
-    QMainWindow, QVBoxLayout, QWidget, QLabel, QLineEdit,
-    QPushButton, QTextEdit, QProgressBar
+    QMainWindow, QVBoxLayout, QWidget, QLabel,
+    QLineEdit, QPushButton, QTextEdit, QProgressBar
 )
 from PyQt5.QtCore import QTimer, Qt
 from datetime import datetime
-import uuid
-import sys, os
 from .config_params import ConfigEditor
 
-MAX_NUMBER = float('inf')  
+MAX_NUMBER = 2147483647
 
 class Window(QMainWindow):
-    def __init__(self, communicate, client, config_file):
+    def __init__(self, client, config_file):
         super().__init__()
 
-        self.communicate = communicate
         self.client = client
-        self.config_file = config_file  
+        self.config_file = config_file
 
         self.setWindowTitle("Client")
         self.setGeometry(100, 100, 400, 300)
 
         self.initUI()
 
-        self.communicate.received_response.connect(self.display_response)
-        self.communicate.server_ready_signal.connect(self.on_server_ready)
-        self.communicate.error_signal.connect(self.handle_error_signal)
-        self.communicate.server_unavailable_signal.connect(self.on_server_unavailable)
+        # Подключаем сигналы к слотам
+        self.client.received_response.connect(self.display_response)
+        self.client.error_signal.connect(self.handle_error_signal)
+        self.client.server_ready_signal.connect(self.on_server_ready)
+        self.client.server_unavailable_signal.connect(self.on_server_unavailable)
 
         self.request_in_progress = False
-        self.server_ready = False
         self.process_time_in_seconds = 0
         self.remaining_time = 0
         self.total_wait_time = 0
-        self.cancelled_request = False
         self.config_editor = None
+
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.update_timer)
 
     def initUI(self):
         central_widget = QWidget(self)
@@ -44,6 +44,7 @@ class Window(QMainWindow):
 
         layout = QVBoxLayout(central_widget)
 
+        # Элементы управления
         self.label = QLabel("Введите число:")
         self.input_field = QLineEdit()
         self.send_button = QPushButton("Отправить")
@@ -53,6 +54,9 @@ class Window(QMainWindow):
         self.set_delay_button = QPushButton("Установить задержку")
 
         self.cancel_button = QPushButton("Отмена текущего запроса")
+        self.log_widget = QTextEdit()
+        self.log_widget.setReadOnly(True)
+
         self.config_button = QPushButton("Настройки клиента")
 
         self.label3 = QLabel("UUID клиента")
@@ -64,44 +68,53 @@ class Window(QMainWindow):
 
         self.log_widget = QTextEdit()
         self.log_widget.setReadOnly(True)
-
-        layout.addWidget(self.label3)
-        layout.addWidget(self.uuid_input)
-        layout.addWidget(self.uuid_button)
-
-        layout.addWidget(self.label)
-        layout.addWidget(self.input_field)
-        layout.addWidget(self.send_button)
-
-        layout.addWidget(self.label2)
-        layout.addWidget(self.input_field2)
-        layout.addWidget(self.set_delay_button)
-
-        layout.addWidget(self.cancel_button)
-        layout.addWidget(self.config_button)  
-        layout.addWidget(self.log_widget)
-
-        self.send_button.clicked.connect(self.sending_request)
-        self.set_delay_button.clicked.connect(self.set_delay)
-        self.cancel_button.clicked.connect(self.cancel_request)
-        self.config_button.clicked.connect(self.open_config_editor)
-        self.uuid_button.clicked.connect(self.generate_uuid)  
-
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.updateTimer)
-
+        
+        # Прогресс-бар
         self.progress_bar = QProgressBar(self)
         self.progress_bar.setMinimum(0)
         self.progress_bar.setMaximum(100)
         layout.addWidget(self.progress_bar)
+
+        # Добавление элементов на экран
+        layout.addWidget(self.label)
+        layout.addWidget(self.input_field)
+        layout.addWidget(self.send_button)
+        
+        layout.addWidget(self.label2)
+        layout.addWidget(self.input_field2)
+        layout.addWidget(self.set_delay_button)
+        
+        layout.addWidget(self.label3)
+        layout.addWidget(self.uuid_input)
+        layout.addWidget(self.uuid_button)
+
+        layout.addWidget(self.cancel_button)
+        layout.addWidget(self.config_button)  
+        layout.addWidget(self.log_widget)
+        layout.addWidget(self.progress_bar)
+
+        # Подключаем кнопки к методам
+        self.send_button.clicked.connect(self.sending_request)
+        self.set_delay_button.clicked.connect(self.set_delay)
+        self.cancel_button.clicked.connect(self.cancel_request)
+        self.config_button.clicked.connect(self.open_config_editor)
+        self.uuid_button.clicked.connect(self.generate_uuid)
 
         self.status_label = QLabel("")
         layout.addWidget(self.status_label)
 
         layout.setSpacing(20)
 
-        self.lock_ui()
-        self.notify_user("Ожидание готовности сервера...", success=False)
+    def notify_user(self, message, success=True):
+        """ Уведомить пользователя о текущем статусе. """
+        self.status_label.setStyleSheet("color: green;" if success else "color: red;")
+        self.status_label.setText(message)
+        self.log_event(message)
+
+    def log_event(self, event_message):
+        """ Запись события в лог. """
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        self.log_widget.append(f"{timestamp} - {event_message}")
 
     def open_config_editor(self):
         """Метод для открытия редактора конфигурации."""
@@ -113,8 +126,9 @@ class Window(QMainWindow):
         self.config_editor.show()
 
     def restart_application(self):
-        """Перезапуск приложения."""
-        self.close()
+        """ Перезапуск приложения. """
+        self.log_event("Перезапуск приложения...")
+        self.client.stop_client() 
         python = sys.executable
         os.execl(python, python, *sys.argv)
 
@@ -122,21 +136,108 @@ class Window(QMainWindow):
         """Когда конфигурация сохранена, перезапускаем приложение"""
         self.client.restart_application()  
 
-    def closeEvent(self, event):
-        """Обработка закрытия окна: остановка клиента и закрытие соединений."""
-        self.notify_user("Завершение работы клиента...", success=False)
-        self.client.stop_client()
-        event.accept()
+    def on_server_ready(self):
+        """ Разблокировать UI и обновить статус, когда сервер готов. """
+        self.notify_user("Сервер готов! Теперь можно отправлять запросы.", success=True)
+        self.unlock_ui()  # Разблокировать элементы управления
+
+    def on_server_unavailable(self):
+        """ Обработка ситуации, когда сервер становится недоступен. """
+        self.notify_user("Сервер недоступен.", success=False)
+        self.lock_ui()  # Заблокировать элементы управления
+
+    def handle_error_signal(self, error_message):
+        """ Обработка ошибок. """
+        self.notify_user(error_message, success=False)
+        self.log_event(f"Ошибка: {error_message}")
+
+    def set_delay(self):
+        """ Устанавливает задержку обработки на сервере, заданную пользователем. """
+        delay_text = self.input_field2.text().strip()
+        try:
+            delay = int(delay_text) if delay_text else 0
+            if delay < 0:
+                raise ValueError
+            self.process_time_in_seconds = delay
+            self.label2.setText(f"Задержка установлена: {self.process_time_in_seconds} сек.")
+            self.log_event(f"Установлена задержка: {self.process_time_in_seconds} сек.")
+        except ValueError:
+            self.label2.setText("Введите корректное число для задержки.")
+            self.log_event("Попытка установить некорректное значение задержки.")
+
+    def start_timer(self):
+        """ Запускает таймер и отсчет времени ожидания ответа от сервера. """
+        self.wait_time = self.process_time_in_seconds
+        self.remaining_time = self.wait_time + self.client.timeout_response
+        self.progress_bar.setMaximum(self.wait_time) 
+        self.progress_bar.setValue(self.wait_time)   
+        self.timer.start(1000) 
+
+    def update_timer(self):
+        """ Обновляет таймер каждую секунду и управляет состоянием прогресс-бара. """
+        self.remaining_time -= 1
+        self.progress_bar.setValue(self.remaining_time)
+
+        if self.remaining_time < 0:
+            self.timer.stop()
+            self.notify_user("Время ожидания истекло. Сервер может быть недоступен.", success=False)
+
+
+    def sending_request(self):
+        """ Отправляет запрос """
+        if not self.client._running:
+            self.notify_user("Сервер недоступен. Невозможно отправить запрос.", success=False)
+            return
+
+        text = self.input_field.text().strip()
+        if text == "":
+            self.notify_user("Введите число!", success=False)
+            return
+        
+        if int(text) > MAX_NUMBER or int(text) < -(MAX_NUMBER):
+            self.notify_user("Введите число, не превышающее 2147483647 и не меньшее -2147483647!", success=False)
+            return
+
+        try:
+            number = int(text)
+        except ValueError:
+            self.notify_user("Введите корректное целое число!", success=False)
+            return
+
+        self.log_event(f"Отправка запроса с числом: {number}")
+
+        # Расчёт времени ожидания
+        if self.process_time_in_seconds > 0:
+            self.total_wait_time = self.process_time_in_seconds + self.client.timeout_response
+        else:
+            self.total_wait_time = self.client.timeout_response
+
+        self.client.send_queue.put((str(number), self.process_time_in_seconds))  # Отправка запроса
+        self.start_timer()  # Установка таймера
+
+    def display_response(self, response):
+        """ Отображает ответ от сервера. """
+        self.notify_user(f"Ответ от сервера: {response}", success=True)
+        self.timer.stop()  
+        self.progress_bar.setValue(0)
+
+    def cancel_request(self):
+        """ Отмена текущего запроса. """
+        self.timer.stop()
+        self.log_event("Запрос отменен.")
+        self.notify_user("Запрос отменен.", success=False)
 
     def lock_ui(self):
+        """ Блокирует элементы управления интерфейса. """
         self.send_button.setEnabled(False)
         self.input_field.setEnabled(False)
         self.set_delay_button.setEnabled(False)
         self.input_field2.setEnabled(False)
-        self.config_button.setEnabled(False)
         self.cancel_button.setEnabled(True)
+        self.config_button.setEnabled(False)
 
     def unlock_ui(self):
+        """ Разблокирует элементы управления интерфейса. """
         self.send_button.setEnabled(True)
         self.input_field.setEnabled(True)
         self.set_delay_button.setEnabled(True)
@@ -144,146 +245,6 @@ class Window(QMainWindow):
         self.cancel_button.setEnabled(True)
         self.config_button.setEnabled(True)
 
-    def log_event(self, event_message):
-        """Запись события в лог."""
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        self.log_widget.append(f"{timestamp} - {event_message}")
-
-    def on_server_ready(self):
-        """Разблокировать UI и обновить статус, когда сервер готов."""
-        self.server_ready = True
-        self.notify_user("Сервер готов! Теперь можно отправлять запросы.", success=True)
-        self.unlock_ui()
-
-    def on_server_unavailable(self):
-        """Обработка ситуации, когда сервер становится недоступен."""
-        self.server_ready = False
-        self.notify_user("Сервер недоступен.", success=False)
-        self.lock_ui()
-        self.progress_bar.setValue(0)  
-
-    def handle_error_signal(self, error_message):
-        """Обработка ошибок."""
-        self.notify_user(error_message, success=False)
-        self.log_event(f"Ошибка: {error_message}")
-
-    def set_delay(self):
-        """Устанавливает задержку обработки на сервере, заданную пользователем."""
-        delay_text = self.input_field2.text().strip()
-        try:
-            delay = int(delay_text)
-            if 0 <= delay <= 3600:
-                self.process_time_in_seconds = delay
-                self.label2.setText(f"Задержка установлена: {self.process_time_in_seconds} сек.")
-                self.log_event(f"Установлена задержка: {self.process_time_in_seconds} сек.")
-            else:
-                raise ValueError
-        except ValueError:
-            self.label2.setText("Введите корректное число для задержки.")
-            self.log_event("Попытка установить некорректное значение задержки.")
-
-    def start_timer(self, total_time):
-        """Запускает таймер и отсчет времени ожидания ответа от сервера."""
-        self.total_wait_time = total_time
-        self.remaining_time = total_time
-        self.progress_bar.setValue(0)
-        self.timer.start(1000)
-
-    def updateTimer(self):
-        """Обновляет таймер каждую секунду и управляет состоянием прогресс-бара."""
-        self.remaining_time -= 1
-
-        if self.total_wait_time > 0:
-            elapsed_time = self.total_wait_time - self.remaining_time
-            progress_percentage = int((elapsed_time / self.total_wait_time) * 100)
-            if progress_percentage > 100:
-                progress_percentage = 100  
-        else:
-            progress_percentage = 100
-
-        self.progress_bar.setValue(progress_percentage)
-        self.label.setText(f"Ожидается ответ... Оставшееся время: {self.remaining_time} сек.")
-
-        if self.remaining_time <= 0:
-            self.timer.stop()
-            self.label.setText("Время ожидания истекло.")
-            self.log_event("Время ожидания ответа от сервера истекло.")
-            self.request_in_progress = False
-            self.unlock_ui()
-    
-    def sending_request(self):
-        """Отправляет запрос немедленно."""
-        if not self.server_ready:
-            self.notify_user("Сервер недоступен. Невозможно отправить запрос.", success=False)
-            return
-
-        text = self.input_field.text().strip()
-        if text == "":
-            self.display_response("Введите число!")
-            return
-
-        try:
-            number = int(text)
-            if number > MAX_NUMBER:
-                self.display_response(f"Введите целое число не превышающее {MAX_NUMBER}!")
-                self.log_event("Попытка отправить некорректное число.")
-                return
-        except ValueError:
-            self.display_response("Введите корректное целое число!")
-            self.log_event("Попытка отправить некорректное число.")
-            return
-
-        if self.request_in_progress:
-            self.display_response("Ожидается ответ на предыдущий запрос.")
-            self.log_event("Попытка отправить новый запрос при активном запросе.")
-            return
-
-        self.log_event(f"Отправка запроса с числом: {number}")
-        self.request_in_progress = True
-        self.lock_ui()
-
-        self.communicate.send_request.emit(str(number), self.process_time_in_seconds)
-        self.input_field.clear()
-        self.log_event(f"Запрос отправлен: {number} с задержкой {self.process_time_in_seconds} сек.")
-
-        total_wait_time = max(self.process_time_in_seconds, self.client.timeout_response)
-        self.start_timer(total_wait_time)
-
-    def display_response(self, response):
-        if self.cancelled_request:
-            self.log_event(f"Ответ был проигнорирован, так как запрос был отменен: {response}")
-            self.cancelled_request = False 
-            return
-        self.label.setText(f"Ответ от сервера: {response}")  
-        self.log_event(f"Ответ от сервера: {response}")  
-        self.request_in_progress = False  
-        self.progress_bar.setValue(100)  
-        self.unlock_ui()  
-        self.timer.stop()  
-
-    
     def generate_uuid(self):
         """Генерация UUID для клиента"""
         self.uuid_input.setText(str(uuid.uuid4()))
-        
-    def cancel_request(self):
-        """Отмена текущего запроса."""
-        if not self.request_in_progress:
-            return
-        self.request_in_progress = False
-        self.cancelled_request = True 
-        self.timer.stop()  
-        self.progress_bar.setValue(0)  
-        self.label.setText("Запрос отменен.") 
-        self.log_event("Запрос был отменен.") 
-        self.unlock_ui()  
-
-
-    def notify_user(self, message, success=True):
-        """Уведомить пользователя о текущем статусе."""
-        if success:
-            self.status_label.setStyleSheet("color: green;")
-        else:
-            self.status_label.setStyleSheet("color: red;")
-        self.status_label.setText(message)
-        self.log_event(message)

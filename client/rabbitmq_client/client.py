@@ -3,69 +3,26 @@ import sys
 import uuid
 import configparser
 import logging
-from PyQt5.QtCore import pyqtSignal, QObject, QThread
+from PyQt5.QtCore import QObject, pyqtSignal, QThread
 import pika
 import queue
-from .proto import msg_client_pb2
-import time
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
 from pathlib import Path
-import threading
+from .proto import msg_client_pb2
 
-class Communicate(QObject):
+class RMQClient(QObject):
     received_response = pyqtSignal(str)
-    send_request = pyqtSignal(str, float)
     error_signal = pyqtSignal(str)
     server_ready_signal = pyqtSignal()
     server_unavailable_signal = pyqtSignal()
 
-class ConfigFileWatcher(FileSystemEventHandler):
-    def __init__(self, config_file, client):
-        self.config_file = config_file
-        self.client = client
-
-    def on_modified(self, event):
-        if event.src_path == self.config_file:
-            print(f"Файл {self.config_file} был изменен. Перезагрузка приложения...")
-            self.client.restart_application()  
-
-def start_watchdog(config_file, client):
-    event_handler = ConfigFileWatcher(config_file, client)
-    observer = Observer()
-    observer.schedule(event_handler, path=config_file, recursive=False)
-    observer.start()
-
-    try:
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        observer.stop()
-    observer.join()
-
-class RMQClient(QThread):
-    def __init__(self, communicate, config_file='client_config.ini'):
+    def __init__(self, config_file='client_config.ini'):
         super().__init__()
-        self.communicate = communicate
         self.config_file = config_file
-        self.load_config()  # Загружаем конфигурацию
+        self.load_config()
         self.connection = None
         self.channel = None
-        self.callback_queue = None
-        self.active = False
-        self.check_server = False
-        self._running = True
-
         self.send_queue = queue.Queue()
-
-        self.communicate.send_request.connect(self.handle_send_request)
-
-        self.heartbeat_interval = 10
-        self.last_heartbeat = time.time()
-        self.last_pong_received = time.time()
-        self.heartbeat_timeout = 2 * self.heartbeat_interval
-        self.server_available = False
-        self.server_ready = False
+        self._running = True
 
         self.logger = logging.getLogger(__name__)
         logging.basicConfig(
@@ -75,11 +32,7 @@ class RMQClient(QThread):
             format='%(asctime)s - %(levelname)s - %(name)s: %(message)s',
             datefmt="%Y-%m-%d %H:%M:%S"
         )
-
-        # Запускаем поток для наблюдения за конфигурацией
-        watchdog_thread = threading.Thread(target=start_watchdog, args=(self.config_file, self))
-        watchdog_thread.daemon = True
-        watchdog_thread.start()
+        self.logger.info("Logging initialized for RMQClient.")
 
     def load_config(self):
         config = configparser.ConfigParser()
@@ -115,125 +68,77 @@ class RMQClient(QThread):
 
         self.client_uuid = self.client_uuid
 
-    def run(self):
+    def start_client(self):
+        """ Запускает клиента в отдельном потоке. """
+        self.thread = QThread()
+        self.moveToThread(self.thread)
+        self.thread.started.connect(self.run)
+        self.thread.start()
+
+    def stop_client(self):
+        """ Останавливает клиента и завершает поток. """
+        self._running = False  # Завершаем основной цикл
         try:
-            credentials = pika.PlainCredentials(self.rmq_user, self.rmq_password)
-            parameters = pika.ConnectionParameters(
-                host=self.rmq_host,
-                port=self.rmq_port,
-                credentials=credentials,
-                heartbeat=self.heartbeat_interval,
-                blocked_connection_timeout=5
-            )
-            self.connection = pika.BlockingConnection(parameters)
-            self.channel = self.connection.channel()
+            if self.connection and self.connection.is_open:
+                self.logger.info("Closing RabbitMQ connection...")
+                self.connection.close()  # Закрываем соединение
+        except pika.exceptions.StreamLostError as e:
+            self.logger.error(f"Stream connection lost while closing: {e}")
+        except Exception as e:
+            self.logger.error(f"Error while stopping client: {e}")
+        finally:
+            self.thread.quit()
+            self.thread.wait()
+            self.logger.info("Client stopped successfully.")
 
-            self.channel.exchange_declare(exchange=self.exchange, exchange_type='direct', durable=True)
-
-            result = self.channel.queue_declare(queue=self.client_uuid, exclusive=True)
-            self.callback_queue = result.method.queue
-
-            self.channel.basic_consume(
-                queue=self.callback_queue,
-                on_message_callback=self.on_response,
-                auto_ack=True
-            )
-
-            self.active = True
-            self.logger.info(f"Connected to RabbitMQ and listening on queue: {self.callback_queue}")
-
-            self.send_hi_to_serv()
+    def run(self):
+        """ Основной цикл клиента. """
+        try:
+            self.connect_to_rabbitmq()
+            self.setup_channel()
 
             while self._running:
+                # Обработка событий
+                self.connection.process_data_events(time_limit=1)
+
                 try:
-                    self.connection.process_data_events(time_limit=1)
-                    current_time = time.time()
+                    user_input, delay = self.send_queue.get_nowait()
+                    self.send_request(user_input, delay)
+                except queue.Empty:
+                    pass
 
-                    if current_time - self.last_heartbeat >= self.heartbeat_interval:
-                        self.send_hi_to_serv()
-                        self.last_heartbeat = current_time
-
-                    if self.server_available and (current_time - self.last_pong_received) > self.heartbeat_timeout:
-                        self.logger.warning("Server heartbeat timed out. Server is considered unavailable.")
-                        self.server_available = False
-                        self.server_ready = False
-                        self.communicate.server_unavailable_signal.emit()
-
-                    if self.connection.is_closed:
-                        self.logger.warning("Connection to RabbitMQ is closed.")
-                        self.communicate.error_signal.emit("Connection to RabbitMQ is closed.")
-                        self.server_available = False
-                        self.server_ready = False
-                        self.communicate.server_unavailable_signal.emit()
-                        self._running = False
-                        break
-
-                    try:
-                        user_input, delay = self.send_queue.get_nowait()
-                        self._send_request(user_input, delay)
-                    except queue.Empty:
-                        pass
-
-                except pika.exceptions.AMQPError as e:
-                    self.logger.error(f"AMQP Error: {e}")
-                    self.communicate.error_signal.emit(f"AMQP Error: {e}")
-                    self.server_available = False
-                    self.server_ready = False
-                    self.communicate.server_unavailable_signal.emit()
-                    self._running = False
-                except Exception as e:
-                    self.logger.error(f"Unexpected error: {e}")
-                    self.communicate.error_signal.emit(f"Unexpected error: {e}")
-                    self.server_available = False
-                    self.server_ready = False
-                    self.communicate.server_unavailable_signal.emit()
-                    self._running = False
         except Exception as e:
-            self.logger.error(f"Failed to connect to RabbitMQ: {e}")
-            self.communicate.error_signal.emit(f"Failed to connect to RabbitMQ: {e}")
-            self.active = False
+            self.logger.error(f"Error in client run loop: {e}")
+            self.error_signal.emit(str(e))
+            self._running = False
 
-    def restart_application(self):
-        """ Перезапус"""
-        self._running = False
-        self.quit()
-        self.wait()
-        python = sys.executable
-        os.execv(python, [python] + sys.argv) 
+    def connect_to_rabbitmq(self):
+        """ Устанавливает соединение с RabbitMQ. """
+        credentials = pika.PlainCredentials(self.rmq_user, self.rmq_password)
+        parameters = pika.ConnectionParameters(
+            host=self.rmq_host,
+            port=self.rmq_port,
+            credentials=credentials
+        )
+        self.connection = pika.BlockingConnection(parameters)
+        self.channel = self.connection.channel()
+        self.channel.queue_declare(queue=self.client_uuid, durable=True, exclusive=True)  # Создаем очередь для ответов
+        self.channel.basic_consume(queue=self.client_uuid, on_message_callback=self.on_response, auto_ack=True)
 
-    def send_hi_to_serv(self):
+        self.logger.info("Connected to RabbitMQ")
+
+    def setup_channel(self):
+        """ Настраивает каналы для отправки и получения сообщений. """
+        self.channel.exchange_declare(exchange=self.exchange, exchange_type='direct', durable=True)
+
+    def send_request(self, user_input, delay):
+        """ Отправляет запрос на сервер. """
         try:
             request = msg_client_pb2.Request()
+            request.request = int(user_input)  # Запрос (число)
             request.return_address = self.client_uuid
-            request.request_id = str(uuid.uuid4())  
-            request.request = "PING"
-            msg = request.SerializeToString()
-
-            self.channel.basic_publish(
-                exchange=self.exchange,
-                routing_key=self.exchange,
-                properties=pika.BasicProperties(
-                    reply_to=self.client_uuid,
-                    correlation_id=request.request_id 
-                ),
-                body=msg
-            )
-            self.logger.info("Sent heartbeat message 'PING' to server.")
-        except Exception as e:
-            self.logger.error(f"Error sending heartbeat: {e}")
-            self.communicate.error_signal.emit(f"Error sending heartbeat: {e}")
-            self.server_available = False
-            self.server_ready = False
-            self.communicate.server_unavailable_signal.emit()
-
-    def _send_request(self, user_input, delay):
-        try:
-            request = msg_client_pb2.Request()
-            request.return_address = self.client_uuid
-            request.request_id = str(uuid.uuid4())  
-            request.request = str(user_input)
-            if delay > 0:
-                request.process_time_in_seconds = int(delay)
+            request.request_id = str(uuid.uuid4())
+            request.process_time_in_seconds = delay  # Отправляем задержку
 
             msg = request.SerializeToString()
 
@@ -242,67 +147,32 @@ class RMQClient(QThread):
                 routing_key=self.exchange,
                 properties=pika.BasicProperties(
                     reply_to=self.client_uuid,
-                    correlation_id=request.request_id 
+                    correlation_id=request.request_id
                 ),
                 body=msg
             )
             self.logger.info(f"Sent request: {user_input} with delay: {delay} sec")
         except Exception as e:
-            self.logger.error(f"Error sending request: {e}")
-            self.communicate.error_signal.emit(f"Error sending request: {e}")
+            self.error_signal.emit(f"Error sending request: {e}")
 
-    def handle_send_request(self, user_input, delay):
-        self.send_queue.put((user_input, delay))
-
-    def on_response(self, ch, method, props, body):
-        self.logger.info(f"Received message on queue: {self.callback_queue}")
+    def on_response(self, ch, method, properties, body):
+        """ Обрабатывает ответ от сервера. """
         try:
             response = msg_client_pb2.Response()
             response.ParseFromString(body)
-            self.logger.info(f"Received response: {response.response} for request ID: {response.request_id}, correlation_id={props.correlation_id}")
 
-            # Сравнение correlation_id
-            if props.correlation_id == response.request_id:
-                if response.response == "PONG":
-                    self.logger.info("Received heartbeat response PONG from server.")
-                    self.server_available = True
-                    self.last_pong_received = time.time()
-                    if not self.server_ready:
-                        self.server_ready = True
-                        self.communicate.server_ready_signal.emit()
-                else:
-                    self.communicate.received_response.emit(response.response)
-            else:
-                self.logger.error(f"Unexpected correlation_id: {props.correlation_id}")
-                self.communicate.error_signal.emit(f"Unexpected correlation_id: {props.correlation_id}")
+            self.logger.info(f"Received response: {response.response} for request ID: {properties.correlation_id}")
+            self.received_response.emit(str(response.response))
         except Exception as e:
-            self.logger.error(f"Error processing response: {e}")
-            self.communicate.error_signal.emit(f"Error processing response: {e}")
+            self.error_signal.emit(f"Error processing response: {e}")
 
+    def handle_send_request(self, user_input, delay):
+        """ Обрабатывает сигнал на отправку запроса. """
+        self.send_queue.put((user_input, delay))
 
-
-    def reconnect_to_rabbitmq(self):
-        if self.connection and self.connection.is_open:
-            self.connection.close()
-
-        credentials = pika.PlainCredentials(self.rmq_user, self.rmq_password)
-        parameters = pika.ConnectionParameters(
-            host=self.rmq_host,
-            port=self.rmq_port,
-            credentials=credentials,
-            heartbeat=self.heartbeat_interval,
-            blocked_connection_timeout=5
-        )
-        self.connection = pika.BlockingConnection(parameters)
-        self.channel = self.connection.channel()
-
-    def stop_client(self):
+    def restart_application(self):
+        """ Перезапус"""
         self._running = False
-        try:
-            if self.connection and self.connection.is_open:
-                self.connection.close()
-                self.logger.info("Connection to RabbitMQ closed.")
-        except Exception as e:
-            self.logger.error(f"Error closing connection: {e}")
-        self.quit()
-        self.wait()
+        self.stop_client()
+        python = sys.executable
+        os.execv(python, [python] + sys.argv) 

@@ -1,36 +1,31 @@
 import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import QThread
-from rabbitmq_client.window import Window
+import sys
+from pathlib import Path
 
-from rabbitmq_client.client import RMQClient, Communicate
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+
+from rabbitmq_client.window import Window
+from rabbitmq_client.client import RMQClient
 
 
 def main():
-    communicate = Communicate()
-
     app = QApplication(sys.argv)
 
     config_file = 'client_config.ini'
+    client = RMQClient(config_file)
+    window = Window(client, config_file)
 
-    thread = QThread()
-    client = RMQClient(communicate, config_file)
-    window = Window(communicate, client, config_file)  
+    client.start_client()  # Запускаем клиента
 
-    client.start()
     window.show()
 
     try:
-        sys.exit(app.exec())
+        sys.exit(app.exec_())
     finally:
-        client.stop_client()
-        print("Application closed")
+        client.stop_client() 
 
 if __name__ == "__main__":
-    try:
-        main()
-    except KeyboardInterrupt:
-        print("\nПрограмма остановлена пользователем.")
+    main()
+

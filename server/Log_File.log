@@ -1,94 +1,74 @@
-2024-11-19 00:22:57,709 - INFO - Received Request: ID=39271799-57dd-46c3-a43c-294e7077084b, Request=PING, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:22:57,710 - INFO - Sent heartbeat response: PONG to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:23:43,178 - INFO - Connected to RabbitMQ
-2024-11-19 00:23:43,273 - INFO - Server is listening on queue: bews
-2024-11-19 00:23:43,273 - INFO - Server is running. Press Ctrl+C to stop.
-2024-11-19 00:23:46,218 - INFO - Received Request: ID=b6ebd873-d400-4d86-9859-4cafcd8ac366, Request=PING, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:23:46,219 - INFO - Sent heartbeat response: PONG to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:23:48,298 - INFO - Received Request: ID=5fd15039-5446-4b60-8130-2616d57bad3a, Request=32, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:23:48,298 - INFO - Sent response: 64 to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:23:52,335 - INFO - Received Request: ID=487f3958-1039-4c2f-95e4-71dbd1d8e6e9, Request=321, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:23:52,335 - INFO - Processing request with delay of 3.0 seconds
-2024-11-19 00:23:55,338 - INFO - Sent response: 642 to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:23:56,350 - INFO - Received Request: ID=2e974779-20b3-426f-a393-8d74ea44166a, Request=PING, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:23:56,351 - INFO - Sent heartbeat response: PONG to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:24:03,414 - INFO - Received Request: ID=d9770c71-3008-40b4-ae4a-5ed2d5ec3ae5, Request=32, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:24:03,415 - INFO - Processing request with delay of 5.0 seconds
-2024-11-19 00:24:06,455 - INFO - Received Request: ID=e8e988e8-2f15-475a-926b-44df9e6a2e32, Request=PING, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:24:06,456 - INFO - Sent heartbeat response: PONG to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:24:08,416 - INFO - Sent response: 64 to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:24:14,500 - INFO - Received Request: ID=1c19cf9d-d617-4add-88bd-82f2271f6e8a, Request=31313, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:24:14,500 - INFO - Processing request with delay of 41.0 seconds
-2024-11-19 00:24:16,526 - INFO - Received Request: ID=2e079bac-e823-49b7-a102-cc02e12b1e00, Request=PING, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:24:16,526 - INFO - Sent heartbeat response: PONG to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:24:23,624 - INFO - Received Request: ID=4d05755d-91b7-4b28-bff6-eb31a15e68f5, Request=31, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:24:23,624 - INFO - Processing request with delay of 41.0 seconds
-2024-11-19 00:24:26,664 - INFO - Received Request: ID=aff52558-4fc3-491f-85ee-e233900b4bb3, Request=PING, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:24:26,665 - INFO - Sent heartbeat response: PONG to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:24:31,707 - INFO - Received Request: ID=11952a4b-dce9-4289-9081-f3083151d48d, Request=31, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:24:31,707 - INFO - Processing request with delay of 14.0 seconds
-2024-11-19 00:24:36,747 - INFO - Received Request: ID=75bf5e40-4799-457d-8b5a-47e0e057cc29, Request=PING, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:24:36,748 - INFO - Sent heartbeat response: PONG to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:24:45,715 - INFO - Sent response: 62 to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:24:47,740 - INFO - Received Request: ID=da39588a-fbd3-4f34-8618-972c31c6cc46, Request=PING, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:24:47,741 - INFO - Sent heartbeat response: PONG to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:24:55,514 - INFO - Sent response: 62626 to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:24:58,564 - INFO - Received Request: ID=fcc75fec-a7f8-4cbc-85bb-fab0947c06b6, Request=PING, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:24:58,565 - INFO - Sent heartbeat response: PONG to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:25:04,645 - INFO - Sent response: 62 to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:25:05,644 - INFO - Received Request: ID=6fef9177-5829-4033-9fe7-5163310ec058, Request=12, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:25:05,645 - INFO - Processing request with delay of 4.0 seconds
-2024-11-19 00:25:08,682 - INFO - Received Request: ID=1ba65b80-642a-41fb-bd63-314bcd6dd08a, Request=PING, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:25:08,683 - INFO - Sent heartbeat response: PONG to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:25:09,651 - INFO - Sent response: 24 to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:25:13,689 - INFO - Received Request: ID=02c35aaa-4b72-4276-8532-4d920e4c6cf2, Request=313, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:25:13,690 - INFO - Processing request with delay of 4.0 seconds
-2024-11-19 00:25:17,692 - INFO - Sent response: 626 to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:25:18,707 - INFO - Received Request: ID=320c98cd-7ca7-497d-a446-7608f72e1ba3, Request=PING, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:25:18,708 - INFO - Sent heartbeat response: PONG to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:28:02,271 - INFO - Connected to RabbitMQ
-2024-11-19 00:28:02,362 - INFO - Server is listening on queue: bews
-2024-11-19 00:28:02,363 - INFO - Server is running. Press Ctrl+C to stop.
-2024-11-19 00:28:09,001 - INFO - Received Request: ID=34106a3f-bcd0-4516-b6b4-cde9288ae8ee, Request=PING, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:28:09,002 - INFO - Sent heartbeat response: PONG to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:28:16,078 - INFO - Received Request: ID=3dc77984-a487-4540-b387-69e911be7329, Request=32, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:28:16,078 - INFO - Processing request with delay of 4.0 seconds
-2024-11-19 00:28:19,111 - INFO - Received Request: ID=171f4478-c372-4754-ad97-a4db6b16687c, Request=PING, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:28:19,112 - INFO - Sent heartbeat response: PONG to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:28:20,094 - INFO - Sent response: 64 to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:28:28,155 - INFO - Received Request: ID=1181e85b-45d4-444a-84ea-c17c72b14911, Request=424, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:28:28,155 - INFO - Processing request with delay of 4.0 seconds
-2024-11-19 00:28:29,163 - INFO - Received Request: ID=ff59589d-0dfa-4074-b753-5edd5b4d296b, Request=PING, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:28:29,163 - INFO - Sent heartbeat response: PONG to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:28:32,175 - INFO - Sent response: 848 to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:28:39,252 - INFO - Received Request: ID=3bd65376-3114-4358-a54b-f8ecf3dc328f, Request=PING, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:28:39,252 - INFO - Sent heartbeat response: PONG to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:28:40,311 - INFO - Received Request: ID=dca223c8-d59c-4ae4-bfef-5d0d8906e9df, Request=3231, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:28:40,312 - INFO - Processing request with delay of 4.0 seconds
-2024-11-19 00:28:44,317 - INFO - Sent response: 6462 to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:28:49,375 - INFO - Received Request: ID=871dbad5-4db3-4eb5-bca9-5e046ed64c18, Request=PING, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:28:49,376 - INFO - Sent heartbeat response: PONG to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:28:50,440 - INFO - Received Request: ID=ba2175e0-c850-4749-adf3-0577fb4723e7, Request=4142, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:28:50,441 - INFO - Processing request with delay of 14.0 seconds
-2024-11-19 00:28:59,490 - INFO - Received Request: ID=e21f66ed-ad27-4053-a54d-c16205477112, Request=PING, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:28:59,491 - INFO - Sent heartbeat response: PONG to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:29:04,448 - INFO - Sent response: 8284 to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:29:09,521 - INFO - Received Request: ID=f9446de0-bf90-48aa-bd43-285257cb143f, Request=PING, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:29:09,521 - INFO - Sent heartbeat response: PONG to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:29:19,629 - INFO - Received Request: ID=715cbb06-cede-4b5f-bced-57551705ec84, Request=PING, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:29:19,630 - INFO - Sent heartbeat response: PONG to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:29:20,450 - INFO - Received Request: ID=2e23a1ce-e914-46a7-826e-47ffb8eacf85, Request=PING, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:29:20,450 - INFO - Sent heartbeat response: PONG to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:30:58,777 - INFO - Connected to RabbitMQ
-2024-11-19 00:30:58,931 - INFO - Server is listening on queue: bews
-2024-11-19 00:30:58,931 - INFO - Server is running. Press Ctrl+C to stop.
-2024-11-19 00:31:04,658 - INFO - Received Request: ID=35b419de-a784-4c8d-b809-85a56b7d862c, Request=PING, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:31:04,658 - INFO - Sent heartbeat response: PONG to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:31:13,627 - INFO - Received Request: ID=330ff87e-db6d-4607-98be-5d44b2a761c3, Request=PING, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:31:13,627 - INFO - Sent heartbeat response: PONG to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:31:23,806 - INFO - Received Request: ID=2ca5d9d3-c7ef-426b-8877-06d1fa1d2412, Request=PING, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:31:23,807 - INFO - Sent heartbeat response: PONG to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:31:33,903 - INFO - Received Request: ID=ee4848a0-dbd9-4f22-b8c4-750e0953fbca, Request=PING, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:31:33,903 - INFO - Sent heartbeat response: PONG to eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:31:36,736 - INFO - Received Request: ID=6d4ba8e7-42b3-45d9-975b-203c5d313c27, Request=PING, Return Address=eee58719-f565-4acd-8ab5-aea18db3474f
-2024-11-19 00:31:36,737 - INFO - Sent heartbeat response: PONG to eee58719-f565-4acd-8ab5-aea18db3474f
+2024-11-22 22:30:38,856 - INFO - Connected to RabbitMQ
+2024-11-22 22:30:38,956 - INFO - Server is listening on queue: bews
+2024-11-22 22:30:38,957 - INFO - Server is running. Press Ctrl+C to stop.
+2024-11-22 22:30:43,766 - INFO - Received Request: ID=04a3a833-e4c1-4e6b-a3f2-edbba07c2b46, Request=23
+2024-11-22 22:30:43,766 - INFO - Processed request: 23 -> Response: 46
+2024-11-22 22:30:50,885 - INFO - Received Request: ID=1d5b5bb0-5577-4e94-81b3-01939bfa3675, Request=144
+2024-11-22 22:30:50,886 - INFO - Processed request: 144 -> Response: 288
+2024-11-22 22:30:57,975 - INFO - Received Request: ID=0bfbaf8e-b8ce-46c3-a0d4-984fe2897d88, Request=145
+2024-11-22 22:30:57,977 - INFO - Processing request with delay of 10.0 seconds
+2024-11-22 22:30:59,343 - ERROR - Exception in callback _task_done(<Task finishe...dStateError()>) at Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\tools.py:43
+handle: <Handle _task_done(<Task finishe...dStateError()>) at Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\tools.py:43>
+Traceback (most recent call last):
+  File "C:\Users\danii\Desktop\GUI\server\rabbitmq_server\__main__.py", line 23, in handle_request
+    await asyncio.sleep(req.process_time_in_seconds)
+  File "Z:\conda\envs\pyqt-env\Lib\asyncio\tasks.py", line 665, in sleep
+    return await future
+           ^^^^^^^^^^^^
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "Z:\conda\envs\pyqt-env\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\tools.py", line 47, in _task_done
+    raise exc
+  File "Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\tools.py", line 288, in wrapper
+    return await result
+           ^^^^^^^^^^^^
+  File "C:\Users\danii\Desktop\GUI\server\rabbitmq_server\__main__.py", line 12, in handle_request
+    async with message.process():
+               ^^^^^^^^^^^^^^^^^
+  File "Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\message.py", line 582, in __aexit__
+    if not self.message.channel.is_closed:
+           ^^^^^^^^^^^^^^^^^^^^
+  File "Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\message.py", line 391, in channel
+    raise ChannelInvalidStateError
+aiormq.exceptions.ChannelInvalidStateError
+2024-11-22 23:21:29,301 - INFO - Connected to RabbitMQ
+2024-11-22 23:21:29,385 - INFO - Server is listening on queue: bews
+2024-11-22 23:21:29,385 - INFO - Server is running. Press Ctrl+C to stop.
+2024-11-22 23:21:32,158 - INFO - Received Request: ID=cd410d00-fa67-4623-a9bd-3027c555efb7, Request=14
+2024-11-22 23:21:32,159 - INFO - Processing request with delay of 4.0 seconds
+2024-11-22 23:21:36,172 - INFO - Processed request: 14 -> Response: 28
+2024-11-22 23:28:38,761 - INFO - Connected to RabbitMQ
+2024-11-22 23:28:38,834 - INFO - Server is listening on queue: bews
+2024-11-22 23:28:38,835 - INFO - Server is running. Press Ctrl+C to stop.
+2024-11-22 23:28:43,838 - INFO - Received Request: ID=416f17ab-b058-4ad1-be27-4176ee5ec15c, Request=2
+2024-11-22 23:28:43,838 - INFO - Processed request: 2 -> Response: 4
+2024-11-22 23:28:49,891 - INFO - Received Request: ID=5cfbfb7c-f2b1-44f1-9432-52527f1cd9fe, Request=3
+2024-11-22 23:28:49,892 - INFO - Processed request: 3 -> Response: 6
+2024-11-22 23:29:33,710 - INFO - Received Request: ID=73854331-6dda-4962-9323-df3c683d76e1, Request=23
+2024-11-22 23:29:33,710 - INFO - Processed request: 23 -> Response: 46
+2024-11-22 23:31:32,227 - INFO - Received Request: ID=ddc965b2-2d4a-472a-b1fa-f38a1385ed79, Request=32
+2024-11-22 23:31:32,228 - INFO - Processed request: 32 -> Response: 64
+2024-11-22 23:31:52,856 - INFO - Received Request: ID=2b510d11-a082-45d4-935a-28ada6a19c23, Request=32
+2024-11-22 23:31:52,857 - INFO - Processed request: 32 -> Response: 64
+2024-11-22 23:35:56,331 - INFO - Received Request: ID=2adc6585-ade1-49fb-b983-fd70121bcc52, Request=32
+2024-11-22 23:35:56,331 - INFO - Processed request: 32 -> Response: 64
+2024-11-22 23:36:03,381 - INFO - Received Request: ID=9142f30b-aeaa-4923-be4c-df5b7b591923, Request=32
+2024-11-22 23:36:03,381 - INFO - Processing request with delay of 23.0 seconds
+2024-11-22 23:36:20,505 - INFO - Received Request: ID=415ce7c3-6b97-45c7-bf12-db22f69ec52a, Request=11
+2024-11-22 23:36:20,506 - INFO - Processing request with delay of 2.0 seconds
+2024-11-22 23:36:22,510 - INFO - Processed request: 11 -> Response: 22
+2024-11-22 23:36:26,398 - INFO - Processed request: 32 -> Response: 64
+2024-11-22 23:38:15,468 - INFO - Received Request: ID=f86009eb-62f9-4c0f-b305-53b1d2c62423, Request=223
+2024-11-22 23:38:15,468 - INFO - Processing request with delay of 2.0 seconds
+2024-11-22 23:38:17,483 - INFO - Processed request: 223 -> Response: 446
+2024-11-22 23:38:35,457 - INFO - Received Request: ID=babd1e25-0e6b-4353-b746-f8599d215b77, Request=23
+2024-11-22 23:38:35,457 - INFO - Processed request: 23 -> Response: 46
+2024-11-22 23:39:15,696 - INFO - Received Request: ID=ff208d50-65d8-4b6b-b108-9fee6c7e7639, Request=2
+2024-11-22 23:39:15,697 - INFO - Processed request: 2 -> Response: 4
+2024-11-22 23:40:13,535 - INFO - Received Request: ID=695c1a98-227c-445c-9adc-6ede3a73359f, Request=32
+2024-11-22 23:40:13,535 - INFO - Processed request: 32 -> Response: 64
