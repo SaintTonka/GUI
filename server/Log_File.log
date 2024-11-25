@@ -1,24 +1,10 @@
-2024-11-22 22:30:38,856 - INFO - Connected to RabbitMQ
-2024-11-22 22:30:38,956 - INFO - Server is listening on queue: bews
-2024-11-22 22:30:38,957 - INFO - Server is running. Press Ctrl+C to stop.
-2024-11-22 22:30:43,766 - INFO - Received Request: ID=04a3a833-e4c1-4e6b-a3f2-edbba07c2b46, Request=23
-2024-11-22 22:30:43,766 - INFO - Processed request: 23 -> Response: 46
-2024-11-22 22:30:50,885 - INFO - Received Request: ID=1d5b5bb0-5577-4e94-81b3-01939bfa3675, Request=144
-2024-11-22 22:30:50,886 - INFO - Processed request: 144 -> Response: 288
-2024-11-22 22:30:57,975 - INFO - Received Request: ID=0bfbaf8e-b8ce-46c3-a0d4-984fe2897d88, Request=145
-2024-11-22 22:30:57,977 - INFO - Processing request with delay of 10.0 seconds
-2024-11-22 22:30:59,343 - ERROR - Exception in callback _task_done(<Task finishe...dStateError()>) at Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\tools.py:43
-handle: <Handle _task_done(<Task finishe...dStateError()>) at Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\tools.py:43>
-Traceback (most recent call last):
-  File "C:\Users\danii\Desktop\GUI\server\rabbitmq_server\__main__.py", line 23, in handle_request
-    await asyncio.sleep(req.process_time_in_seconds)
-  File "Z:\conda\envs\pyqt-env\Lib\asyncio\tasks.py", line 665, in sleep
-    return await future
-           ^^^^^^^^^^^^
-asyncio.exceptions.CancelledError
-
-During handling of the above exception, another exception occurred:
-
+2024-11-25 15:50:37,249 - INFO - Connected to RabbitMQ
+2024-11-25 15:50:37,446 - INFO - Server is listening on queue: bews
+2024-11-25 15:50:37,447 - INFO - Server is running. Press Ctrl+C to stop.
+2024-11-25 15:50:52,859 - INFO - Received Request: ID=ea7ab890-4c44-47f3-81c4-104b4093c13f, Request=23
+2024-11-25 15:50:52,860 - ERROR - Error processing message: 'server'
+2024-11-25 15:50:52,861 - ERROR - Exception in callback _task_done(<Task finishe...r_id': None}>>) at Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\tools.py:43
+handle: <Handle _task_done(<Task finishe...r_id': None}>>) at Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\tools.py:43>
 Traceback (most recent call last):
   File "Z:\conda\envs\pyqt-env\Lib\asyncio\events.py", line 88, in _run
     self._context.run(self._callback, *self._args)
@@ -27,48 +13,262 @@ Traceback (most recent call last):
   File "Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\tools.py", line 288, in wrapper
     return await result
            ^^^^^^^^^^^^
-  File "C:\Users\danii\Desktop\GUI\server\rabbitmq_server\__main__.py", line 12, in handle_request
+  File "C:\Users\danii\Desktop\GUI\server\rabbitmq_server\server_state.py", line 26, in handle_request
+    await self.state.handle_request(self, message)
+  File "C:\Users\danii\Desktop\GUI\server\rabbitmq_server\server_state.py", line 33, in handle_request
     async with message.process():
                ^^^^^^^^^^^^^^^^^
-  File "Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\message.py", line 582, in __aexit__
-    if not self.message.channel.is_closed:
-           ^^^^^^^^^^^^^^^^^^^^
-  File "Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\message.py", line 391, in channel
-    raise ChannelInvalidStateError
-aiormq.exceptions.ChannelInvalidStateError
-2024-11-22 23:21:29,301 - INFO - Connected to RabbitMQ
-2024-11-22 23:21:29,385 - INFO - Server is listening on queue: bews
-2024-11-22 23:21:29,385 - INFO - Server is running. Press Ctrl+C to stop.
-2024-11-22 23:21:32,158 - INFO - Received Request: ID=cd410d00-fa67-4623-a9bd-3027c555efb7, Request=14
-2024-11-22 23:21:32,159 - INFO - Processing request with delay of 4.0 seconds
-2024-11-22 23:21:36,172 - INFO - Processed request: 14 -> Response: 28
-2024-11-22 23:28:38,761 - INFO - Connected to RabbitMQ
-2024-11-22 23:28:38,834 - INFO - Server is listening on queue: bews
-2024-11-22 23:28:38,835 - INFO - Server is running. Press Ctrl+C to stop.
-2024-11-22 23:28:43,838 - INFO - Received Request: ID=416f17ab-b058-4ad1-be27-4176ee5ec15c, Request=2
-2024-11-22 23:28:43,838 - INFO - Processed request: 2 -> Response: 4
-2024-11-22 23:28:49,891 - INFO - Received Request: ID=5cfbfb7c-f2b1-44f1-9432-52527f1cd9fe, Request=3
-2024-11-22 23:28:49,892 - INFO - Processed request: 3 -> Response: 6
-2024-11-22 23:29:33,710 - INFO - Received Request: ID=73854331-6dda-4962-9323-df3c683d76e1, Request=23
-2024-11-22 23:29:33,710 - INFO - Processed request: 23 -> Response: 46
-2024-11-22 23:31:32,227 - INFO - Received Request: ID=ddc965b2-2d4a-472a-b1fa-f38a1385ed79, Request=32
-2024-11-22 23:31:32,228 - INFO - Processed request: 32 -> Response: 64
-2024-11-22 23:31:52,856 - INFO - Received Request: ID=2b510d11-a082-45d4-935a-28ada6a19c23, Request=32
-2024-11-22 23:31:52,857 - INFO - Processed request: 32 -> Response: 64
-2024-11-22 23:35:56,331 - INFO - Received Request: ID=2adc6585-ade1-49fb-b983-fd70121bcc52, Request=32
-2024-11-22 23:35:56,331 - INFO - Processed request: 32 -> Response: 64
-2024-11-22 23:36:03,381 - INFO - Received Request: ID=9142f30b-aeaa-4923-be4c-df5b7b591923, Request=32
-2024-11-22 23:36:03,381 - INFO - Processing request with delay of 23.0 seconds
-2024-11-22 23:36:20,505 - INFO - Received Request: ID=415ce7c3-6b97-45c7-bf12-db22f69ec52a, Request=11
-2024-11-22 23:36:20,506 - INFO - Processing request with delay of 2.0 seconds
-2024-11-22 23:36:22,510 - INFO - Processed request: 11 -> Response: 22
-2024-11-22 23:36:26,398 - INFO - Processed request: 32 -> Response: 64
-2024-11-22 23:38:15,468 - INFO - Received Request: ID=f86009eb-62f9-4c0f-b305-53b1d2c62423, Request=223
-2024-11-22 23:38:15,468 - INFO - Processing request with delay of 2.0 seconds
-2024-11-22 23:38:17,483 - INFO - Processed request: 223 -> Response: 446
-2024-11-22 23:38:35,457 - INFO - Received Request: ID=babd1e25-0e6b-4353-b746-f8599d215b77, Request=23
-2024-11-22 23:38:35,457 - INFO - Processed request: 23 -> Response: 46
-2024-11-22 23:39:15,696 - INFO - Received Request: ID=ff208d50-65d8-4b6b-b108-9fee6c7e7639, Request=2
-2024-11-22 23:39:15,697 - INFO - Processed request: 2 -> Response: 4
-2024-11-22 23:40:13,535 - INFO - Received Request: ID=695c1a98-227c-445c-9adc-6ede3a73359f, Request=32
-2024-11-22 23:40:13,535 - INFO - Processed request: 32 -> Response: 64
+  File "Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\message.py", line 563, in __aexit__
+    await self.message.ack()
+  File "Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\message.py", line 450, in ack
+    raise MessageProcessError("Message already processed", self)
+aio_pika.exceptions.MessageProcessError: ('Message already processed', IncomingMessage:{'app_id': None,
+ 'body_size': 83,
+ 'cluster_id': '',
+ 'consumer_tag': 'ctag1.3b105687d5f742e38ec46ba083f3db75',
+ 'content_encoding': None,
+ 'content_type': None,
+ 'correlation_id': 'ea7ab890-4c44-47f3-81c4-104b4093c13f',
+ 'delivery_mode': <DeliveryMode.NOT_PERSISTENT: 1>,
+ 'delivery_tag': 1,
+ 'exchange': 'bews',
+ 'expiration': None,
+ 'headers': {},
+ 'message_id': None,
+ 'priority': 0,
+ 'redelivered': False,
+ 'reply_to': '1ff69654-17ab-4c4a-9437-5257613fa11e',
+ 'routing_key': 'bews',
+ 'timestamp': None,
+ 'type': 'None',
+ 'user_id': None})
+2024-11-25 15:50:52,865 - ERROR - Task exception was never retrieved
+future: <Task finished name='Task-15' coro=<consumer() done, defined at Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\queue.py:31> exception=<MessageProcessError: Message already processed: IncomingMessage:{'app_id': None,
+ 'body_size': 83,
+ 'cluster_id': '',
+ 'consumer_tag': 'ctag1.3b105687d5f742e38ec46ba083f3db75',
+ 'content_encoding': None,
+ 'content_type': None,
+ 'correlation_id': 'ea7ab890-4c44-47f3-81c4-104b4093c13f',
+ 'delivery_mode': <DeliveryMode.NOT_PERSISTENT: 1>,
+ 'delivery_tag': 1,
+ 'exchange': 'bews',
+ 'expiration': None,
+ 'headers': {},
+ 'message_id': None,
+ 'priority': 0,
+ 'redelivered': False,
+ 'reply_to': '1ff69654-17ab-4c4a-9437-5257613fa11e',
+ 'routing_key': 'bews',
+ 'timestamp': None,
+ 'type': 'None',
+ 'user_id': None}>>
+Traceback (most recent call last):
+  File "Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\queue.py", line 37, in consumer
+    return await create_task(callback, message)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\tools.py", line 288, in wrapper
+    return await result
+           ^^^^^^^^^^^^
+  File "C:\Users\danii\Desktop\GUI\server\rabbitmq_server\server_state.py", line 26, in handle_request
+    await self.state.handle_request(self, message)
+  File "C:\Users\danii\Desktop\GUI\server\rabbitmq_server\server_state.py", line 33, in handle_request
+    async with message.process():
+               ^^^^^^^^^^^^^^^^^
+  File "Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\message.py", line 563, in __aexit__
+    await self.message.ack()
+  File "Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\message.py", line 450, in ack
+    raise MessageProcessError("Message already processed", self)
+aio_pika.exceptions.MessageProcessError: ('Message already processed', IncomingMessage:{'app_id': None,
+ 'body_size': 83,
+ 'cluster_id': '',
+ 'consumer_tag': 'ctag1.3b105687d5f742e38ec46ba083f3db75',
+ 'content_encoding': None,
+ 'content_type': None,
+ 'correlation_id': 'ea7ab890-4c44-47f3-81c4-104b4093c13f',
+ 'delivery_mode': <DeliveryMode.NOT_PERSISTENT: 1>,
+ 'delivery_tag': 1,
+ 'exchange': 'bews',
+ 'expiration': None,
+ 'headers': {},
+ 'message_id': None,
+ 'priority': 0,
+ 'redelivered': False,
+ 'reply_to': '1ff69654-17ab-4c4a-9437-5257613fa11e',
+ 'routing_key': 'bews',
+ 'timestamp': None,
+ 'type': 'None',
+ 'user_id': None})
+2024-11-25 15:57:25,201 - INFO - Connected to RabbitMQ
+2024-11-25 15:57:25,297 - INFO - Server is listening on queue: bews
+2024-11-25 15:57:25,298 - INFO - Server is running. Press Ctrl+C to stop.
+2024-11-25 15:57:30,121 - INFO - Received Request: ID=e9308b33-6f3e-4f6d-9b6c-cb55caf1b438, Request=2
+2024-11-25 15:57:30,122 - ERROR - Error processing message: dict.get() takes no keyword arguments
+2024-11-25 15:57:30,123 - ERROR - Exception in callback _task_done(<Task finishe...r_id': None}>>) at Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\tools.py:43
+handle: <Handle _task_done(<Task finishe...r_id': None}>>) at Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\tools.py:43>
+Traceback (most recent call last):
+  File "Z:\conda\envs\pyqt-env\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\tools.py", line 47, in _task_done
+    raise exc
+  File "Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\tools.py", line 288, in wrapper
+    return await result
+           ^^^^^^^^^^^^
+  File "C:\Users\danii\Desktop\GUI\server\rabbitmq_server\server_state.py", line 26, in handle_request
+    await self.state.handle_request(self, message)
+  File "C:\Users\danii\Desktop\GUI\server\rabbitmq_server\server_state.py", line 33, in handle_request
+    async with message.process():
+               ^^^^^^^^^^^^^^^^^
+  File "Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\message.py", line 563, in __aexit__
+    await self.message.ack()
+  File "Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\message.py", line 450, in ack
+    raise MessageProcessError("Message already processed", self)
+aio_pika.exceptions.MessageProcessError: ('Message already processed', IncomingMessage:{'app_id': None,
+ 'body_size': 83,
+ 'cluster_id': '',
+ 'consumer_tag': 'ctag1.145f8d2aa4f649f8885171d2964257f5',
+ 'content_encoding': None,
+ 'content_type': None,
+ 'correlation_id': 'e9308b33-6f3e-4f6d-9b6c-cb55caf1b438',
+ 'delivery_mode': <DeliveryMode.NOT_PERSISTENT: 1>,
+ 'delivery_tag': 1,
+ 'exchange': 'bews',
+ 'expiration': None,
+ 'headers': {},
+ 'message_id': None,
+ 'priority': 0,
+ 'redelivered': False,
+ 'reply_to': '1ff69654-17ab-4c4a-9437-5257613fa11e',
+ 'routing_key': 'bews',
+ 'timestamp': None,
+ 'type': 'None',
+ 'user_id': None})
+2024-11-25 15:57:30,128 - ERROR - Task exception was never retrieved
+future: <Task finished name='Task-15' coro=<consumer() done, defined at Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\queue.py:31> exception=<MessageProcessError: Message already processed: IncomingMessage:{'app_id': None,
+ 'body_size': 83,
+ 'cluster_id': '',
+ 'consumer_tag': 'ctag1.145f8d2aa4f649f8885171d2964257f5',
+ 'content_encoding': None,
+ 'content_type': None,
+ 'correlation_id': 'e9308b33-6f3e-4f6d-9b6c-cb55caf1b438',
+ 'delivery_mode': <DeliveryMode.NOT_PERSISTENT: 1>,
+ 'delivery_tag': 1,
+ 'exchange': 'bews',
+ 'expiration': None,
+ 'headers': {},
+ 'message_id': None,
+ 'priority': 0,
+ 'redelivered': False,
+ 'reply_to': '1ff69654-17ab-4c4a-9437-5257613fa11e',
+ 'routing_key': 'bews',
+ 'timestamp': None,
+ 'type': 'None',
+ 'user_id': None}>>
+Traceback (most recent call last):
+  File "Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\queue.py", line 37, in consumer
+    return await create_task(callback, message)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\tools.py", line 288, in wrapper
+    return await result
+           ^^^^^^^^^^^^
+  File "C:\Users\danii\Desktop\GUI\server\rabbitmq_server\server_state.py", line 26, in handle_request
+    await self.state.handle_request(self, message)
+  File "C:\Users\danii\Desktop\GUI\server\rabbitmq_server\server_state.py", line 33, in handle_request
+    async with message.process():
+               ^^^^^^^^^^^^^^^^^
+  File "Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\message.py", line 563, in __aexit__
+    await self.message.ack()
+  File "Z:\conda\envs\pyqt-env\Lib\site-packages\aio_pika\message.py", line 450, in ack
+    raise MessageProcessError("Message already processed", self)
+aio_pika.exceptions.MessageProcessError: ('Message already processed', IncomingMessage:{'app_id': None,
+ 'body_size': 83,
+ 'cluster_id': '',
+ 'consumer_tag': 'ctag1.145f8d2aa4f649f8885171d2964257f5',
+ 'content_encoding': None,
+ 'content_type': None,
+ 'correlation_id': 'e9308b33-6f3e-4f6d-9b6c-cb55caf1b438',
+ 'delivery_mode': <DeliveryMode.NOT_PERSISTENT: 1>,
+ 'delivery_tag': 1,
+ 'exchange': 'bews',
+ 'expiration': None,
+ 'headers': {},
+ 'message_id': None,
+ 'priority': 0,
+ 'redelivered': False,
+ 'reply_to': '1ff69654-17ab-4c4a-9437-5257613fa11e',
+ 'routing_key': 'bews',
+ 'timestamp': None,
+ 'type': 'None',
+ 'user_id': None})
+2024-11-25 16:04:03,854 - INFO - Connected to RabbitMQ
+2024-11-25 16:04:03,926 - INFO - Server is listening on queue: bews
+2024-11-25 16:04:03,926 - INFO - Server is running. Press Ctrl+C to stop.
+2024-11-25 16:04:08,693 - INFO - Received Request: ID=969305af-0a7c-44b1-ad0c-ff6bb47a90cb, Request=2
+2024-11-25 16:04:08,694 - INFO - Processed request: 2 -> Response: 4
+2024-11-25 16:04:11,742 - INFO - Received Request: ID=09a0c823-142b-4b27-9f4e-50faa6f8286d, Request=232
+2024-11-25 16:04:11,743 - INFO - Processed request: 232 -> Response: 464
+2024-11-25 16:04:19,793 - INFO - Received Request: ID=c3dc5e35-7be0-4de6-9cc0-ae615cd89f6f, Request=232
+2024-11-25 16:04:19,793 - INFO - Processing request with delay of 2.0 seconds
+2024-11-25 16:04:21,797 - INFO - Processed request: 232 -> Response: 464
+2024-11-25 16:04:28,852 - INFO - Received Request: ID=7de694c2-9dd2-45fb-a90d-ce732e9c498c, Request=112
+2024-11-25 16:04:28,852 - INFO - Processing request with delay of 2.0 seconds
+2024-11-25 16:04:30,854 - INFO - Processed request: 112 -> Response: 224
+2024-11-25 16:04:38,957 - INFO - Received Request: ID=df138a34-e7c9-44ba-b08a-73af9dbbd7d3, Request=212332
+2024-11-25 16:04:38,958 - INFO - Processing request with delay of 2.0 seconds
+2024-11-25 16:04:40,966 - INFO - Processed request: 212332 -> Response: 424664
+2024-11-25 16:04:45,020 - INFO - Received Request: ID=79a081b7-1b42-46bb-a07e-61c91dea0833, Request=-2
+2024-11-25 16:04:45,021 - INFO - Processing request with delay of 2.0 seconds
+2024-11-25 16:04:47,029 - INFO - Processed request: -2 -> Response: -4
+2024-11-25 16:04:55,097 - INFO - Received Request: ID=a4905471-9521-47a4-b150-5f8b501632dd, Request=-2
+2024-11-25 16:04:55,097 - INFO - Processing request with delay of 2.0 seconds
+2024-11-25 16:04:57,107 - INFO - Processed request: -2 -> Response: -4
+2024-11-25 16:04:59,128 - INFO - Received Request: ID=98069875-aa8a-418f-a493-06362f08c423, Request=15
+2024-11-25 16:04:59,129 - INFO - Processing request with delay of 2.0 seconds
+2024-11-25 16:05:01,131 - INFO - Processed request: 15 -> Response: 30
+2024-11-25 16:13:35,921 - INFO - Connected to RabbitMQ
+2024-11-25 16:13:35,998 - INFO - Server is listening on queue: bews
+2024-11-25 16:13:35,998 - INFO - Server is running. Press Ctrl+C to stop.
+2024-11-25 16:13:43,811 - INFO - Received Request: ID=7063ac0f-bfdc-4ac0-a7fe-32ecf1cce071, Request=321321
+2024-11-25 16:13:43,811 - INFO - Processing request with delay of 5.0 seconds
+2024-11-25 16:13:48,815 - INFO - Processed request: 321321 -> Response: 642642
+2024-11-25 16:14:04,591 - INFO - Received Request: ID=620b632a-4a5e-4058-9f1e-4d49e071a4a0, Request=12
+2024-11-25 16:14:04,592 - INFO - Processing request with delay of 4.0 seconds
+2024-11-25 16:14:08,593 - INFO - Processed request: 12 -> Response: 24
+2024-11-25 16:14:37,549 - INFO - Connected to RabbitMQ
+2024-11-25 16:14:37,635 - INFO - Server is listening on queue: bews
+2024-11-25 16:14:37,635 - INFO - Server is running. Press Ctrl+C to stop.
+2024-11-25 17:03:24,776 - INFO - Connected to RabbitMQ
+2024-11-25 17:03:24,882 - INFO - Server is listening on queue: bews
+2024-11-25 17:03:24,883 - INFO - Server is running. Press Ctrl+C to stop.
+2024-11-25 17:03:28,289 - INFO - Received Request: ID=2a67289a-576e-4706-a4a3-97e4cb7ea716, Request=21
+2024-11-25 17:03:28,290 - INFO - Processed request: 21 -> Response: 42
+2024-11-25 17:05:31,344 - INFO - Received Request: ID=0fa551c6-b296-49f6-9bff-f0aa5dbab3d9, Request=0
+2024-11-25 17:05:31,345 - INFO - Processed request: 0 -> Response: 0
+2024-11-25 17:05:36,393 - INFO - Received Request: ID=0fa79abb-d5ba-4c9d-9ff3-aced7cf94191, Request=12
+2024-11-25 17:05:36,394 - INFO - Processed request: 12 -> Response: 24
+2024-11-25 17:05:40,443 - INFO - Received Request: ID=dea9b3c6-b410-4d1c-b1b4-50543f11336a, Request=12
+2024-11-25 17:05:40,444 - INFO - Processing request with delay of 5.0 seconds
+2024-11-25 17:05:48,452 - INFO - Processed request: 12 -> Response: 24
+2024-11-25 17:06:01,569 - INFO - Received Request: ID=2141bd02-9476-4497-a702-38422090e126, Request=12
+2024-11-25 17:06:01,570 - INFO - Processing request with delay of 3.0 seconds
+2024-11-25 17:06:07,585 - INFO - Processed request: 12 -> Response: 24
+2024-11-25 17:07:29,161 - INFO - Received Request: ID=55ecb9ed-271d-4f0e-b4c2-501483a7ea31, Request=12
+2024-11-25 17:07:29,162 - INFO - Processing request with delay of 4.0 seconds
+2024-11-25 17:07:36,167 - INFO - Processed request: 12 -> Response: 24
+2024-11-25 17:09:50,778 - INFO - Received Request: ID=7a8420db-cfde-4e25-b200-e204447f8a63, Request=2
+2024-11-25 17:09:50,779 - INFO - Processed request: 2 -> Response: 4
+2024-11-25 17:09:55,858 - INFO - Received Request: ID=b7ffe93f-1aa0-42bf-af11-d5c9a7bba092, Request=232
+2024-11-25 17:09:55,858 - INFO - Processing request with delay of 3.0 seconds
+2024-11-25 17:10:01,874 - INFO - Processed request: 232 -> Response: 464
+2024-11-25 17:10:27,737 - INFO - Received Request: ID=7269e668-6cf7-4d12-bb4d-5cd4b0400890, Request=2
+2024-11-25 17:10:27,738 - INFO - Processing request with delay of 4.0 seconds
+2024-11-25 17:10:34,746 - INFO - Processed request: 2 -> Response: 4
+2024-11-25 17:17:27,597 - INFO - Connected to RabbitMQ
+2024-11-25 17:17:28,076 - INFO - Server is listening on queue: bews
+2024-11-25 17:17:28,076 - INFO - Server is running. Press Ctrl+C to stop.
+2024-11-25 17:17:35,147 - INFO - Received Request: ID=65327cf1-a1e1-4b03-ae8e-900497b5755d, Request=12
+2024-11-25 17:17:35,147 - INFO - Processing request with delay of 3.0 seconds
+2024-11-25 17:17:41,161 - INFO - Processed request: 12 -> Response: 24
+2024-11-25 17:21:15,032 - INFO - Received Request: ID=57ea2c5b-0268-4045-be78-cd025d595509, Request=12
+2024-11-25 17:21:15,033 - INFO - Processing request with delay of 5.0 seconds
+2024-11-25 17:21:23,037 - INFO - Processed request: 12 -> Response: 24

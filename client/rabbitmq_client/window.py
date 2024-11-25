@@ -1,5 +1,3 @@
-# window.py
-# -*- coding: utf-8 -*-
 import uuid, os, sys
 from PyQt5.QtWidgets import (
     QMainWindow, QVBoxLayout, QWidget, QLabel,
@@ -19,11 +17,9 @@ class Window(QMainWindow):
         self.config_file = config_file
 
         self.setWindowTitle("Client")
-        self.setGeometry(100, 100, 400, 300)
-
+        self.setGeometry(100, 100, 400, 400) 
         self.initUI()
 
-        # Подключаем сигналы к слотам
         self.client.received_response.connect(self.display_response)
         self.client.error_signal.connect(self.handle_error_signal)
         self.client.server_ready_signal.connect(self.on_server_ready)
@@ -44,7 +40,6 @@ class Window(QMainWindow):
 
         layout = QVBoxLayout(central_widget)
 
-        # Элементы управления
         self.label = QLabel("Введите число:")
         self.input_field = QLineEdit()
         self.send_button = QPushButton("Отправить")
@@ -64,18 +59,12 @@ class Window(QMainWindow):
         self.uuid_input.setReadOnly(True)  
         self.uuid_button = QPushButton("Сгенерировать UUID", self)
         self.uuid_button.setStyleSheet("background-color: #4CAF50; color: white;")
-        layout.addWidget(self.uuid_input)
 
-        self.log_widget = QTextEdit()
-        self.log_widget.setReadOnly(True)
-        
-        # Прогресс-бар
         self.progress_bar = QProgressBar(self)
         self.progress_bar.setMinimum(0)
-        self.progress_bar.setMaximum(100)
-        layout.addWidget(self.progress_bar)
+        self.progress_bar.setMaximum(100)  
+        self.timer_label = QLabel("Оставшееся время: 0 сек.")  
 
-        # Добавление элементов на экран
         layout.addWidget(self.label)
         layout.addWidget(self.input_field)
         layout.addWidget(self.send_button)
@@ -91,19 +80,20 @@ class Window(QMainWindow):
         layout.addWidget(self.cancel_button)
         layout.addWidget(self.config_button)  
         layout.addWidget(self.log_widget)
-        layout.addWidget(self.progress_bar)
 
-        # Подключаем кнопки к методам
-        self.send_button.clicked.connect(self.sending_request)
-        self.set_delay_button.clicked.connect(self.set_delay)
-        self.cancel_button.clicked.connect(self.cancel_request)
-        self.config_button.clicked.connect(self.open_config_editor)
-        self.uuid_button.clicked.connect(self.generate_uuid)
+        layout.addWidget(self.progress_bar)
+        layout.addWidget(self.timer_label)
 
         self.status_label = QLabel("")
         layout.addWidget(self.status_label)
 
         layout.setSpacing(20)
+
+        self.send_button.clicked.connect(self.sending_request)
+        self.set_delay_button.clicked.connect(self.set_delay)
+        self.cancel_button.clicked.connect(self.cancel_request)
+        self.config_button.clicked.connect(self.open_config_editor)
+        self.uuid_button.clicked.connect(self.generate_uuid)
 
     def notify_user(self, message, success=True):
         """ Уведомить пользователя о текущем статусе. """
@@ -128,7 +118,7 @@ class Window(QMainWindow):
     def restart_application(self):
         """ Перезапуск приложения. """
         self.log_event("Перезапуск приложения...")
-        self.client.stop_client() 
+        self.client.stop() 
         python = sys.executable
         os.execl(python, python, *sys.argv)
 
@@ -139,12 +129,12 @@ class Window(QMainWindow):
     def on_server_ready(self):
         """ Разблокировать UI и обновить статус, когда сервер готов. """
         self.notify_user("Сервер готов! Теперь можно отправлять запросы.", success=True)
-        self.unlock_ui()  # Разблокировать элементы управления
+        self.unlock_ui()
 
     def on_server_unavailable(self):
         """ Обработка ситуации, когда сервер становится недоступен. """
         self.notify_user("Сервер недоступен.", success=False)
-        self.lock_ui()  # Заблокировать элементы управления
+        self.lock_ui() 
 
     def handle_error_signal(self, error_message):
         """ Обработка ошибок. """
@@ -167,21 +157,21 @@ class Window(QMainWindow):
 
     def start_timer(self):
         """ Запускает таймер и отсчет времени ожидания ответа от сервера. """
-        self.wait_time = self.process_time_in_seconds
-        self.remaining_time = self.wait_time + self.client.timeout_response
-        self.progress_bar.setMaximum(self.wait_time) 
-        self.progress_bar.setValue(self.wait_time)   
-        self.timer.start(1000) 
+        self.remaining_time = self.process_time_in_seconds
+        self.progress_bar.setMaximum(self.process_time_in_seconds)
+        self.progress_bar.setValue(self.process_time_in_seconds)
+        self.timer_label.setText(f"Оставшееся время: {self.remaining_time} сек.")
+        self.timer.start(1000)  
 
     def update_timer(self):
-        """ Обновляет таймер каждую секунду и управляет состоянием прогресс-бара. """
+        """ Обновляет таймер каждую секунду и управляет состоянием прогресс-бара и отображением оставшегося времени. """
         self.remaining_time -= 1
-        self.progress_bar.setValue(self.remaining_time)
-
-        if self.remaining_time < 0:
+        if self.remaining_time >= 0:
+            self.progress_bar.setValue(self.remaining_time)
+            self.timer_label.setText(f"Оставшееся время: {self.remaining_time} сек.")
+        if self.remaining_time <= 0:
             self.timer.stop()
             self.notify_user("Время ожидания истекло. Сервер может быть недоступен.", success=False)
-
 
     def sending_request(self):
         """ Отправляет запрос """
@@ -194,38 +184,33 @@ class Window(QMainWindow):
             self.notify_user("Введите число!", success=False)
             return
         
-        if int(text) > MAX_NUMBER or int(text) < -(MAX_NUMBER):
-            self.notify_user("Введите число, не превышающее 2147483647 и не меньшее -2147483647!", success=False)
-            return
-
         try:
             number = int(text)
+            if number > MAX_NUMBER or number < -MAX_NUMBER:
+                self.notify_user("Введите число, не превышающее 2147483647 и не меньшее -2147483647!", success=False)
+                return
         except ValueError:
             self.notify_user("Введите корректное целое число!", success=False)
             return
 
         self.log_event(f"Отправка запроса с числом: {number}")
-
-        # Расчёт времени ожидания
-        if self.process_time_in_seconds > 0:
-            self.total_wait_time = self.process_time_in_seconds + self.client.timeout_response
-        else:
-            self.total_wait_time = self.client.timeout_response
-
-        self.client.send_queue.put((str(number), self.process_time_in_seconds))  # Отправка запроса
-        self.start_timer()  # Установка таймера
+        self.client.send_queue.put((str(number), self.process_time_in_seconds)) 
+        self.start_timer()  
 
     def display_response(self, response):
         """ Отображает ответ от сервера. """
         self.notify_user(f"Ответ от сервера: {response}", success=True)
         self.timer.stop()  
         self.progress_bar.setValue(0)
+        self.timer_label.setText("Оставшееся время: 0 сек.")
 
     def cancel_request(self):
         """ Отмена текущего запроса. """
         self.timer.stop()
         self.log_event("Запрос отменен.")
         self.notify_user("Запрос отменен.", success=False)
+        self.progress_bar.setValue(0)
+        self.timer_label.setText("Оставшееся время: 0 сек.")
 
     def lock_ui(self):
         """ Блокирует элементы управления интерфейса. """
@@ -247,4 +232,6 @@ class Window(QMainWindow):
 
     def generate_uuid(self):
         """Генерация UUID для клиента"""
-        self.uuid_input.setText(str(uuid.uuid4()))
+        new_uuid = str(uuid.uuid4())
+        self.uuid_input.setText(new_uuid)
+        self.log_event(f"Сгенерирован новый UUID: {new_uuid}")

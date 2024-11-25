@@ -32,7 +32,9 @@ class ConfigEditor(QDialog):
         self.config.add_section("client")
         self.config.set("client", "uuid", str(uuid.uuid4()))
         self.config.set("client", "timeout_send", "10")
-        self.config.set("client", "timeout_response", "10")
+
+        self.config.add_section("server")
+        self.config.set("server", "timeout_response", "10")
 
     def initUI(self):
         layout = QVBoxLayout()
@@ -58,7 +60,9 @@ class ConfigEditor(QDialog):
         layout.addWidget(QLabel("Client Settings"))
         self.uuid_input = self.create_input_field("UUID", "client", "uuid", layout)
         self.timeout_send_input = self.create_input_field("Timeout Send", "client", "timeout_send", layout)
-        self.timeout_response_input = self.create_input_field("Timeout Response", "client", "timeout_response", layout)
+
+        layout.addWidget(QLabel("Server Settings"))
+        self.timeout_response_input = self.create_input_field("Timeout Response", "server", "timeout_response", layout)
 
         # Save Button
         save_button = QPushButton("Save Settings")
@@ -93,7 +97,7 @@ class ConfigEditor(QDialog):
                 raise ValueError("Timeouts must be positive.")
 
             self.config.set("client", "timeout_send", str(timeout_send))
-            self.config.set("client", "timeout_response", str(timeout_response))
+            self.config.set("server", "timeout_response", str(timeout_response))
 
             with open(self.config_file, "w") as configfile:
                 self.config.write(configfile)

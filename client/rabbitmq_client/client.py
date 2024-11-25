@@ -3,7 +3,7 @@ import sys
 import uuid
 import configparser
 import logging
-from PyQt5.QtCore import QObject, pyqtSignal, QThread
+from PyQt5.QtCore import QObject, pyqtSignal
 import pika
 import queue
 from pathlib import Path
@@ -61,35 +61,12 @@ class RMQClient(QObject):
         self.client_uuid = config.get('client', 'uuid', fallback=str(uuid.uuid4()))
         config.set('client', 'uuid', self.client_uuid)
         self.timeout_send = config.getint('client', 'timeout_send', fallback=10)
-        self.timeout_response = config.getint('client', 'timeout_response', fallback=10)
+        self.timeout_request = config.getint('client', 'timeout_request', fallback=10)
 
         with open(config_file_path, 'w') as configfile:
             config.write(configfile)
 
         self.client_uuid = self.client_uuid
-
-    def start_client(self):
-        """ Запускает клиента в отдельном потоке. """
-        self.thread = QThread()
-        self.moveToThread(self.thread)
-        self.thread.started.connect(self.run)
-        self.thread.start()
-
-    def stop_client(self):
-        """ Останавливает клиента и завершает поток. """
-        self._running = False  # Завершаем основной цикл
-        try:
-            if self.connection and self.connection.is_open:
-                self.logger.info("Closing RabbitMQ connection...")
-                self.connection.close()  # Закрываем соединение
-        except pika.exceptions.StreamLostError as e:
-            self.logger.error(f"Stream connection lost while closing: {e}")
-        except Exception as e:
-            self.logger.error(f"Error while stopping client: {e}")
-        finally:
-            self.thread.quit()
-            self.thread.wait()
-            self.logger.info("Client stopped successfully.")
 
     def run(self):
         """ Основной цикл клиента. """
@@ -97,8 +74,10 @@ class RMQClient(QObject):
             self.connect_to_rabbitmq()
             self.setup_channel()
 
+            self.server_ready_signal.emit()
+
             while self._running:
-                # Обработка событий
+                # Обработка событий RabbitMQ
                 self.connection.process_data_events(time_limit=1)
 
                 try:
@@ -110,6 +89,7 @@ class RMQClient(QObject):
         except Exception as e:
             self.logger.error(f"Error in client run loop: {e}")
             self.error_signal.emit(str(e))
+            self.server_unavailable_signal.emit()
             self._running = False
 
     def connect_to_rabbitmq(self):
@@ -130,6 +110,7 @@ class RMQClient(QObject):
     def setup_channel(self):
         """ Настраивает каналы для отправки и получения сообщений. """
         self.channel.exchange_declare(exchange=self.exchange, exchange_type='direct', durable=True)
+        self.logger.info(f"Exchange '{self.exchange}' declared.")
 
     def send_request(self, user_input, delay):
         """ Отправляет запрос на сервер. """
@@ -153,6 +134,7 @@ class RMQClient(QObject):
             )
             self.logger.info(f"Sent request: {user_input} with delay: {delay} sec")
         except Exception as e:
+            self.logger.error(f"Error sending request: {e}")
             self.error_signal.emit(f"Error sending request: {e}")
 
     def on_response(self, ch, method, properties, body):
@@ -164,15 +146,31 @@ class RMQClient(QObject):
             self.logger.info(f"Received response: {response.response} for request ID: {properties.correlation_id}")
             self.received_response.emit(str(response.response))
         except Exception as e:
+            self.logger.error(f"Error processing response: {e}")
             self.error_signal.emit(f"Error processing response: {e}")
 
     def handle_send_request(self, user_input, delay):
         """ Обрабатывает сигнал на отправку запроса. """
         self.send_queue.put((user_input, delay))
+        self.logger.debug(f"Request queued: {user_input} with delay: {delay}")
+
+    def stop(self):
+        """ Останавливает клиента. """
+        self._running = False
+        try:
+            if self.connection and self.connection.is_open:
+                self.logger.info("Closing RabbitMQ connection...")
+                self.connection.close()
+        except pika.exceptions.StreamLostError as e:
+            self.logger.error(f"Stream connection lost while closing: {e}")
+        except Exception as e:
+            self.logger.error(f"Error while stopping client: {e}")
+        finally:
+            self.logger.info("Client stopped successfully.")
 
     def restart_application(self):
-        """ Перезапус"""
-        self._running = False
-        self.stop_client()
+        """ Перезапускает приложение. """
+        self.logger.info("Restarting application...")
+        self.stop()
         python = sys.executable
-        os.execv(python, [python] + sys.argv) 
+        os.execl(python, python, *sys.argv)
