@@ -13,3 +13,4 @@ test:
   stage: test
   script:
     - echo "Running tests..."
+    - pytest --maxfail=1 --disable-warnings -q || { echo 'Tests failed'; exit 1; }
