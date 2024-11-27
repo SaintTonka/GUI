@@ -1,0 +1,19 @@
+2024-11-27 18:35:42,220 - INFO - Connected to RabbitMQ
+2024-11-27 18:35:42,248 - INFO - Server is listening on queue: bews
+2024-11-27 18:35:42,248 - INFO - Server is running. Press Ctrl+C to stop.
+2024-11-27 18:35:49,787 - INFO - Received Request: ID=322d9d2d-b25e-4f36-8b54-7ba47805e1d4, Request=2
+2024-11-27 18:35:49,787 - INFO - Processed request: 2 -> Response: 4
+2024-11-27 18:35:53,795 - INFO - Received Request: ID=2190b08f-9aee-46fb-8338-3ba4a4344b95, Request=2
+2024-11-27 18:35:53,795 - INFO - Processing request with delay of 2.0 seconds
+2024-11-27 18:35:57,798 - INFO - Processed request: 2 -> Response: 4
+2024-11-27 18:36:06,810 - INFO - Received Request: ID=8cfb45b6-dce8-49c9-9df8-d18645c42552, Request=5
+2024-11-27 18:36:06,810 - INFO - Processing request with delay of 2.0 seconds
+2024-11-27 18:36:10,814 - INFO - Processed request: 5 -> Response: 10
+2024-11-27 19:10:18,811 - INFO - Received Request: ID=5fc7cd60-7bbf-4026-9f4d-5a72f89e9e70, Request=23
+2024-11-27 19:10:18,811 - INFO - Processing request with delay of 2.0 seconds
+2024-11-27 19:10:22,815 - INFO - Processed request: 23 -> Response: 46
+2024-11-27 19:24:34,345 - INFO - Connected to RabbitMQ
+2024-11-27 19:24:34,358 - INFO - Server is listening on queue: bews
+2024-11-27 19:24:34,358 - INFO - Server is running. Press Ctrl+C to stop.
+2024-11-27 19:24:40,130 - INFO - Received Request: ID=e2e7cb09-df0b-40d8-98ff-27e426a16804, Request=2
+2024-11-27 19:24:40,130 - INFO - Processed request: 2 -> Response: 4

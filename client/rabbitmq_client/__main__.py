@@ -1,27 +1,52 @@
 import sys
 from PyQt5.QtWidgets import QApplication
-from window import Window
-from client import RMQClient, Communicate
+from PyQt5.QtCore import QThread
+from pathlib import Path
+import signal
+
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+
+from rabbitmq_client.window import Window
+from rabbitmq_client.client import RMQClient
+
 
 def main():
-    communicate = Communicate()
-
     app = QApplication(sys.argv)
-    
-    client = RMQClient(communicate)
-    client.start()  
 
-    window = Window(communicate, client)
+    client = RMQClient()
+
+    window = Window(client)
+
+    thread = QThread()
+    client.moveToThread(thread)
+
+    thread.started.connect(client.run)
+
+    def cleanup():
+        client.stop()
+        thread.quit()
+        thread.wait()
+
+
+    app.aboutToQuit.connect(cleanup)
+
+    def signal_handler(sig, frame):
+        app.quit()
+
+    signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGTERM, signal_handler)
+
     window.show()
 
+    thread.start()
+
     try:
-        sys.exit(app.exec())
+        sys.exit(app.exec_())
+    except SystemExit:
+        pass
     finally:
-        client.stop_client()
-        print("Application closed")
+        cleanup()
+
 
 if __name__ == "__main__":
-    try:
-        main()
-    except KeyboardInterrupt:
-        print("\nProgram terminated by user.")
+    main()
