@@ -1,16 +1,17 @@
+default:
+  tags:
+    - docker
+    - ubuntu
+
+  image: "neus.nic.etu:8081/nic/fedora_33:base"
+
 stages:
-  - build
   - test
 
-build:
-  stage: build
-  before_script:
-    - pip install -r requirements.txt
-  script:
-    - echo "Building project..."
-
-test:
+unit_tests:
   stage: test
   script:
-    - echo "Running tests..."
-    - pytest --maxfail=1 --disable-warnings -q || { echo 'Tests failed'; exit 1; }
+    - dnf update -y && dnf install -y python3 python3-pip python3-qt5 qt5-qtbase-devel
+    - pip3 install -r requirements.txt
+    - export PYTHONPATH=$(pwd)/server
+    - pytest server/tests

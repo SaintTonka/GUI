@@ -1,11 +1,9 @@
-# server/rabbitmq_server/__main__.py
-
 import logging
 import aio_pika
 import asyncio
 from pathlib import Path
-from .config import configure_logging, load_config
-from .server_state import ServerContext, WaitingState
+from rabbitmq_server.server_state import ServerContext, WaitingState, load_server_config
+from rabbitmq_server.config import configure_logging
 
 log = logging.getLogger(__name__)
 
@@ -14,7 +12,7 @@ async def main():
     config_path = Path(__file__).parent.parent.parent / 'client' / 'client_config.ini'
     log.info(f"Config path: {config_path}")
 
-    config = load_config(path=config_path)
+    config = load_server_config()
     configure_logging(level=config['logging']['level'], log_file=config['logging']['file'])
 
     rabbit_config = config['rabbitmq']
@@ -34,23 +32,23 @@ async def main():
         context = ServerContext(channel, config)
         context.set_state(WaitingState())
 
-        # Объявление обмена (exchange)
         exchange = await channel.declare_exchange(
-            'bews',
+            rabbit_config['exchange'],
             aio_pika.ExchangeType.DIRECT,
             durable=True,
             auto_delete=False
         )
+        log.info(f"Exchange '{rabbit_config['exchange']}' declared.")
 
         # Объявление очереди (queue)
         queue = await channel.declare_queue(
-            "bews",
+            rabbit_config['exchange'],
             durable=True,
             auto_delete=True
         )
 
         # Привязка очереди к обмену
-        await queue.bind(exchange, routing_key="bews")
+        await queue.bind(exchange, routing_key=rabbit_config['exchange'])
 
         # Начало потребления сообщений
         await queue.consume(lambda message: asyncio.create_task(context.handle_request(message)))
@@ -62,6 +60,9 @@ async def main():
                 await asyncio.sleep(3600)
         except KeyboardInterrupt:
             log.info("Server shutdown initiated...")
+        finally:
+            context.stop_watchdog()
+            log.info("Watchdog stopped.")
 
 if __name__ == "__main__":
     asyncio.run(main())

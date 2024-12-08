@@ -1,5 +1,3 @@
-import os
-import sys
 import uuid
 import configparser
 import logging
@@ -7,10 +5,11 @@ from PyQt5.QtCore import QObject, pyqtSignal
 import pika
 import queue
 from pathlib import Path
-from .proto import msg_client_pb2
+from rabbitmq_client.proto import msg_client_pb2
+from rabbitmq_client.client_state import DisconnectedState, ConnectingState, ConnectedState, ErrorState
 
 class RMQClient(QObject):
-    received_response = pyqtSignal(str)
+    received_response = pyqtSignal(int)
     error_signal = pyqtSignal(str)
     server_ready_signal = pyqtSignal()
     server_unavailable_signal = pyqtSignal()
@@ -23,6 +22,8 @@ class RMQClient(QObject):
         self.channel = None
         self.send_queue = queue.Queue()
         self._running = True
+
+        self.state = DisconnectedState()
 
         self.logger = logging.getLogger(__name__)
         logging.basicConfig(
@@ -48,6 +49,11 @@ class RMQClient(QObject):
         if not config.has_section('client'):
             config.add_section('client')
 
+        # Инициализируем client_uuid до чтения конфигурации
+        self.client_uuid = config.get('client', 'uuid', fallback=str(uuid.uuid4()))
+        config.set('client', 'uuid', self.client_uuid)  # Записываем UUID в конфиг
+
+        # Загрузка остальных параметров из конфигурационного файла
         self.rmq_host = config.get('rabbitmq', 'host', fallback='localhost')
         self.rmq_port = config.getint('rabbitmq', 'port', fallback=5672)
         self.rmq_user = config.get('rabbitmq', 'user', fallback='guest')
@@ -58,108 +64,138 @@ class RMQClient(QObject):
         self.log_file = config.get('logging', 'file', fallback='client.log')
         self.log_level = getattr(logging, self.log_level_str.upper(), logging.INFO)
 
-        self.client_uuid = config.get('client', 'uuid', fallback=str(uuid.uuid4()))
-        config.set('client', 'uuid', self.client_uuid)
         self.timeout_send = config.getint('client', 'timeout_send', fallback=10)
         self.timeout_request = config.getint('client', 'timeout_request', fallback=10)
 
         with open(config_file_path, 'w') as configfile:
             config.write(configfile)
 
-        self.client_uuid = self.client_uuid
+    def close_connection(self):
+        """Закрывает старое соединение и канал, если они открыты."""
+        try:
+            if self.connection and self.connection.is_open:
+                self.channel.close()
+                self.connection.close()
+                self.logger.info("Old connection and channel closed.")
+        except Exception as e:
+            self.logger.error(f"Error while closing old connection: {e}")
+
+    def change_state(self, new_state):
+        self.logger.debug(f"Changing state from {self.state.__class__.__name__} to {new_state.__class__.__name__}")
+        self.state = new_state
+   
 
     def run(self):
-        """ Основной цикл клиента. """
+        """Запускает работу клиента и обрабатывает входящие и исходящие сообщения."""
         try:
-            self.connect_to_rabbitmq()
-            self.setup_channel()
-
-            self.server_ready_signal.emit()
-
+            self.state.connect(self)
             while self._running:
-                # Обработка событий RabbitMQ
                 self.connection.process_data_events(time_limit=1)
-
                 try:
                     user_input, delay = self.send_queue.get_nowait()
                     self.send_request(user_input, delay)
                 except queue.Empty:
                     pass
-
         except Exception as e:
-            self.logger.error(f"Error in client run loop: {e}")
-            self.error_signal.emit(str(e))
+            self.emit_error_signal(str(e))
             self.server_unavailable_signal.emit()
             self._running = False
+            self.change_state(DisconnectedState())
 
     def connect_to_rabbitmq(self):
-        """ Устанавливает соединение с RabbitMQ. """
-        credentials = pika.PlainCredentials(self.rmq_user, self.rmq_password)
-        parameters = pika.ConnectionParameters(
-            host=self.rmq_host,
-            port=self.rmq_port,
-            credentials=credentials
-        )
-        self.connection = pika.BlockingConnection(parameters)
-        self.channel = self.connection.channel()
-        self.channel.queue_declare(queue=self.client_uuid, durable=True, exclusive=True)  # Создаем очередь для ответов
-        self.channel.basic_consume(queue=self.client_uuid, on_message_callback=self.on_response, auto_ack=True)
+        """Устанавливает соединение с RabbitMQ и пересоздает канал с новой очередью."""
+        self.load_config()
 
-        self.logger.info("Connected to RabbitMQ")
+        try:
+            credentials = pika.PlainCredentials(self.rmq_user, self.rmq_password)
+            parameters = pika.ConnectionParameters(
+                host=self.rmq_host,
+                port=self.rmq_port,
+                credentials=credentials
+            )
+            self.connection = pika.BlockingConnection(parameters)
+            self.channel = self.connection.channel()
+
+            self.channel.exchange_declare(exchange=self.exchange, exchange_type='direct', durable=True)
+            self.logger.info(f"Exchange '{self.exchange}' declared.")
+
+            self.channel.queue_declare(queue=self.client_uuid, durable=True, exclusive=True)
+            self.logger.info(f"Queue with UUID {self.client_uuid} declared successfully.")
+
+            self.channel.basic_consume(queue=self.client_uuid, on_message_callback=self.on_response, auto_ack=True)
+
+            self.logger.info("Connected to RabbitMQ")
+            self.change_state(ConnectedState())
+            self.server_ready_signal.emit()
+        except pika.exceptions.AMQPConnectionError as e:
+            self.emit_error_signal(f"Connection error: {e}")
+            self.change_state(ErrorState())
+        except Exception as e:
+            self.emit_error_signal(f"Unexpected error: {e}")
+            self.change_state(ErrorState())
 
     def setup_channel(self):
-        """ Настраивает каналы для отправки и получения сообщений. """
+        """Настроить каналы для отправки и получения сообщений."""
         self.channel.exchange_declare(exchange=self.exchange, exchange_type='direct', durable=True)
         self.logger.info(f"Exchange '{self.exchange}' declared.")
 
     def send_request(self, user_input, delay):
-        """ Отправляет запрос на сервер. """
-        try:
-            request = msg_client_pb2.Request()
-            request.request = int(user_input)  # Запрос (число)
-            request.return_address = self.client_uuid
-            request.request_id = str(uuid.uuid4())
-            request.process_time_in_seconds = delay  # Отправляем задержку
+        """Централизованный метод для отправки запроса."""
+        if self.channel and self.connection.is_open:
+            try:
+                request = msg_client_pb2.Request()
+                request.request = int(user_input)
+                request.return_address = self.client_uuid
+                request.request_id = str(uuid.uuid4())
+                request.process_time_in_seconds = delay
+                msg = request.SerializeToString()
 
-            msg = request.SerializeToString()
+                self.channel.basic_publish(
+                    exchange=self.exchange,
+                    routing_key=self.exchange,
+                    properties=pika.BasicProperties(
+                        reply_to=self.client_uuid,
+                        correlation_id=request.request_id
+                    ),
+                    body=msg
+                )
+                self.log_request_sent(user_input, delay)  # Логирование через вспомогательную функцию
+            except Exception as e:
+                self.emit_error_signal(f"Error sending request: {e}")
+        else:
+            self.emit_error_signal("Cannot send request: Channel or connection is not open.")
 
-            self.channel.basic_publish(
-                exchange=self.exchange,
-                routing_key=self.exchange,
-                properties=pika.BasicProperties(
-                    reply_to=self.client_uuid,
-                    correlation_id=request.request_id
-                ),
-                body=msg
-            )
-            self.logger.info(f"Sent request: {user_input} with delay: {delay} sec")
-        except Exception as e:
-            self.logger.error(f"Error sending request: {e}")
-            self.error_signal.emit(f"Error sending request: {e}")
+    def log_request_sent(self, user_input, delay):
+        """Логирует отправленный запрос."""
+        self.logger.info(f"Sent request: {user_input} with delay: {delay} sec")
 
     def on_response(self, ch, method, properties, body):
-        """ Обрабатывает ответ от сервера. """
+        """Обрабатывает ответ от сервера."""
         try:
+            self.logger.info(f"Received raw response body: {body}")
             response = msg_client_pb2.Response()
+
             response.ParseFromString(body)
 
-            self.logger.info(f"Received response: {response.response} for request ID: {properties.correlation_id}")
-            self.received_response.emit(str(response.response))
-        except Exception as e:
-            self.logger.error(f"Error processing response: {e}")
-            self.error_signal.emit(f"Error processing response: {e}")
+            self.logger.info(f"Parsed response: {response.response} for request ID: {properties.correlation_id}")
+            self.received_response.emit(response.response)
 
-    def handle_send_request(self, user_input, delay):
-        """ Обрабатывает сигнал на отправку запроса. """
-        self.send_queue.put((user_input, delay))
-        self.logger.debug(f"Request queued: {user_input} with delay: {delay}")
+        except Exception as e:
+            self.emit_error_signal(f"Error processing response: {e}")
+
+    def emit_error_signal(self, message):
+        """Централизованный метод для отправки сигнала об ошибке."""
+        self.logger.error(message)
+        self.error_signal.emit(message)
+
 
     def stop(self):
-        """ Останавливает клиента. """
+        """Останавливает клиента."""
         self._running = False
         try:
             if self.connection and self.connection.is_open:
                 self.logger.info("Closing RabbitMQ connection...")
+                self.channel.close()
                 self.connection.close()
         except pika.exceptions.StreamLostError as e:
             self.logger.error(f"Stream connection lost while closing: {e}")
@@ -168,9 +204,12 @@ class RMQClient(QObject):
         finally:
             self.logger.info("Client stopped successfully.")
 
-    def restart_application(self):
-        """ Перезапускает приложение. """
-        self.logger.info("Restarting application...")
-        self.stop()
-        python = sys.executable
-        os.execl(python, python, *sys.argv)
+    def reload_config_and_reconnect(self):
+        """Перезагружает конфигурацию и инициирует подключение с новой очередью."""
+        old_uuid = self.client_uuid
+        self.load_config()
+
+        if self.client_uuid != old_uuid:
+            self.logger.info(f"Client UUID changed. Old: {old_uuid}, New: {self.client_uuid}")
+            self.close_connection()  # Закрытие старого соединения, если оно есть
+            self.change_state(ConnectingState())

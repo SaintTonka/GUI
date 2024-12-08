@@ -59,10 +59,17 @@ class ConfigEditor(QDialog):
         # Client Settings
         layout.addWidget(QLabel("Client Settings"))
         self.uuid_input = self.create_input_field("UUID", "client", "uuid", layout)
+
+        self.uuid_button = QPushButton("Сгенерировать UUID", self)
+        self.uuid_button.setStyleSheet("background-color: #4CAF50; color: white;")
+        self.uuid_button.clicked.connect(self.generate_uuid) 
+        layout.addWidget(self.uuid_button)
+
         self.timeout_send_input = self.create_input_field("Timeout Send", "client", "timeout_send", layout)
 
         layout.addWidget(QLabel("Server Settings"))
         self.timeout_response_input = self.create_input_field("Timeout Response", "server", "timeout_response", layout)
+
 
         # Save Button
         save_button = QPushButton("Save Settings")
@@ -102,8 +109,8 @@ class ConfigEditor(QDialog):
             with open(self.config_file, "w") as configfile:
                 self.config.write(configfile)
 
-            QMessageBox.information(self, "Success", "Настройки добавяться с автоматическим перезапуском!")
-
+            QMessageBox.information(self, "Success", "Настройки сохранены!")
+            
             self.config_saved.emit()
 
         except ValueError as e:
@@ -111,9 +118,10 @@ class ConfigEditor(QDialog):
         except Exception as e:
             QMessageBox.information(self, "ERROR", f"Failed to save settings: {str(e)}")
 
-    def run(self):
-        return self.exec_() == QDialog.accepted
-
+    def generate_uuid(self):
+        """Генерирует новый UUID и обновляет поле ввода."""
+        new_uuid = str(uuid.uuid4())
+        self.uuid_input.setText(new_uuid)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

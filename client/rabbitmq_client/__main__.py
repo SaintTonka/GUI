@@ -3,33 +3,30 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import QThread
 from pathlib import Path
 import signal
-
-sys.path.append(str(Path(__file__).resolve().parent.parent))
-
 from rabbitmq_client.window import Window
 from rabbitmq_client.client import RMQClient
 
+class MainWindow(Window):
+    def __init__(self, client):
+        super().__init__(client)
+        self.client = client
+
+    def closeEvent(self, event):
+        """Обработчик события закрытия окна."""
+        self.client.stop()  
+        event.accept()  
 
 def main():
     app = QApplication(sys.argv)
 
-    config_file = 'client_config.ini'
-    client = RMQClient(config_file)
+    client = RMQClient()
 
-    window = Window(client, config_file)
+    window = MainWindow(client)  
 
     thread = QThread()
     client.moveToThread(thread)
 
     thread.started.connect(client.run)
-
-    def cleanup():
-        client.stop()
-        thread.quit()
-        thread.wait()
-
-
-    app.aboutToQuit.connect(cleanup)
 
     def signal_handler(sig, frame):
         app.quit()
@@ -41,13 +38,7 @@ def main():
 
     thread.start()
 
-    try:
-        sys.exit(app.exec_())
-    except SystemExit:
-        pass
-    finally:
-        cleanup()
-
+    sys.exit(app.exec_())
 
 if __name__ == "__main__":
     main()
