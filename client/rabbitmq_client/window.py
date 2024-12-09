@@ -32,7 +32,6 @@ class Window(QMainWindow):
         self.setGeometry(100, 100, 400, 600) 
         self.initUI()
 
-        # Подключение сигналов клиента
         self.client.received_response.connect(self.display_response)
         self.client.error_signal.connect(self.handle_error_signal)
         self.client.server_ready_signal.connect(self.on_server_ready)
@@ -49,7 +48,6 @@ class Window(QMainWindow):
         self.timeout_timer.setSingleShot(True)
         self.timeout_timer.timeout.connect(self.on_timeout)
 
-        # Таймер для обновления прогресс-бара каждую секунду
         self.process_timer = QTimer()
         self.process_timer.timeout.connect(self.update_progress)
 
@@ -59,17 +57,14 @@ class Window(QMainWindow):
 
         layout = QVBoxLayout(central_widget)
 
-        # Поле ввода числа
         self.label = QLabel("Введите число:")
         self.input_field = QLineEdit()
         self.send_button = QPushButton("Отправить")
 
-        # Поле установки задержки
         self.label2 = QLabel("Установите время задержки (секунды):")
         self.input_field2 = QLineEdit()
         self.set_delay_button = QPushButton("Установить задержку")
 
-        # Кнопки отмены запроса и открытия настроек
         self.cancel_button = QPushButton("Отмена текущего запроса")
         self.cancel_button.setVisible(False)
         self.log_widget = QTextEdit()
@@ -77,13 +72,11 @@ class Window(QMainWindow):
 
         self.config_button = QPushButton("Настройки клиента")
 
-        # Прогресс-бар и метка таймера
         self.progress_bar = QProgressBar(self)
         self.progress_bar.setMinimum(0)
         self.progress_bar.setMaximum(100)  
         self.timer_label = QLabel("Оставшееся время: 0 сек.")  
 
-        # Добавление виджетов в макет
         layout.addWidget(self.label)
         layout.addWidget(self.input_field)
         layout.addWidget(self.send_button)
@@ -99,13 +92,11 @@ class Window(QMainWindow):
         layout.addWidget(self.progress_bar)
         layout.addWidget(self.timer_label)
 
-        # Статусная метка
         self.status_label = QLabel("")
         layout.addWidget(self.status_label)
 
         layout.setSpacing(20)
 
-        # Подключение кнопок к методам
         self.send_button.clicked.connect(self.sending_request)
         self.set_delay_button.clicked.connect(self.set_delay)
         self.cancel_button.clicked.connect(self.cancel_request)
@@ -171,14 +162,20 @@ class Window(QMainWindow):
     def start_timer(self):
         """Запускает таймер ожидания ответа от сервера."""
         self.total_wait_time = self.timeout_send + self.process_time_in_seconds + self.timeout_response
-        self.timeout_timer.start(self.total_wait_time * 1000)
-        self.log_event(f"Таймер ожидания ответа запущен на {self.total_wait_time} секунд.")
 
-        # Настройка прогресс-бара
-        self.progress_bar.setMaximum(self.total_wait_time)
-        self.progress_bar.setValue(self.total_wait_time)
-        self.timer_label.setText(f"Оставшееся время: {self.total_wait_time} сек.")
-        self.process_timer.start(1000)  
+        if self.total_wait_time == 0:
+            self.progress_bar.setVisible(False)
+            self.timer_label.setText("Оставшееся время: 0 сек.")
+            self.process_timer.stop()  
+        else:
+            self.progress_bar.setVisible(True)  
+            self.progress_bar.setMaximum(self.total_wait_time)
+            self.progress_bar.setValue(self.total_wait_time)
+            self.timer_label.setText(f"Оставшееся время: {self.total_wait_time} сек.")
+            self.process_timer.start(1000)  
+
+        self.timeout_timer.start(self.total_wait_time * 1000)
+ 
 
     def update_progress(self):
         """Обновляет прогресс-бар и отображение оставшегося времени."""
@@ -232,7 +229,6 @@ class Window(QMainWindow):
             self.notify_user(f"Ответ от сервера: {self.response_data}", success=True)
             self.timeout_timer.stop()
             self.process_timer.stop()
-            self.progress_bar.setValue(0)
             self.timer_label.setText("Оставшееся время: 0 сек.")
             self.unlock_ui()
 
@@ -240,7 +236,6 @@ class Window(QMainWindow):
         """Отмена текущего запроса."""
         self.timeout_timer.stop()
         self.process_timer.stop()
-        self.log_event("Запрос отменен.")
         self.notify_user("Запрос отменен.", success=False)
         self.progress_bar.setValue(0)
         self.timer_label.setText("Оставшееся время: 0 сек.")
@@ -255,7 +250,6 @@ class Window(QMainWindow):
         self.set_ui_state(True)
 
     def set_ui_state(self, enabled):
-        """Обновление состояния доступности элементов интерфейса."""
         self.send_button.setEnabled(enabled)
         self.input_field.setEnabled(enabled)
         self.set_delay_button.setEnabled(enabled)

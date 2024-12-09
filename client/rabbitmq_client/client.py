@@ -49,11 +49,9 @@ class RMQClient(QObject):
         if not config.has_section('client'):
             config.add_section('client')
 
-        # Инициализируем client_uuid до чтения конфигурации
         self.client_uuid = config.get('client', 'uuid', fallback=str(uuid.uuid4()))
-        config.set('client', 'uuid', self.client_uuid)  # Записываем UUID в конфиг
+        config.set('client', 'uuid', self.client_uuid)  
 
-        # Загрузка остальных параметров из конфигурационного файла
         self.rmq_host = config.get('rabbitmq', 'host', fallback='localhost')
         self.rmq_port = config.getint('rabbitmq', 'port', fallback=5672)
         self.rmq_user = config.get('rabbitmq', 'user', fallback='guest')
@@ -140,7 +138,7 @@ class RMQClient(QObject):
         self.logger.info(f"Exchange '{self.exchange}' declared.")
 
     def send_request(self, user_input, delay):
-        """Централизованный метод для отправки запроса."""
+        """Метод для отправки запроса."""
         if self.channel and self.connection.is_open:
             try:
                 request = msg_client_pb2.Request()
@@ -159,7 +157,7 @@ class RMQClient(QObject):
                     ),
                     body=msg
                 )
-                self.log_request_sent(user_input, delay)  # Логирование через вспомогательную функцию
+                self.log_request_sent(user_input, delay) 
             except Exception as e:
                 self.emit_error_signal(f"Error sending request: {e}")
         else:
@@ -211,5 +209,5 @@ class RMQClient(QObject):
 
         if self.client_uuid != old_uuid:
             self.logger.info(f"Client UUID changed. Old: {old_uuid}, New: {self.client_uuid}")
-            self.close_connection()  # Закрытие старого соединения, если оно есть
+            self.close_connection() 
             self.change_state(ConnectingState())

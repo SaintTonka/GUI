@@ -82,7 +82,6 @@ class WaitingState(ServerState):
                 response = msg_serv_pb2.Response()
                 response.request_id = req.request_id
 
-                # Получаем значение тайм-аута для ответа от сервера из конфигурации
                 timeout_response_str = context.config['server'].get('timeout_response', fallback='0')
                 try:
                     timeout_response = int(timeout_response_str)
@@ -91,11 +90,9 @@ class WaitingState(ServerState):
                     timeout_response = 0
                 log.info(f"timeout_response: {timeout_response} сек.")
 
-                # Получаем значение process_time_in_seconds из запроса
                 process_time = getattr(req, 'process_time_in_seconds', 0)
                 log.info(f"process_time_in_seconds: {process_time} сек.")
 
-                # Вычисляем общее время задержки
                 sleep_time = timeout_response + process_time
                 log.info(f"Total sleep_time: {sleep_time} сек.")
 
@@ -113,7 +110,6 @@ class WaitingState(ServerState):
                     response.response = "Invalid request"
                     log.error("Received an invalid request.")
 
-                # Отправляем ответ
                 await context.channel.default_exchange.publish(
                     aio_pika.Message(
                         body=response.SerializeToString(),
