@@ -117,7 +117,7 @@ class RMQClient(QObject):
             self.channel.exchange_declare(exchange=self.exchange, exchange_type='direct', durable=True)
             self.logger.info(f"Exchange '{self.exchange}' declared.")
 
-            self.channel.queue_declare(queue=self.client_uuid, durable=True, exclusive=True)
+            self.channel.queue_declare(queue=self.client_uuid, exclusive=True)
             self.logger.info(f"Queue with UUID {self.client_uuid} declared successfully.")
 
             self.channel.basic_consume(queue=self.client_uuid, on_message_callback=self.on_response, auto_ack=True)
