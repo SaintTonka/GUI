@@ -24,7 +24,7 @@ class Window(QMainWindow):
         
         self.delay_response_timer = QTimer(self)
         self.delay_response_timer.setSingleShot(True)
-        self.delay_response_timer.timeout.connect(self.display_response_delayed)
+        self.delay_response_timer.timeout.connect(self.display_response)
 
         self.response_data = None
 
@@ -40,6 +40,8 @@ class Window(QMainWindow):
         self.request_in_progress = False
         self.process_time_in_seconds = 0  
         self.config_editor = None
+
+        self.request_cancelled = False  # Флаг для отмены запроса
 
         self.file_watcher = QFileSystemWatcher([str(self.config_path)])
         self.file_watcher.fileChanged.connect(self.on_config_changed)
@@ -121,14 +123,50 @@ class Window(QMainWindow):
         self.config_editor.setWindowModality(Qt.ApplicationModal)
         self.config_editor.show()
 
+    def set_logging_level(self):
+        """Настроить уровень логирования в зависимости от конфигурации."""
+        level = self.config_file.get('logging', 'level', fallback='INFO').upper()
+        levels = {
+            'DEBUG': logging.DEBUG,
+            'INFO': logging.INFO,
+            'WARNING': logging.WARNING,
+            'ERROR': logging.ERROR,
+            'CRITICAL': logging.CRITICAL
+        }
+
+        # Устанавливаем новый уровень логирования
+        log.setLevel(levels.get(level, logging.INFO))
+
+        # Обновляем обработчик логирования
+        handler = logging.StreamHandler()
+        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+        handler.setFormatter(formatter)
+
+        # Удаляем старые обработчики, чтобы не создавать дубли
+        log.handlers = []
+        log.addHandler(handler)
+
     def on_config_changed(self):
         """Обработчик изменений в конфигурационном файле."""
         self.config_file.read(self.config_path)
         try:
             self.timeout_send = self.config_file.getint('client', 'timeout_send')
             self.timeout_response = self.config_file.getint('server', 'timeout_response')
+
+            # Обновляем уровень логирования при изменении конфигурации
+            self.set_logging_level()
+
         except ValueError as e:
             self.log_event(f"Ошибка при чтении таймаутов: {e}")
+
+    def log_event(self, event_message):
+        """Запись события в лог с учетом уровня логирования."""
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        # Запись логов с учетом текущего уровня
+        log.debug(f"{timestamp} - {event_message}")
+        self.log_widget.append(f"{timestamp} - {event_message}")
+
 
     def on_server_ready(self):
         """Разблокировать UI и обновить статус, когда сервер готов."""
@@ -161,7 +199,7 @@ class Window(QMainWindow):
 
     def start_timer(self):
         """Запускает таймер ожидания ответа от сервера."""
-        self.total_wait_time = self.timeout_send + self.process_time_in_seconds + self.timeout_response
+        self.total_wait_time = self.process_time_in_seconds + self.timeout_send
 
         if self.total_wait_time == 0:
             self.progress_bar.setVisible(False)
@@ -188,7 +226,7 @@ class Window(QMainWindow):
 
     def on_timeout(self):
         """Обрабатывает истечение времени ожидания ответа от сервера."""
-        if self.timeout_timer.isActive():
+        if self.total_wait_time < self.timeout_response:
             self.notify_user("Время ожидания истекло. Сервер может быть недоступен.", success=False)
         self.unlock_ui()
 
@@ -218,27 +256,40 @@ class Window(QMainWindow):
         self.lock_ui()
 
     def display_response(self, response):
-        """Сохраняем ответ от сервера и запускаем таймер для задержки отображения."""
-        self.response_data = response
-        delay_time = self.timeout_send
-        self.delay_response_timer.start(delay_time * 1000)
+        """Сохраняем и отображаем ответ от сервера."""
+        if self.request_cancelled:
+            self.request_cancelled = False
+            return 
+        
+        if response == None:
+            self.notify_user("Ответ от сервера не получен. Сервер может быть недоступен.", success=False)
+            self.unlock_ui() 
+        else:    
 
-    def display_response_delayed(self):
-        """Отображение ответа после задержки."""
-        if self.response_data:
-            self.notify_user(f"Ответ от сервера: {self.response_data}", success=True)
-            self.timeout_timer.stop()
-            self.process_timer.stop()
-            self.timer_label.setText("Оставшееся время: 0 сек.")
-            self.unlock_ui()
+            self.response_data = response
+        
+            if self.total_wait_time <= self.timeout_response:
+                self.notify_user(f"Ответ от сервера: {self.response_data}", success=True)
+                self.timeout_timer.stop()
+                self.process_timer.stop()
+                self.timer_label.setText("Оставшееся время: 0 сек.")
+                self.progress_bar.setValue(0)
+                self.unlock_ui()
+            else:
+                self.notify_user("Время ожидания истекло. Сервер может быть недоступен.", success=False)     
 
     def cancel_request(self):
         """Отмена текущего запроса."""
         self.timeout_timer.stop()
+        self.request_cancelled = True 
         self.process_timer.stop()
         self.notify_user("Запрос отменен.", success=False)
         self.progress_bar.setValue(0)
         self.timer_label.setText("Оставшееся время: 0 сек.")
+        if self.response_data:
+            self.log_event(f"Был получен ответ от сервера {self.response_data}")
+        else:
+            self.log_event(f"Сервер не успел обработать запрос")
         self.unlock_ui()
 
     def lock_ui(self):

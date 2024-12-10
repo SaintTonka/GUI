@@ -26,13 +26,14 @@ class RMQClient(QObject):
         self.state = DisconnectedState()
 
         self.logger = logging.getLogger(__name__)
-        logging.basicConfig(
-            level=self.log_level,
-            filename=self.log_file,
-            filemode='a',
-            format='%(asctime)s - %(levelname)s - %(name)s: %(message)s',
-            datefmt="%Y-%m-%d %H:%M:%S"
-        )
+        logging.getLogger().handlers.clear()
+
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(self.log_level)  
+        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(name)s: %(message)s')
+        console_handler.setFormatter(formatter)
+        logging.getLogger().addHandler(console_handler)
+
         self.logger.info("Logging initialized for RMQClient.")
 
     def load_config(self):

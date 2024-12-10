@@ -1,11 +1,15 @@
-import sys, pathlib
+import sys
+import pathlib
 import uuid
+import logging
 from PyQt5.QtWidgets import QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox, QDialog, QApplication, QComboBox
 from configparser import ConfigParser
-from PyQt5.QtCore import pyqtSignal 
+from PyQt5.QtCore import pyqtSignal
+
 
 class ConfigEditor(QDialog):
     config_saved = pyqtSignal()
+    editing_allowed = True
 
     def __init__(self, config_file="client_config.ini"):
         super().__init__()
@@ -17,6 +21,10 @@ class ConfigEditor(QDialog):
 
         self.initUI()
 
+        # Настройка логирования
+        self.set_logging_level()
+        self.update_editability()
+
     def create_default_config(self):
         self.config.add_section("rabbitmq")
         self.config.set("rabbitmq", "host", "localhost")
@@ -27,7 +35,6 @@ class ConfigEditor(QDialog):
 
         self.config.add_section("logging")
         self.config.set("logging", "level", "INFO")
-        self.config.set("logging", "file", "Log_File.log")
 
         self.config.add_section("client")
         self.config.set("client", "uuid", str(uuid.uuid4()))
@@ -54,7 +61,6 @@ class ConfigEditor(QDialog):
         self.log_level_input.setCurrentText(self.config.get("logging", "level", fallback="INFO"))
         layout.addWidget(QLabel("Logging Level"))
         layout.addWidget(self.log_level_input)
-        self.log_file_input = self.create_input_field("Log File", "logging", "file", layout)
 
         # Client Settings
         layout.addWidget(QLabel("Client Settings"))
@@ -93,7 +99,6 @@ class ConfigEditor(QDialog):
         self.config.set("rabbitmq", "password", self.password_input.text())
         self.config.set("rabbitmq", "exchange", self.exchange_input.text())
         self.config.set("logging", "level", self.log_level_input.currentText())
-        self.config.set("logging", "file", self.log_file_input.text())
         self.config.set("client", "uuid", self.uuid_input.text())
 
         try:
@@ -110,7 +115,7 @@ class ConfigEditor(QDialog):
                 self.config.write(configfile)
 
             QMessageBox.information(self, "Success", "Настройки сохранены!")
-            
+
             self.config_saved.emit()
 
         except ValueError as e:
@@ -123,10 +128,45 @@ class ConfigEditor(QDialog):
         new_uuid = str(uuid.uuid4())
         self.uuid_input.setText(new_uuid)
 
+    def set_logging_level(self):
+        """Настроить уровень логирования в зависимости от конфигурации."""
+        level = self.config.get('logging', 'level', fallback='INFO').upper()
+        levels = {
+            'DEBUG': logging.DEBUG,
+            'INFO': logging.INFO,
+            'WARNING': logging.WARNING,
+            'ERROR': logging.ERROR,
+            'CRITICAL': logging.CRITICAL
+        }
+
+        # Очищаем старые обработчики
+        logging.getLogger().handlers.clear()
+
+        # Настроим базовую конфигурацию с уровнем из конфигурации
+        logging.basicConfig(level=levels.get(level, logging.INFO))
+
+        console_handler = logging.StreamHandler(sys.stdout)
+        console_handler.setLevel(logging.DEBUG)  
+        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+        console_handler.setFormatter(formatter)
+        logging.getLogger().addHandler(console_handler)
+
+    def update_editability(self):
+            """Обновляем доступность редактирования в зависимости от состояния флага editing_allowed."""
+            # Блокируем или разрешаем редактирование
+            inputs = [
+                self.host_input, self.port_input, self.user_input, self.password_input,
+                self.exchange_input, self.uuid_input, self.timeout_send_input, self.timeout_response_input
+            ]
+
+            for input_widget in inputs:
+                input_widget.setReadOnly(not self.editing_allowed)
+
+            self.log_level_input.setDisabled(not self.editing_allowed)
+            self.uuid_button.setDisabled(not self.editing_allowed)        
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     editor = ConfigEditor()
-    if editor.run():
-        print("Settings saved")
-    else:
-        print("Settings not saved")
+    editor.show()
+    sys.exit(app.exec_())

@@ -6,28 +6,16 @@ import configparser
 from pathlib import Path
 from rabbitmq_server.proto import msg_serv_pb2
 from rabbitmq_server.utils import double_number
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
 
 log = logging.getLogger(__name__)
 
-config_path = Path(__file__).parent.parent.parent / 'client' / 'client_config.ini'
+config_path = Path(__file__).parent.parent/ 'server_config.ini'
 
 def load_server_config():
     config = configparser.ConfigParser()
     config.read(config_path)
     log.info(f"Loaded server configuration from {config_path}")
     return config
-
-class ConfigChangeHandler(FileSystemEventHandler):
-    def __init__(self, context):
-        super().__init__()
-        self.context = context
-
-    def on_modified(self, event):
-        if Path(event.src_path) == config_path:
-            log.info("Config file modified. Reloading configuration.")
-            self.context.update_config()
 
 class ServerState(ABC):
     @abstractmethod
@@ -39,30 +27,9 @@ class ServerContext:
         self.channel = channel
         self.config = config
         self.state = None
-        self.observer = Observer()
-        self.event_handler = ConfigChangeHandler(self)
-        self.start_watchdog()
 
     def set_state(self, state: ServerState):
         self.state = state
-
-    def start_watchdog(self):
-        """Запуск наблюдателя за конфигурационным файлом."""
-        self.observer.schedule(self.event_handler, str(config_path.parent), recursive=False)
-        self.observer.start()
-        log.info(f"Started watchdog on {config_path.parent}")
-
-    def stop_watchdog(self):
-        """Остановка наблюдателя."""
-        self.observer.stop()
-        self.observer.join()
-
-    def update_config(self):
-        """Метод для обновления конфигурации сервера."""
-        self.config = load_server_config()
-        log.info("Server configuration updated.")
-        timeout_response = self.config['server'].get('timeout_response', fallback='0')
-        log.info(f"New timeout_response: {timeout_response} сек.")
 
     async def handle_request(self, message: aio_pika.IncomingMessage):
         if self.state is not None:
@@ -82,24 +49,12 @@ class WaitingState(ServerState):
                 response = msg_serv_pb2.Response()
                 response.request_id = req.request_id
 
-                timeout_response_str = context.config['server'].get('timeout_response', fallback='0')
-                try:
-                    timeout_response = int(timeout_response_str)
-                except ValueError:
-                    log.error(f"Invalid timeout_response value: {timeout_response_str}. Using 0.")
-                    timeout_response = 0
-                log.info(f"timeout_response: {timeout_response} сек.")
-
                 process_time = getattr(req, 'process_time_in_seconds', 0)
-                log.info(f"process_time_in_seconds: {process_time} сек.")
 
-                sleep_time = timeout_response + process_time
-                log.info(f"Total sleep_time: {sleep_time} сек.")
-
-                if sleep_time > 0:
-                    log.info(f"Processing request with total delay of {sleep_time} seconds")
-                    await asyncio.sleep(sleep_time)
-                    log.info(f"Finished sleeping for {sleep_time} seconds")
+                if process_time > 0:
+                    log.info(f"Processing request with total delay of {process_time} seconds")
+                    await asyncio.sleep(process_time)
+                    log.info(f"Finished sleeping for {process_time} seconds")
 
                 # Обработка запроса
                 if req.request is not None:
@@ -110,6 +65,7 @@ class WaitingState(ServerState):
                     response.response = "Invalid request"
                     log.error("Received an invalid request.")
 
+                # Отправляем ответ
                 await context.channel.default_exchange.publish(
                     aio_pika.Message(
                         body=response.SerializeToString(),
