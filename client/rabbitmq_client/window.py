@@ -41,7 +41,8 @@ class Window(QMainWindow):
         self.process_time_in_seconds = 0  
         self.config_editor = None
 
-        self.request_cancelled = False  # Флаг для отмены запроса
+        self.request_cancelled = False 
+        self.processing_request = False 
 
         self.file_watcher = QFileSystemWatcher([str(self.config_path)])
         self.file_watcher.fileChanged.connect(self.on_config_changed)
@@ -104,6 +105,7 @@ class Window(QMainWindow):
         self.cancel_button.clicked.connect(self.cancel_request)
         self.config_button.clicked.connect(self.open_config_editor)
 
+
     def notify_user(self, message, success=True):
         """Уведомить пользователя о текущем статусе."""
         self.status_label.setStyleSheet("color: green;" if success else "color: red;")
@@ -118,10 +120,11 @@ class Window(QMainWindow):
     def open_config_editor(self):
         """Метод для открытия редактора конфигурации."""
         if self.config_editor is None:
-            self.config_editor = ConfigEditor(self.config_path)
+            self.config_editor = ConfigEditor(self.config_path, read_only=self.processing_request)
             self.config_editor.config_saved.connect(self.on_config_changed) 
         self.config_editor.setWindowModality(Qt.ApplicationModal)
         self.config_editor.show()
+            
 
     def set_logging_level(self):
         """Настроить уровень логирования в зависимости от конфигурации."""
@@ -134,15 +137,12 @@ class Window(QMainWindow):
             'CRITICAL': logging.CRITICAL
         }
 
-        # Устанавливаем новый уровень логирования
         log.setLevel(levels.get(level, logging.INFO))
 
-        # Обновляем обработчик логирования
         handler = logging.StreamHandler()
         formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
         handler.setFormatter(formatter)
 
-        # Удаляем старые обработчики, чтобы не создавать дубли
         log.handlers = []
         log.addHandler(handler)
 
@@ -152,8 +152,6 @@ class Window(QMainWindow):
         try:
             self.timeout_send = self.config_file.getint('client', 'timeout_send')
             self.timeout_response = self.config_file.getint('server', 'timeout_response')
-
-            # Обновляем уровень логирования при изменении конфигурации
             self.set_logging_level()
 
         except ValueError as e:
@@ -163,7 +161,6 @@ class Window(QMainWindow):
         """Запись события в лог с учетом уровня логирования."""
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        # Запись логов с учетом текущего уровня
         log.debug(f"{timestamp} - {event_message}")
         self.log_widget.append(f"{timestamp} - {event_message}")
 
@@ -226,7 +223,7 @@ class Window(QMainWindow):
 
     def on_timeout(self):
         """Обрабатывает истечение времени ожидания ответа от сервера."""
-        if self.total_wait_time < self.timeout_response:
+        if self.total_wait_time < self.timeout_response and self.timeout_timer.isActive():
             self.notify_user("Время ожидания истекло. Сервер может быть недоступен.", success=False)
         self.unlock_ui()
 
@@ -235,7 +232,7 @@ class Window(QMainWindow):
         if not self.client._running:
             self.notify_user("Сервер недоступен. Невозможно отправить запрос.", success=False)
             return
-
+        
         text = self.input_field.text().strip()
         if text == "":
             self.notify_user("Введите число!", success=False)
@@ -253,6 +250,7 @@ class Window(QMainWindow):
         self.log_event(f"Отправка запроса с числом: {number}")
         self.client.send_queue.put_nowait((str(number), self.process_time_in_seconds))
         self.start_timer()
+        self.processing_request = True
         self.lock_ui()
 
     def display_response(self, response):
@@ -260,23 +258,31 @@ class Window(QMainWindow):
         if self.request_cancelled:
             self.request_cancelled = False
             return 
-        
-        if response == None:
-            self.notify_user("Ответ от сервера не получен. Сервер может быть недоступен.", success=False)
-            self.unlock_ui() 
-        else:    
 
-            self.response_data = response
+        log.debug(f"Получен ответ от сервера: {response}")
         
+        if response is None:
+            self.notify_user("Ответ от сервера не получен. Сервер может быть недоступен.", success=False)
+            self.unlock_ui()
+        else:    
+            self.response_data = response
+            self.notify_user(f"Ответ от сервера: {self.response_data}", success=True)
+            log.debug(f"Отображаем ответ: {self.response_data}")
+            
             if self.total_wait_time <= self.timeout_response:
-                self.notify_user(f"Ответ от сервера: {self.response_data}", success=True)
                 self.timeout_timer.stop()
                 self.process_timer.stop()
                 self.timer_label.setText("Оставшееся время: 0 сек.")
                 self.progress_bar.setValue(0)
                 self.unlock_ui()
             else:
-                self.notify_user("Время ожидания истекло. Сервер может быть недоступен.", success=False)     
+                self.notify_user("Превышено время ожидания.", success=False)
+                self.unlock_ui()
+                return
+        
+        self.processing_request = False
+
+ 
 
     def cancel_request(self):
         """Отмена текущего запроса."""
@@ -306,4 +312,5 @@ class Window(QMainWindow):
         self.set_delay_button.setEnabled(enabled)
         self.input_field2.setEnabled(enabled)
         self.cancel_button.setVisible(not enabled)
-        self.config_button.setEnabled(enabled)
+        # self.config_button.setEnabled(enabled)
+        

@@ -11,13 +11,15 @@ class ConfigEditor(QDialog):
     config_saved = pyqtSignal()
     editing_allowed = True
 
-    def __init__(self, config_file="client_config.ini"):
+    def __init__(self, config_file="client_config.ini", read_only = False):
         super().__init__()
         self.config_file = pathlib.Path(__file__).parent.parent / "client_config.ini"
         self.config = ConfigParser()
 
         if not self.config.read(self.config_file):
             self.create_default_config()
+
+        self.read_only = read_only    
 
         self.initUI()
 
@@ -76,14 +78,14 @@ class ConfigEditor(QDialog):
         layout.addWidget(QLabel("Server Settings"))
         self.timeout_response_input = self.create_input_field("Timeout Response", "server", "timeout_response", layout)
 
-
         # Save Button
-        save_button = QPushButton("Save Settings")
-        save_button.clicked.connect(self.save_settings)
-        layout.addWidget(save_button)
+        self.save_button = QPushButton("Save Settings")
+        self.save_button.clicked.connect(self.save_settings)
+        layout.addWidget(self.save_button)
 
         self.setLayout(layout)
         self.setWindowTitle("Configuration Editor")
+        
 
     def create_input_field(self, label, section, option, layout):
         layout.addWidget(QLabel(label))
@@ -139,10 +141,8 @@ class ConfigEditor(QDialog):
             'CRITICAL': logging.CRITICAL
         }
 
-        # Очищаем старые обработчики
         logging.getLogger().handlers.clear()
 
-        # Настроим базовую конфигурацию с уровнем из конфигурации
         logging.basicConfig(level=levels.get(level, logging.INFO))
 
         console_handler = logging.StreamHandler(sys.stdout)
@@ -152,18 +152,25 @@ class ConfigEditor(QDialog):
         logging.getLogger().addHandler(console_handler)
 
     def update_editability(self):
-            """Обновляем доступность редактирования в зависимости от состояния флага editing_allowed."""
-            # Блокируем или разрешаем редактирование
-            inputs = [
-                self.host_input, self.port_input, self.user_input, self.password_input,
-                self.exchange_input, self.uuid_input, self.timeout_send_input, self.timeout_response_input
-            ]
+        """Обновляем доступность редактирования в зависимости от флага read_only."""
+        if self.read_only:
+            self.set_ui_state(False) 
+        else:
+            self.set_ui_state(True)    
 
-            for input_widget in inputs:
-                input_widget.setReadOnly(not self.editing_allowed)
+    def set_ui_state(self, enabled):
+        """Управляет состоянием интерфейса (доступность для редактирования)."""
+        inputs = [
+            self.host_input, self.port_input, self.user_input, self.password_input,
+            self.exchange_input, self.uuid_input, self.timeout_send_input, self.timeout_response_input
+        ]
 
-            self.log_level_input.setDisabled(not self.editing_allowed)
-            self.uuid_button.setDisabled(not self.editing_allowed)        
+        for input_widget in inputs:
+            input_widget.setReadOnly(not enabled) 
+
+        self.log_level_input.setDisabled(not enabled) 
+        self.uuid_button.setDisabled(not enabled)
+        self.save_button.setDisabled(not enabled)     
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

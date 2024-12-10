@@ -342,3 +342,196 @@
 2024-12-10 15:15:07,367 - INFO - Finished sleeping for 3.0 seconds
 2024-12-10 15:15:07,367 - INFO - Processed request: 213221312 -> Response: 426442624
 2024-12-10 15:15:07,372 - INFO - Sent response for Request ID=0ae62392-5bec-4685-99a6-36a9493d50e9
+2024-12-10 19:08:26,240 - INFO - Logging configured. Level: INFO, Log file: Log_File.log
+2024-12-10 19:08:26,263 - INFO - Connected to RabbitMQ
+2024-12-10 19:08:26,267 - INFO - Exchange 'bews' declared.
+2024-12-10 19:08:26,279 - INFO - Server is listening on queue: bews
+2024-12-10 19:08:26,279 - INFO - Server is running. Press Ctrl+C to stop.
+2024-12-10 19:08:38,522 - INFO - Received Request: ID=59ae406a-c45d-4d62-9ae3-6b9c6ffe00b6, Request=2
+2024-12-10 19:08:38,523 - INFO - Processed request: 2 -> Response: 4
+2024-12-10 19:08:38,525 - INFO - Sent response for Request ID=59ae406a-c45d-4d62-9ae3-6b9c6ffe00b6
+2024-12-10 19:09:31,183 - INFO - Received Request: ID=577f41bb-379c-47c4-9436-0e1dcd8ace71, Request=2
+2024-12-10 19:09:31,186 - INFO - Processed request: 2 -> Response: 4
+2024-12-10 19:09:31,193 - INFO - Sent response for Request ID=577f41bb-379c-47c4-9436-0e1dcd8ace71
+2024-12-10 19:10:47,018 - INFO - Received Request: ID=f6324c2a-81af-44d7-89f1-460c95476999, Request=2
+2024-12-10 19:10:47,019 - INFO - Processed request: 2 -> Response: 4
+2024-12-10 19:10:47,022 - INFO - Sent response for Request ID=f6324c2a-81af-44d7-89f1-460c95476999
+2024-12-10 19:11:25,761 - INFO - Received Request: ID=24d76cfd-fdae-4558-a60e-1d0781d4bfed, Request=2
+2024-12-10 19:11:25,763 - INFO - Processed request: 2 -> Response: 4
+2024-12-10 19:11:25,766 - INFO - Sent response for Request ID=24d76cfd-fdae-4558-a60e-1d0781d4bfed
+2024-12-10 19:11:40,249 - INFO - Received Request: ID=22916ab9-7504-4b64-a539-3e6befe098dc, Request=2
+2024-12-10 19:11:40,250 - INFO - Processed request: 2 -> Response: 4
+2024-12-10 19:11:40,253 - INFO - Sent response for Request ID=22916ab9-7504-4b64-a539-3e6befe098dc
+2024-12-10 19:11:42,260 - INFO - Received Request: ID=eceb6ead-1b9a-4efa-9da6-6b7af19e4d48, Request=2
+2024-12-10 19:11:42,261 - INFO - Processed request: 2 -> Response: 4
+2024-12-10 19:11:42,263 - INFO - Sent response for Request ID=eceb6ead-1b9a-4efa-9da6-6b7af19e4d48
+2024-12-10 19:11:43,267 - INFO - Received Request: ID=61e68c91-3f10-4746-a831-855322298f0c, Request=2
+2024-12-10 19:11:43,267 - INFO - Processed request: 2 -> Response: 4
+2024-12-10 19:11:43,270 - INFO - Sent response for Request ID=61e68c91-3f10-4746-a831-855322298f0c
+2024-12-10 19:11:43,273 - INFO - Received Request: ID=b3a7c9f1-54d3-46f7-a778-4d36ab95c880, Request=2
+2024-12-10 19:11:43,273 - INFO - Processed request: 2 -> Response: 4
+2024-12-10 19:11:43,275 - INFO - Sent response for Request ID=b3a7c9f1-54d3-46f7-a778-4d36ab95c880
+2024-12-10 19:11:48,283 - INFO - Received Request: ID=a96d0870-a383-4356-9f17-ba8d9fc04507, Request=2
+2024-12-10 19:11:48,284 - INFO - Processed request: 2 -> Response: 4
+2024-12-10 19:11:48,286 - INFO - Sent response for Request ID=a96d0870-a383-4356-9f17-ba8d9fc04507
+2024-12-10 19:11:49,290 - INFO - Received Request: ID=d7f2d027-80bc-437a-af27-f00daf590039, Request=2
+2024-12-10 19:11:49,291 - INFO - Processed request: 2 -> Response: 4
+2024-12-10 19:11:49,293 - INFO - Sent response for Request ID=d7f2d027-80bc-437a-af27-f00daf590039
+2024-12-10 19:11:49,295 - INFO - Received Request: ID=0d590af0-cf4f-41f9-a6fa-73ff0c281c38, Request=2
+2024-12-10 19:11:49,295 - INFO - Processed request: 2 -> Response: 4
+2024-12-10 19:11:49,297 - INFO - Sent response for Request ID=0d590af0-cf4f-41f9-a6fa-73ff0c281c38
+2024-12-10 19:11:50,302 - INFO - Received Request: ID=d9ca4fe8-f3ec-49d9-bb25-3e2945ad8f88, Request=2
+2024-12-10 19:11:50,303 - INFO - Processed request: 2 -> Response: 4
+2024-12-10 19:11:50,305 - INFO - Sent response for Request ID=d9ca4fe8-f3ec-49d9-bb25-3e2945ad8f88
+2024-12-10 19:11:51,310 - INFO - Received Request: ID=29cde9fc-4ab0-43f3-9282-4ff0572cf167, Request=2
+2024-12-10 19:11:51,310 - INFO - Processed request: 2 -> Response: 4
+2024-12-10 19:11:51,312 - INFO - Sent response for Request ID=29cde9fc-4ab0-43f3-9282-4ff0572cf167
+2024-12-10 19:11:52,318 - INFO - Received Request: ID=9abc17fc-d825-4c3d-a725-48604eda6642, Request=2
+2024-12-10 19:11:52,319 - INFO - Processed request: 2 -> Response: 4
+2024-12-10 19:11:52,322 - INFO - Sent response for Request ID=9abc17fc-d825-4c3d-a725-48604eda6642
+2024-12-10 19:13:12,000 - INFO - Received Request: ID=afdf4676-9576-4cd4-af63-d8f7d81262d8, Request=2
+2024-12-10 19:13:12,002 - INFO - Processed request: 2 -> Response: 4
+2024-12-10 19:13:12,006 - INFO - Sent response for Request ID=afdf4676-9576-4cd4-af63-d8f7d81262d8
+2024-12-10 19:13:44,094 - INFO - Received Request: ID=69790545-8b46-4277-9b3e-3b2b5cccd583, Request=2
+2024-12-10 19:13:44,095 - INFO - Processed request: 2 -> Response: 4
+2024-12-10 19:13:44,098 - INFO - Sent response for Request ID=69790545-8b46-4277-9b3e-3b2b5cccd583
+2024-12-10 19:13:45,102 - INFO - Received Request: ID=a96f0853-8498-47e9-8f0f-3373cd1b17e8, Request=2
+2024-12-10 19:13:45,102 - INFO - Processed request: 2 -> Response: 4
+2024-12-10 19:13:45,104 - INFO - Sent response for Request ID=a96f0853-8498-47e9-8f0f-3373cd1b17e8
+2024-12-10 19:13:45,108 - INFO - Received Request: ID=c75d72c9-8a36-4661-bc88-37575c62ecfa, Request=2
+2024-12-10 19:13:45,108 - INFO - Processed request: 2 -> Response: 4
+2024-12-10 19:13:45,110 - INFO - Sent response for Request ID=c75d72c9-8a36-4661-bc88-37575c62ecfa
+2024-12-10 19:13:50,119 - INFO - Received Request: ID=dd5ac804-94bb-464d-a13b-befaea3f6399, Request=2
+2024-12-10 19:13:50,119 - INFO - Processed request: 2 -> Response: 4
+2024-12-10 19:13:50,121 - INFO - Sent response for Request ID=dd5ac804-94bb-464d-a13b-befaea3f6399
+2024-12-11 00:05:20,215 - INFO - Received Request: ID=1afd9837-ec18-40d0-8d06-ffcbeb6411c0, Request=2
+2024-12-11 00:05:20,216 - INFO - Processed request: 2 -> Response: 4
+2024-12-11 00:05:20,220 - INFO - Sent response for Request ID=1afd9837-ec18-40d0-8d06-ffcbeb6411c0
+2024-12-11 00:05:43,992 - INFO - Received Request: ID=c279cf77-ea27-46fe-8fa5-30eec367a40b, Request=2
+2024-12-11 00:05:43,994 - INFO - Processed request: 2 -> Response: 4
+2024-12-11 00:05:43,998 - INFO - Sent response for Request ID=c279cf77-ea27-46fe-8fa5-30eec367a40b
+2024-12-11 00:05:46,003 - INFO - Received Request: ID=ec5c0d98-0277-44f4-bc97-988553a35dcf, Request=2
+2024-12-11 00:05:46,003 - INFO - Processed request: 2 -> Response: 4
+2024-12-11 00:05:46,005 - INFO - Sent response for Request ID=ec5c0d98-0277-44f4-bc97-988553a35dcf
+2024-12-11 00:12:40,375 - INFO - Received Request: ID=7b1d43c2-2dfd-4a62-bce9-94a45786c0f3, Request=2
+2024-12-11 00:12:40,378 - INFO - Processed request: 2 -> Response: 4
+2024-12-11 00:12:40,382 - INFO - Sent response for Request ID=7b1d43c2-2dfd-4a62-bce9-94a45786c0f3
+2024-12-11 00:12:45,394 - INFO - Received Request: ID=00887026-8ae7-4a80-909a-11e736b2e72b, Request=2
+2024-12-11 00:12:45,394 - INFO - Processed request: 2 -> Response: 4
+2024-12-11 00:12:45,397 - INFO - Sent response for Request ID=00887026-8ae7-4a80-909a-11e736b2e72b
+2024-12-11 00:12:46,401 - INFO - Received Request: ID=6037ba9d-2277-4bf6-914f-eac5a2452b1f, Request=2
+2024-12-11 00:12:46,401 - INFO - Processed request: 2 -> Response: 4
+2024-12-11 00:12:46,402 - INFO - Sent response for Request ID=6037ba9d-2277-4bf6-914f-eac5a2452b1f
+2024-12-11 00:12:47,407 - INFO - Received Request: ID=384ca9e0-f689-42f4-8e98-88e71ee1c60d, Request=2
+2024-12-11 00:12:47,408 - INFO - Processed request: 2 -> Response: 4
+2024-12-11 00:12:47,410 - INFO - Sent response for Request ID=384ca9e0-f689-42f4-8e98-88e71ee1c60d
+2024-12-11 00:12:50,419 - INFO - Received Request: ID=6b27c44e-b8b6-4367-b8b5-9667991ed9b9, Request=2321
+2024-12-11 00:12:50,420 - INFO - Processed request: 2321 -> Response: 4642
+2024-12-11 00:12:50,423 - INFO - Sent response for Request ID=6b27c44e-b8b6-4367-b8b5-9667991ed9b9
+2024-12-11 00:51:28,078 - INFO - Received Request: ID=487eb2f5-73ce-44ee-8289-aafe56c4e40d, Request=321
+2024-12-11 00:51:28,079 - INFO - Processing request with total delay of 30.0 seconds
+2024-12-11 00:51:58,081 - INFO - Finished sleeping for 30.0 seconds
+2024-12-11 00:51:58,082 - INFO - Processed request: 321 -> Response: 642
+2024-12-11 00:51:58,092 - INFO - Sent response for Request ID=487eb2f5-73ce-44ee-8289-aafe56c4e40d
+2024-12-11 01:23:27,607 - INFO - Received Request: ID=ec10100c-379a-421e-8a92-945ddcc3cd28, Request=21
+2024-12-11 01:23:27,608 - INFO - Processed request: 21 -> Response: 42
+2024-12-11 01:23:27,612 - INFO - Sent response for Request ID=ec10100c-379a-421e-8a92-945ddcc3cd28
+2024-12-11 01:23:41,640 - INFO - Received Request: ID=bea11336-677d-4770-8ccd-8d957de0242b, Request=21
+2024-12-11 01:23:41,641 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-11 01:23:44,642 - INFO - Finished sleeping for 3.0 seconds
+2024-12-11 01:23:44,643 - INFO - Processed request: 21 -> Response: 42
+2024-12-11 01:23:44,651 - INFO - Sent response for Request ID=bea11336-677d-4770-8ccd-8d957de0242b
+2024-12-11 01:44:28,479 - INFO - Received Request: ID=bd090f17-c503-4227-931b-251396f904ad, Request=21
+2024-12-11 01:44:28,480 - INFO - Processed request: 21 -> Response: 42
+2024-12-11 01:44:28,483 - INFO - Sent response for Request ID=bd090f17-c503-4227-931b-251396f904ad
+2024-12-11 01:44:33,493 - INFO - Received Request: ID=a9927ed0-3840-4ff8-b1b1-364954d3a49f, Request=21
+2024-12-11 01:44:33,493 - INFO - Processing request with total delay of 5.0 seconds
+2024-12-11 01:44:38,495 - INFO - Finished sleeping for 5.0 seconds
+2024-12-11 01:44:38,496 - INFO - Processed request: 21 -> Response: 42
+2024-12-11 01:44:38,500 - INFO - Sent response for Request ID=a9927ed0-3840-4ff8-b1b1-364954d3a49f
+2024-12-11 01:44:53,779 - INFO - Received Request: ID=a99bb6c0-6246-4055-9f82-1da01fe40d20, Request=231
+2024-12-11 01:44:53,781 - INFO - Processed request: 231 -> Response: 462
+2024-12-11 01:44:53,783 - INFO - Sent response for Request ID=a99bb6c0-6246-4055-9f82-1da01fe40d20
+2024-12-11 01:44:58,793 - INFO - Received Request: ID=3d6b2305-2466-4afb-8f80-31862e2d9bdd, Request=231
+2024-12-11 01:44:58,794 - INFO - Processing request with total delay of 15.0 seconds
+2024-12-11 01:45:13,795 - INFO - Finished sleeping for 15.0 seconds
+2024-12-11 01:45:13,796 - INFO - Processed request: 231 -> Response: 462
+2024-12-11 01:45:13,807 - INFO - Sent response for Request ID=3d6b2305-2466-4afb-8f80-31862e2d9bdd
+2024-12-11 01:47:39,614 - INFO - Received Request: ID=517e8b29-336f-46c6-82d9-0e75c5a32df7, Request=321
+2024-12-11 01:47:39,616 - INFO - Processing request with total delay of 13.0 seconds
+2024-12-11 01:47:52,617 - INFO - Finished sleeping for 13.0 seconds
+2024-12-11 01:47:52,619 - INFO - Processed request: 321 -> Response: 642
+2024-12-11 01:47:52,625 - INFO - Sent response for Request ID=517e8b29-336f-46c6-82d9-0e75c5a32df7
+2024-12-11 01:50:45,368 - INFO - Received Request: ID=551c35ed-af19-4747-a883-be62abdae966, Request=231
+2024-12-11 01:50:45,369 - INFO - Processing request with total delay of 13.0 seconds
+2024-12-11 01:50:58,370 - INFO - Finished sleeping for 13.0 seconds
+2024-12-11 01:50:58,371 - INFO - Processed request: 231 -> Response: 462
+2024-12-11 01:50:58,376 - INFO - Sent response for Request ID=551c35ed-af19-4747-a883-be62abdae966
+2024-12-11 01:51:13,404 - INFO - Received Request: ID=56ea2ea6-c8f1-443c-a793-a8f5002ae48a, Request=231
+2024-12-11 01:51:13,406 - INFO - Processing request with total delay of 13.0 seconds
+2024-12-11 01:51:26,407 - INFO - Finished sleeping for 13.0 seconds
+2024-12-11 01:51:26,408 - INFO - Processed request: 231 -> Response: 462
+2024-12-11 01:51:26,413 - INFO - Sent response for Request ID=56ea2ea6-c8f1-443c-a793-a8f5002ae48a
+2024-12-11 01:52:13,715 - INFO - Received Request: ID=c3338dc7-0270-4692-b976-eb0ecbfbc3b2, Request=213
+2024-12-11 01:52:13,717 - INFO - Processed request: 213 -> Response: 426
+2024-12-11 01:52:13,720 - INFO - Sent response for Request ID=c3338dc7-0270-4692-b976-eb0ecbfbc3b2
+2024-12-11 01:52:18,732 - INFO - Received Request: ID=5b06ea25-fdc0-46b2-9bab-3b353b1fb052, Request=213
+2024-12-11 01:52:18,732 - INFO - Processing request with total delay of 13.0 seconds
+2024-12-11 01:52:26,743 - INFO - Received Request: ID=f7fc40f0-2c62-4e0c-ad1a-60ecb047015d, Request=312
+2024-12-11 01:52:26,744 - INFO - Processing request with total delay of 13.0 seconds
+2024-12-11 01:52:31,733 - INFO - Finished sleeping for 13.0 seconds
+2024-12-11 01:52:31,734 - INFO - Processed request: 213 -> Response: 426
+2024-12-11 01:52:31,737 - INFO - Sent response for Request ID=5b06ea25-fdc0-46b2-9bab-3b353b1fb052
+2024-12-11 01:52:39,745 - INFO - Finished sleeping for 13.0 seconds
+2024-12-11 01:52:39,747 - INFO - Processed request: 312 -> Response: 624
+2024-12-11 01:52:39,756 - INFO - Sent response for Request ID=f7fc40f0-2c62-4e0c-ad1a-60ecb047015d
+2024-12-11 01:53:42,927 - INFO - Received Request: ID=2e9958a3-7ca6-46a1-8053-45965cb5ae68, Request=321
+2024-12-11 01:53:42,929 - INFO - Processed request: 321 -> Response: 642
+2024-12-11 01:53:42,932 - INFO - Sent response for Request ID=2e9958a3-7ca6-46a1-8053-45965cb5ae68
+2024-12-11 01:53:46,943 - INFO - Received Request: ID=06e44ef8-95c7-4b19-893c-7377c7a75a6f, Request=321
+2024-12-11 01:53:46,943 - INFO - Processing request with total delay of 31.0 seconds
+2024-12-11 01:54:05,966 - INFO - Received Request: ID=230a3b60-bb27-48c0-8a45-ca3f5f44a080, Request=321
+2024-12-11 01:54:05,968 - INFO - Processing request with total delay of 31.0 seconds
+2024-12-11 01:54:17,944 - INFO - Finished sleeping for 31.0 seconds
+2024-12-11 01:54:17,945 - INFO - Processed request: 321 -> Response: 642
+2024-12-11 01:54:17,951 - INFO - Sent response for Request ID=06e44ef8-95c7-4b19-893c-7377c7a75a6f
+2024-12-11 01:54:28,969 - INFO - Received Request: ID=b4483989-05c7-47d8-aa47-113a321ac878, Request=321
+2024-12-11 01:54:28,970 - INFO - Processing request with total delay of 10.0 seconds
+2024-12-11 01:54:36,971 - INFO - Finished sleeping for 31.0 seconds
+2024-12-11 01:54:36,973 - INFO - Processed request: 321 -> Response: 642
+2024-12-11 01:54:36,982 - INFO - Sent response for Request ID=230a3b60-bb27-48c0-8a45-ca3f5f44a080
+2024-12-11 01:54:38,971 - INFO - Finished sleeping for 10.0 seconds
+2024-12-11 01:54:38,972 - INFO - Processed request: 321 -> Response: 642
+2024-12-11 01:54:38,977 - INFO - Sent response for Request ID=b4483989-05c7-47d8-aa47-113a321ac878
+2024-12-11 02:02:18,063 - INFO - Received Request: ID=c06dc558-4560-497b-8606-c5f487b3d804, Request=321
+2024-12-11 02:02:18,064 - INFO - Processing request with total delay of 13.0 seconds
+2024-12-11 02:02:31,066 - INFO - Finished sleeping for 13.0 seconds
+2024-12-11 02:02:31,067 - INFO - Processed request: 321 -> Response: 642
+2024-12-11 02:02:31,072 - INFO - Sent response for Request ID=c06dc558-4560-497b-8606-c5f487b3d804
+2024-12-11 02:03:45,220 - INFO - Received Request: ID=f9257767-4f54-42c2-9902-ef5afba7cbb4, Request=231
+2024-12-11 02:03:45,222 - INFO - Processed request: 231 -> Response: 462
+2024-12-11 02:03:45,225 - INFO - Sent response for Request ID=f9257767-4f54-42c2-9902-ef5afba7cbb4
+2024-12-11 02:03:51,237 - INFO - Received Request: ID=7ec5e793-936f-4a91-ab00-cd962a0c1d81, Request=231
+2024-12-11 02:03:51,238 - INFO - Processed request: 231 -> Response: 462
+2024-12-11 02:03:51,239 - INFO - Sent response for Request ID=7ec5e793-936f-4a91-ab00-cd962a0c1d81
+2024-12-11 02:03:55,250 - INFO - Received Request: ID=ccb9ad66-e5f6-4dc0-9a6a-11c97cd14029, Request=231
+2024-12-11 02:03:55,250 - INFO - Processed request: 231 -> Response: 462
+2024-12-11 02:03:55,254 - INFO - Sent response for Request ID=ccb9ad66-e5f6-4dc0-9a6a-11c97cd14029
+2024-12-11 02:04:52,292 - INFO - Received Request: ID=97046a7d-addd-4557-be95-4a190e853f60, Request=312
+2024-12-11 02:04:52,294 - INFO - Processing request with total delay of 13.0 seconds
+2024-12-11 02:05:05,295 - INFO - Finished sleeping for 13.0 seconds
+2024-12-11 02:05:05,297 - INFO - Processed request: 312 -> Response: 624
+2024-12-11 02:05:05,300 - INFO - Sent response for Request ID=97046a7d-addd-4557-be95-4a190e853f60
+2024-12-11 02:05:41,168 - INFO - Received Request: ID=7e08373a-b000-44d3-954a-e06db473dd78, Request=312
+2024-12-11 02:05:41,171 - INFO - Processing request with total delay of 10.0 seconds
+2024-12-11 02:05:51,172 - INFO - Finished sleeping for 10.0 seconds
+2024-12-11 02:05:51,173 - INFO - Processed request: 312 -> Response: 624
+2024-12-11 02:05:51,178 - INFO - Sent response for Request ID=7e08373a-b000-44d3-954a-e06db473dd78
+2024-12-11 02:06:38,039 - INFO - Received Request: ID=010b2ed4-60f7-4f6a-b61b-e80cb4f6cbfa, Request=321
+2024-12-11 02:06:38,041 - INFO - Processed request: 321 -> Response: 642
+2024-12-11 02:06:38,044 - INFO - Sent response for Request ID=010b2ed4-60f7-4f6a-b61b-e80cb4f6cbfa
+2024-12-11 02:06:44,055 - INFO - Received Request: ID=771cb5ff-8681-43df-86e5-8f91fed3a9a1, Request=321
+2024-12-11 02:06:44,055 - INFO - Processing request with total delay of 7.0 seconds
+2024-12-11 02:06:51,056 - INFO - Finished sleeping for 7.0 seconds
+2024-12-11 02:06:51,057 - INFO - Processed request: 321 -> Response: 642
+2024-12-11 02:06:51,063 - INFO - Sent response for Request ID=771cb5ff-8681-43df-86e5-8f91fed3a9a1
