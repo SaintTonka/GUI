@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import (
     QMainWindow, QVBoxLayout, QWidget, QLabel,
     QLineEdit, QPushButton, QTextEdit, QProgressBar
 )
-from PyQt5.QtCore import QTimer, Qt, QFileSystemWatcher
+from PyQt5.QtCore import QTimer, Qt, QFileSystemWatcher, pyqtSignal
 from datetime import datetime
 from rabbitmq_client.config_params import ConfigEditor
 import logging
@@ -14,6 +14,7 @@ log = logging.getLogger(__name__)
 MAX_NUMBER = 2147483647
 
 class Window(QMainWindow):
+    request_processed = pyqtSignal()
     def __init__(self, client):
         super().__init__()
 
@@ -21,10 +22,6 @@ class Window(QMainWindow):
         self.config_path = Path(__file__).parent.parent / 'client_config.ini'
         self.config_file = configparser.ConfigParser()
         self.config_file.read(self.config_path)
-        
-        self.delay_response_timer = QTimer(self)
-        self.delay_response_timer.setSingleShot(True)
-        self.delay_response_timer.timeout.connect(self.display_response)
 
         self.response_data = None
 
@@ -32,6 +29,7 @@ class Window(QMainWindow):
         self.setGeometry(100, 100, 400, 600) 
         self.initUI()
 
+        self.request_processed.connect(self.on_request_processed)
         self.client.received_response.connect(self.display_response)
         self.client.error_signal.connect(self.handle_error_signal)
         self.client.server_ready_signal.connect(self.on_server_ready)
@@ -119,9 +117,8 @@ class Window(QMainWindow):
 
     def open_config_editor(self):
         """Метод для открытия редактора конфигурации."""
-        if self.config_editor is None:
-            self.config_editor = ConfigEditor(self.config_path, read_only=self.processing_request)
-            self.config_editor.config_saved.connect(self.on_config_changed) 
+        self.config_editor = ConfigEditor(self.config_path, read_only=self.processing_request)
+        self.config_editor.config_saved.connect(self.on_config_changed) 
         self.config_editor.setWindowModality(Qt.ApplicationModal)
         self.config_editor.show()
             
@@ -223,9 +220,9 @@ class Window(QMainWindow):
 
     def on_timeout(self):
         """Обрабатывает истечение времени ожидания ответа от сервера."""
-        if self.total_wait_time < self.timeout_response and self.timeout_timer.isActive():
+        if self.total_wait_time > self.timeout_response and self.client._running:
             self.notify_user("Время ожидания истекло. Сервер может быть недоступен.", success=False)
-        self.unlock_ui()
+            self.unlock_ui()
 
     def sending_request(self):
         """Отправляет запрос."""
@@ -248,13 +245,14 @@ class Window(QMainWindow):
             return
 
         self.log_event(f"Отправка запроса с числом: {number}")
+        self.processing_request = True
         self.client.send_queue.put_nowait((str(number), self.process_time_in_seconds))
         self.start_timer()
-        self.processing_request = True
         self.lock_ui()
 
     def display_response(self, response):
         """Сохраняем и отображаем ответ от сервера."""
+        self.processing_request = False
         if self.request_cancelled:
             self.request_cancelled = False
             return 
@@ -269,25 +267,20 @@ class Window(QMainWindow):
             self.notify_user(f"Ответ от сервера: {self.response_data}", success=True)
             log.debug(f"Отображаем ответ: {self.response_data}")
             
-            if self.total_wait_time <= self.timeout_response:
-                self.timeout_timer.stop()
-                self.process_timer.stop()
-                self.timer_label.setText("Оставшееся время: 0 сек.")
-                self.progress_bar.setValue(0)
-                self.unlock_ui()
-            else:
-                self.notify_user("Превышено время ожидания.", success=False)
-                self.unlock_ui()
-                return
+            self.timeout_timer.stop()
+            self.process_timer.stop()
+            self.timer_label.setText("Оставшееся время: 0 сек.")
+            self.progress_bar.setValue(0)
+            self.unlock_ui()
         
-        self.processing_request = False
+        self.request_processed.emit()
 
- 
 
     def cancel_request(self):
         """Отмена текущего запроса."""
         self.timeout_timer.stop()
-        self.request_cancelled = True 
+        self.request_cancelled = True
+        self.processing_request = False
         self.process_timer.stop()
         self.notify_user("Запрос отменен.", success=False)
         self.progress_bar.setValue(0)
@@ -296,6 +289,13 @@ class Window(QMainWindow):
             self.log_event(f"Был получен ответ от сервера {self.response_data}")
         else:
             self.log_event(f"Сервер не успел обработать запрос")
+        self.unlock_ui()
+
+        self.request_processed.emit()
+
+    def on_request_processed(self):
+        """Обработчик сигнала, который обновляет флаг после завершения запроса."""
+        self.processing_request = False
         self.unlock_ui()
 
     def lock_ui(self):
@@ -312,5 +312,4 @@ class Window(QMainWindow):
         self.set_delay_button.setEnabled(enabled)
         self.input_field2.setEnabled(enabled)
         self.cancel_button.setVisible(not enabled)
-        # self.config_button.setEnabled(enabled)
         

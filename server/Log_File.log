@@ -535,3 +535,248 @@
 2024-12-11 02:06:51,056 - INFO - Finished sleeping for 7.0 seconds
 2024-12-11 02:06:51,057 - INFO - Processed request: 321 -> Response: 642
 2024-12-11 02:06:51,063 - INFO - Sent response for Request ID=771cb5ff-8681-43df-86e5-8f91fed3a9a1
+2024-12-11 23:19:53,762 - INFO - Logging configured. Level: INFO, Log file: Log_File.log
+2024-12-11 23:19:57,830 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-11 23:22:27,865 - INFO - Logging configured. Level: INFO, Log file: Log_File.log
+2024-12-11 23:22:31,933 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-11 23:23:38,078 - INFO - Logging configured. Level: INFO, Log file: Log_File.log
+2024-12-11 23:23:38,133 - INFO - Connected to RabbitMQ
+2024-12-11 23:23:38,137 - INFO - Exchange 'bews' declared.
+2024-12-11 23:23:38,226 - INFO - Server is listening on queue: bews
+2024-12-11 23:23:38,226 - INFO - Server is running. Press Ctrl+C to stop.
+2024-12-11 23:23:41,641 - INFO - Received Request: ID=038e76dc-d10a-4ce8-ba80-3fffd7c4192a, Request=122
+2024-12-11 23:23:41,642 - INFO - Processed request: 122 -> Response: 244
+2024-12-11 23:23:41,644 - INFO - Sent response for Request ID=038e76dc-d10a-4ce8-ba80-3fffd7c4192a
+2024-12-11 23:23:48,722 - INFO - Received Request: ID=3bf23e1d-4850-481a-b80f-395503973bc8, Request=122312
+2024-12-11 23:23:48,723 - INFO - Processed request: 122312 -> Response: 244624
+2024-12-11 23:23:48,725 - INFO - Sent response for Request ID=3bf23e1d-4850-481a-b80f-395503973bc8
+2024-12-11 23:23:51,782 - INFO - Received Request: ID=c6a361cb-c47b-4b96-b2f3-37d6ab71f202, Request=122312
+2024-12-11 23:23:51,783 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-11 23:23:54,786 - INFO - Finished sleeping for 3.0 seconds
+2024-12-11 23:23:54,786 - INFO - Processed request: 122312 -> Response: 244624
+2024-12-11 23:23:54,788 - INFO - Sent response for Request ID=c6a361cb-c47b-4b96-b2f3-37d6ab71f202
+2024-12-11 23:24:05,898 - INFO - Received Request: ID=d338c914-fe6e-484d-a698-15fb2dc6dafe, Request=122312
+2024-12-11 23:24:05,899 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-11 23:24:08,905 - INFO - Finished sleeping for 3.0 seconds
+2024-12-11 23:24:08,905 - INFO - Processed request: 122312 -> Response: 244624
+2024-12-11 23:24:08,907 - INFO - Sent response for Request ID=d338c914-fe6e-484d-a698-15fb2dc6dafe
+2024-12-11 23:25:16,271 - INFO - Logging configured. Level: INFO, Log file: Log_File.log
+2024-12-11 23:25:16,331 - INFO - Connected to RabbitMQ
+2024-12-11 23:25:16,335 - INFO - Exchange 'bews' declared.
+2024-12-11 23:25:16,412 - INFO - Server is listening on queue: bews
+2024-12-11 23:25:16,413 - INFO - Server is running. Press Ctrl+C to stop.
+2024-12-11 23:26:08,933 - INFO - Logging configured. Level: INFO, Log file: Log_File.log
+2024-12-11 23:26:08,990 - INFO - Connected to RabbitMQ
+2024-12-11 23:27:23,093 - INFO - Logging configured. Level: INFO, Log file: Log_File.log
+2024-12-11 23:27:23,150 - INFO - Connected to RabbitMQ
+2024-12-11 23:27:52,503 - INFO - Logging configured. Level: INFO, Log file: Log_File.log
+2024-12-11 23:27:52,559 - INFO - Connected to RabbitMQ
+2024-12-11 23:27:52,735 - INFO - Exchange 'bews' declared.
+2024-12-11 23:27:52,871 - INFO - Server is listening on queue: bews
+2024-12-11 23:27:52,872 - INFO - Server is running. Press Ctrl+C to stop.
+2024-12-11 23:36:29,253 - INFO - Logging configured. Level: INFO, Log file: Log_File.log
+2024-12-11 23:36:29,309 - INFO - Connected to RabbitMQ
+2024-12-11 23:36:29,461 - INFO - Exchange 'bews' declared.
+2024-12-11 23:36:29,593 - INFO - Server is listening on queue: bews
+2024-12-11 23:36:29,593 - INFO - Server is running. Press Ctrl+C to stop.
+2024-12-11 23:39:18,415 - INFO - Logging configured. Level: INFO, Log file: Log_File.log
+2024-12-11 23:39:18,476 - INFO - Connected to RabbitMQ
+2024-12-11 23:40:51,087 - INFO - Logging configured. Level: INFO, Log file: Log_File.log
+2024-12-11 23:40:51,144 - INFO - Connected to RabbitMQ
+2024-12-11 23:40:51,186 - INFO - Exchange 'bews' declared.
+2024-12-11 23:40:51,263 - INFO - Server is listening on queue: bews
+2024-12-11 23:40:51,264 - INFO - Server is running. Press Ctrl+C to stop.
+2024-12-11 23:43:17,943 - INFO - Logging configured. Level: INFO, Log file: Log_File.log
+2024-12-11 23:43:18,002 - INFO - Connected to RabbitMQ
+2024-12-11 23:43:18,113 - INFO - Exchange 'bews' declared.
+2024-12-11 23:43:18,183 - INFO - Server is listening on queue: bews
+2024-12-11 23:43:18,184 - INFO - Server is running. Press Ctrl+C to stop.
+2024-12-12 00:08:32,003 - INFO - Logging configured. Level: INFO, Log file: Log_File.log
+2024-12-12 00:08:32,060 - INFO - Connected to RabbitMQ
+2024-12-12 00:08:32,065 - INFO - Exchange 'bews' declared.
+2024-12-12 00:08:32,143 - INFO - Server is listening on queue: bews
+2024-12-12 00:08:32,143 - INFO - Server is running. Press Ctrl+C to stop.
+2024-12-12 00:08:36,512 - INFO - Received Request: ID=9dfdc7d0-05ba-4910-b6cf-ea2278d6f5c2, Request=23
+2024-12-12 00:08:36,513 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-12 00:08:39,529 - INFO - Finished sleeping for 3.0 seconds
+2024-12-12 00:08:39,529 - INFO - Processed request: 23 -> Response: 46
+2024-12-12 00:08:39,531 - INFO - Sent response for Request ID=9dfdc7d0-05ba-4910-b6cf-ea2278d6f5c2
+2024-12-12 00:09:04,500 - INFO - Received Request: ID=fec10589-1ff8-453c-8837-b23ad448cc0d, Request=312
+2024-12-12 00:09:04,500 - INFO - Processed request: 312 -> Response: 624
+2024-12-12 00:09:04,502 - INFO - Sent response for Request ID=fec10589-1ff8-453c-8837-b23ad448cc0d
+2024-12-12 00:09:15,629 - INFO - Received Request: ID=b0e2aaa8-39b6-4aac-89b9-bf2ab803b5cd, Request=312
+2024-12-12 00:09:15,630 - INFO - Processing request with total delay of 6.0 seconds
+2024-12-12 00:09:21,632 - INFO - Finished sleeping for 6.0 seconds
+2024-12-12 00:09:21,632 - INFO - Processed request: 312 -> Response: 624
+2024-12-12 00:09:21,634 - INFO - Sent response for Request ID=b0e2aaa8-39b6-4aac-89b9-bf2ab803b5cd
+2024-12-12 00:09:29,682 - INFO - Received Request: ID=1b8b7154-9bb1-43aa-923f-c6e295647192, Request=312
+2024-12-12 00:09:29,683 - INFO - Processing request with total delay of 4.0 seconds
+2024-12-12 00:09:33,696 - INFO - Finished sleeping for 4.0 seconds
+2024-12-12 00:09:33,696 - INFO - Processed request: 312 -> Response: 624
+2024-12-12 00:09:33,698 - INFO - Sent response for Request ID=1b8b7154-9bb1-43aa-923f-c6e295647192
+2024-12-12 00:09:38,756 - INFO - Received Request: ID=4ed164a9-77ee-4e01-a391-fbfb0fab69dc, Request=312
+2024-12-12 00:09:38,757 - INFO - Processing request with total delay of 4.0 seconds
+2024-12-12 00:09:42,768 - INFO - Finished sleeping for 4.0 seconds
+2024-12-12 00:09:42,768 - INFO - Processed request: 312 -> Response: 624
+2024-12-12 00:09:42,770 - INFO - Sent response for Request ID=4ed164a9-77ee-4e01-a391-fbfb0fab69dc
+2024-12-12 00:09:47,832 - INFO - Received Request: ID=a46a472a-609e-4579-bc7e-803708a0a99d, Request=312
+2024-12-12 00:09:47,832 - INFO - Processed request: 312 -> Response: 624
+2024-12-12 00:09:47,833 - INFO - Sent response for Request ID=a46a472a-609e-4579-bc7e-803708a0a99d
+2024-12-12 00:10:08,993 - INFO - Received Request: ID=1e1b9ea4-5a34-4fb3-a88f-13ac35e3bac7, Request=312
+2024-12-12 00:10:08,993 - INFO - Processed request: 312 -> Response: 624
+2024-12-12 00:10:08,995 - INFO - Sent response for Request ID=1e1b9ea4-5a34-4fb3-a88f-13ac35e3bac7
+2024-12-12 00:10:18,128 - INFO - Received Request: ID=f30ee543-3581-4c0e-b002-03b58cabc281, Request=312
+2024-12-12 00:10:18,128 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-12 00:10:21,141 - INFO - Finished sleeping for 3.0 seconds
+2024-12-12 00:10:21,141 - INFO - Processed request: 312 -> Response: 624
+2024-12-12 00:10:21,143 - INFO - Sent response for Request ID=f30ee543-3581-4c0e-b002-03b58cabc281
+2024-12-12 00:10:28,207 - INFO - Received Request: ID=c69e09c5-7a57-4d28-b607-3840b6c13847, Request=312
+2024-12-12 00:10:28,207 - INFO - Processing request with total delay of 5.0 seconds
+2024-12-12 00:10:33,207 - INFO - Finished sleeping for 5.0 seconds
+2024-12-12 00:10:33,207 - INFO - Processed request: 312 -> Response: 624
+2024-12-12 00:10:33,209 - INFO - Sent response for Request ID=c69e09c5-7a57-4d28-b607-3840b6c13847
+2024-12-12 00:10:40,258 - INFO - Received Request: ID=5c3358b1-e170-46ac-b329-4e6ed1547dd1, Request=312
+2024-12-12 00:10:40,258 - INFO - Processing request with total delay of 6.0 seconds
+2024-12-12 00:10:46,271 - INFO - Finished sleeping for 6.0 seconds
+2024-12-12 00:10:46,271 - INFO - Processed request: 312 -> Response: 624
+2024-12-12 00:10:46,273 - INFO - Sent response for Request ID=5c3358b1-e170-46ac-b329-4e6ed1547dd1
+2024-12-12 00:12:23,755 - INFO - Received Request: ID=0c998ac2-f6e3-4145-ab28-9c24b2fe8659, Request=321
+2024-12-12 00:12:23,755 - INFO - Processing request with total delay of 4.0 seconds
+2024-12-12 00:12:27,759 - INFO - Finished sleeping for 4.0 seconds
+2024-12-12 00:12:27,759 - INFO - Processed request: 321 -> Response: 642
+2024-12-12 00:12:27,762 - INFO - Sent response for Request ID=0c998ac2-f6e3-4145-ab28-9c24b2fe8659
+2024-12-12 00:12:35,840 - INFO - Received Request: ID=57168950-78d3-49a1-98dc-206643c05ae7, Request=3
+2024-12-12 00:12:35,840 - INFO - Processing request with total delay of 4.0 seconds
+2024-12-12 00:12:39,849 - INFO - Finished sleeping for 4.0 seconds
+2024-12-12 00:12:39,849 - INFO - Processed request: 3 -> Response: 6
+2024-12-12 00:12:39,851 - INFO - Sent response for Request ID=57168950-78d3-49a1-98dc-206643c05ae7
+2024-12-12 00:15:26,001 - INFO - Received Request: ID=b2ed8170-a9ed-4703-8bbf-bb6f96a6e9c9, Request=2
+2024-12-12 00:15:26,001 - INFO - Processed request: 2 -> Response: 4
+2024-12-12 00:15:26,003 - INFO - Sent response for Request ID=b2ed8170-a9ed-4703-8bbf-bb6f96a6e9c9
+2024-12-12 00:15:29,081 - INFO - Received Request: ID=76a326f4-b176-4fb5-a75b-a1e5d17bc1a1, Request=2
+2024-12-12 00:15:29,081 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-12 00:15:32,087 - INFO - Finished sleeping for 3.0 seconds
+2024-12-12 00:15:32,087 - INFO - Processed request: 2 -> Response: 4
+2024-12-12 00:15:32,089 - INFO - Sent response for Request ID=76a326f4-b176-4fb5-a75b-a1e5d17bc1a1
+2024-12-12 00:16:32,959 - INFO - Received Request: ID=66d7fa40-ed53-442b-9fb2-00cfe2986cae, Request=321
+2024-12-12 00:16:32,960 - INFO - Processed request: 321 -> Response: 642
+2024-12-12 00:16:32,962 - INFO - Sent response for Request ID=66d7fa40-ed53-442b-9fb2-00cfe2986cae
+2024-12-12 00:16:35,010 - INFO - Received Request: ID=f31cdf1b-dc13-4a2f-8818-767bfed888cf, Request=321
+2024-12-12 00:16:35,010 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-12 00:16:38,011 - INFO - Finished sleeping for 3.0 seconds
+2024-12-12 00:16:38,011 - INFO - Processed request: 321 -> Response: 642
+2024-12-12 00:16:38,013 - INFO - Sent response for Request ID=f31cdf1b-dc13-4a2f-8818-767bfed888cf
+2024-12-12 00:16:42,043 - INFO - Received Request: ID=9e32bd5c-aee2-4511-86d5-4b4604e9f2d4, Request=321
+2024-12-12 00:16:42,043 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-12 00:16:45,043 - INFO - Finished sleeping for 3.0 seconds
+2024-12-12 00:16:45,043 - INFO - Processed request: 321 -> Response: 642
+2024-12-12 00:16:45,045 - INFO - Sent response for Request ID=9e32bd5c-aee2-4511-86d5-4b4604e9f2d4
+2024-12-12 00:17:48,624 - INFO - Received Request: ID=ac8d3c47-e706-4d1c-bb5f-dec5342621be, Request=321
+2024-12-12 00:17:48,624 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-12 00:17:51,625 - INFO - Finished sleeping for 3.0 seconds
+2024-12-12 00:17:51,625 - INFO - Processed request: 321 -> Response: 642
+2024-12-12 00:17:51,627 - INFO - Sent response for Request ID=ac8d3c47-e706-4d1c-bb5f-dec5342621be
+2024-12-12 00:18:26,367 - INFO - Received Request: ID=f79aa920-665a-46d0-bb1c-10516ddef5e9, Request=321
+2024-12-12 00:18:26,368 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-12 00:18:29,379 - INFO - Finished sleeping for 3.0 seconds
+2024-12-12 00:18:29,380 - INFO - Processed request: 321 -> Response: 642
+2024-12-12 00:18:29,381 - INFO - Sent response for Request ID=f79aa920-665a-46d0-bb1c-10516ddef5e9
+2024-12-12 00:21:35,373 - INFO - Received Request: ID=11bb5904-726a-4264-a1dd-fc2f62906c2f, Request=321
+2024-12-12 00:21:35,374 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-12 00:21:38,381 - INFO - Finished sleeping for 3.0 seconds
+2024-12-12 00:21:38,381 - INFO - Processed request: 321 -> Response: 642
+2024-12-12 00:21:38,383 - INFO - Sent response for Request ID=11bb5904-726a-4264-a1dd-fc2f62906c2f
+2024-12-12 00:21:51,481 - INFO - Received Request: ID=3dfd7da2-5165-4f32-8136-2a4d190c56a2, Request=321321
+2024-12-12 00:21:51,481 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-12 00:21:54,493 - INFO - Finished sleeping for 3.0 seconds
+2024-12-12 00:21:54,493 - INFO - Processed request: 321321 -> Response: 642642
+2024-12-12 00:21:54,495 - INFO - Sent response for Request ID=3dfd7da2-5165-4f32-8136-2a4d190c56a2
+2024-12-12 00:23:45,400 - INFO - Received Request: ID=da4bb5d9-87d2-4c37-aa0f-6c3ed91a0741, Request=312
+2024-12-12 00:23:45,401 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-12 00:23:48,406 - INFO - Finished sleeping for 3.0 seconds
+2024-12-12 00:23:48,407 - INFO - Processed request: 312 -> Response: 624
+2024-12-12 00:23:48,408 - INFO - Sent response for Request ID=da4bb5d9-87d2-4c37-aa0f-6c3ed91a0741
+2024-12-12 00:24:01,508 - INFO - Received Request: ID=e22fc340-7f22-4eeb-87d8-864099f154d4, Request=312
+2024-12-12 00:24:01,508 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-12 00:24:04,514 - INFO - Finished sleeping for 3.0 seconds
+2024-12-12 00:24:04,514 - INFO - Processed request: 312 -> Response: 624
+2024-12-12 00:24:04,516 - INFO - Sent response for Request ID=e22fc340-7f22-4eeb-87d8-864099f154d4
+2024-12-12 00:25:08,799 - INFO - Received Request: ID=73e6765e-39a5-496e-a988-8f6974766ebf, Request=321
+2024-12-12 00:25:08,800 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-12 00:25:11,802 - INFO - Finished sleeping for 3.0 seconds
+2024-12-12 00:25:11,802 - INFO - Processed request: 321 -> Response: 642
+2024-12-12 00:25:11,804 - INFO - Sent response for Request ID=73e6765e-39a5-496e-a988-8f6974766ebf
+2024-12-12 00:25:38,237 - INFO - Received Request: ID=4c7e8df7-51a1-4226-ba96-f6e764d7a755, Request=321
+2024-12-12 00:25:38,238 - INFO - Processed request: 321 -> Response: 642
+2024-12-12 00:25:38,239 - INFO - Sent response for Request ID=4c7e8df7-51a1-4226-ba96-f6e764d7a755
+2024-12-12 00:26:54,656 - INFO - Received Request: ID=13f342c6-2662-4dc2-b8b1-67a7bb275b5f, Request=312
+2024-12-12 00:26:54,656 - INFO - Processed request: 312 -> Response: 624
+2024-12-12 00:26:54,658 - INFO - Sent response for Request ID=13f342c6-2662-4dc2-b8b1-67a7bb275b5f
+2024-12-12 00:26:59,736 - INFO - Received Request: ID=63339a76-7780-496c-aea2-7c3de11f26da, Request=312
+2024-12-12 00:26:59,736 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-12 00:27:02,748 - INFO - Finished sleeping for 3.0 seconds
+2024-12-12 00:27:02,748 - INFO - Processed request: 312 -> Response: 624
+2024-12-12 00:27:02,750 - INFO - Sent response for Request ID=63339a76-7780-496c-aea2-7c3de11f26da
+2024-12-12 00:27:12,848 - INFO - Received Request: ID=f2ab71ba-20c6-46c9-837b-a2ae96ba8712, Request=312
+2024-12-12 00:27:12,848 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-12 00:27:15,853 - INFO - Finished sleeping for 3.0 seconds
+2024-12-12 00:27:15,853 - INFO - Processed request: 312 -> Response: 624
+2024-12-12 00:27:15,855 - INFO - Sent response for Request ID=f2ab71ba-20c6-46c9-837b-a2ae96ba8712
+2024-12-12 00:27:19,901 - INFO - Received Request: ID=238e4b62-f793-44f2-a142-67e82cd6e29f, Request=312
+2024-12-12 00:27:19,901 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-12 00:27:22,916 - INFO - Finished sleeping for 3.0 seconds
+2024-12-12 00:27:22,916 - INFO - Processed request: 312 -> Response: 624
+2024-12-12 00:27:22,918 - INFO - Sent response for Request ID=238e4b62-f793-44f2-a142-67e82cd6e29f
+2024-12-12 00:27:53,284 - INFO - Received Request: ID=e4d652b0-9683-411c-88dc-4d447e4e5af5, Request=312
+2024-12-12 00:27:53,285 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-12 00:27:56,292 - INFO - Finished sleeping for 3.0 seconds
+2024-12-12 00:27:56,292 - INFO - Processed request: 312 -> Response: 624
+2024-12-12 00:27:56,295 - INFO - Sent response for Request ID=e4d652b0-9683-411c-88dc-4d447e4e5af5
+2024-12-12 00:31:26,820 - INFO - Received Request: ID=a8010f6d-57be-43e3-be10-75a1ed5ee1fb, Request=321
+2024-12-12 00:31:26,820 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-12 00:31:29,830 - INFO - Finished sleeping for 3.0 seconds
+2024-12-12 00:31:29,830 - INFO - Processed request: 321 -> Response: 642
+2024-12-12 00:31:29,832 - INFO - Sent response for Request ID=a8010f6d-57be-43e3-be10-75a1ed5ee1fb
+2024-12-12 00:33:16,887 - INFO - Received Request: ID=19040bea-301b-4645-b1f2-ec27061daa8f, Request=321
+2024-12-12 00:33:16,888 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-12 00:33:19,895 - INFO - Finished sleeping for 3.0 seconds
+2024-12-12 00:33:19,895 - INFO - Processed request: 321 -> Response: 642
+2024-12-12 00:33:19,897 - INFO - Sent response for Request ID=19040bea-301b-4645-b1f2-ec27061daa8f
+2024-12-12 00:33:29,005 - INFO - Received Request: ID=f40cbbfb-e187-4923-9f91-2c1ed3942ec3, Request=321
+2024-12-12 00:33:29,005 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-12 00:33:32,011 - INFO - Finished sleeping for 3.0 seconds
+2024-12-12 00:33:32,011 - INFO - Processed request: 321 -> Response: 642
+2024-12-12 00:33:32,013 - INFO - Sent response for Request ID=f40cbbfb-e187-4923-9f91-2c1ed3942ec3
+2024-12-12 00:33:38,064 - INFO - Received Request: ID=513b23a8-0c77-4ea2-ad8c-c6d7c239ae8a, Request=321
+2024-12-12 00:33:38,064 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-12 00:33:41,072 - INFO - Finished sleeping for 3.0 seconds
+2024-12-12 00:33:41,072 - INFO - Processed request: 321 -> Response: 642
+2024-12-12 00:33:41,074 - INFO - Sent response for Request ID=513b23a8-0c77-4ea2-ad8c-c6d7c239ae8a
+2024-12-12 00:44:05,582 - INFO - Received Request: ID=2152f570-c780-4dec-b178-570e2edeb272, Request=321
+2024-12-12 00:44:05,583 - INFO - Processed request: 321 -> Response: 642
+2024-12-12 00:44:05,584 - INFO - Sent response for Request ID=2152f570-c780-4dec-b178-570e2edeb272
+2024-12-12 00:44:09,642 - INFO - Received Request: ID=fba614cd-e3e7-46a1-8331-74b1b003332d, Request=321
+2024-12-12 00:44:09,642 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-12 00:44:12,657 - INFO - Finished sleeping for 3.0 seconds
+2024-12-12 00:44:12,657 - INFO - Processed request: 321 -> Response: 642
+2024-12-12 00:44:12,659 - INFO - Sent response for Request ID=fba614cd-e3e7-46a1-8331-74b1b003332d
+2024-12-12 00:45:02,381 - INFO - Received Request: ID=6ccf2cea-f240-43bb-bbf5-66383b37487e, Request=231
+2024-12-12 00:45:02,382 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-12 00:45:05,388 - INFO - Finished sleeping for 3.0 seconds
+2024-12-12 00:45:05,388 - INFO - Processed request: 231 -> Response: 462
+2024-12-12 00:45:05,390 - INFO - Sent response for Request ID=6ccf2cea-f240-43bb-bbf5-66383b37487e
+2024-12-12 00:51:54,042 - INFO - Received Request: ID=f59a0783-d249-4d0b-a959-56963134e8ac, Request=321
+2024-12-12 00:51:54,042 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-12 00:51:57,044 - INFO - Finished sleeping for 3.0 seconds
+2024-12-12 00:51:57,045 - INFO - Processed request: 321 -> Response: 642
+2024-12-12 00:51:57,047 - INFO - Sent response for Request ID=f59a0783-d249-4d0b-a959-56963134e8ac
+2024-12-12 00:52:11,179 - INFO - Received Request: ID=08546169-62da-437d-8f7b-d7df1e55344e, Request=321
+2024-12-12 00:52:11,179 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-12 00:52:14,183 - INFO - Finished sleeping for 3.0 seconds
+2024-12-12 00:52:14,183 - INFO - Processed request: 321 -> Response: 642
+2024-12-12 00:52:14,185 - INFO - Sent response for Request ID=08546169-62da-437d-8f7b-d7df1e55344e
+2024-12-12 00:57:40,124 - INFO - Received Request: ID=d2f6f162-79ef-4772-95a7-4b94677a2c62, Request=321
+2024-12-12 00:57:40,125 - INFO - Processing request with total delay of 3.0 seconds
+2024-12-12 00:57:43,136 - INFO - Finished sleeping for 3.0 seconds
+2024-12-12 00:57:43,136 - INFO - Processed request: 321 -> Response: 642
+2024-12-12 00:57:43,138 - INFO - Sent response for Request ID=d2f6f162-79ef-4772-95a7-4b94677a2c62
