@@ -223,6 +223,7 @@ class Window(QMainWindow):
         if self.total_wait_time > self.timeout_response and self.client._running:
             self.notify_user("Время ожидания истекло. Сервер может быть недоступен.", success=False)
             self.unlock_ui()
+        self.request_processed.emit()
 
     def sending_request(self):
         """Отправляет запрос."""
@@ -252,7 +253,6 @@ class Window(QMainWindow):
 
     def display_response(self, response):
         """Сохраняем и отображаем ответ от сервера."""
-        self.processing_request = False
         if self.request_cancelled:
             self.request_cancelled = False
             return 
@@ -267,11 +267,16 @@ class Window(QMainWindow):
             self.notify_user(f"Ответ от сервера: {self.response_data}", success=True)
             log.debug(f"Отображаем ответ: {self.response_data}")
             
-            self.timeout_timer.stop()
-            self.process_timer.stop()
-            self.timer_label.setText("Оставшееся время: 0 сек.")
-            self.progress_bar.setValue(0)
-            self.unlock_ui()
+            if self.total_wait_time <= self.timeout_response:
+                self.timeout_timer.stop()
+                self.process_timer.stop()
+                self.timer_label.setText("Оставшееся время: 0 сек.")
+                self.progress_bar.setValue(0)
+                self.unlock_ui()
+            else:
+                self.notify_user("Превышено время ожидания", success=False)
+                self.unlock_ui()
+                return
         
         self.request_processed.emit()
 
@@ -312,4 +317,3 @@ class Window(QMainWindow):
         self.set_delay_button.setEnabled(enabled)
         self.input_field2.setEnabled(enabled)
         self.cancel_button.setVisible(not enabled)
-        

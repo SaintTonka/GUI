@@ -60,7 +60,6 @@ class RMQClient(QObject):
         self.exchange = config.get('rabbitmq', 'exchange', fallback='bews')
 
         self.log_level_str = config.get('logging', 'level', fallback='INFO')
-        self.log_file = config.get('logging', 'file', fallback='client.log')
         self.log_level = getattr(logging, self.log_level_str.upper(), logging.INFO)
 
         self.timeout_send = config.getint('client', 'timeout_send', fallback=10)
