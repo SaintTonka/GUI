@@ -43,6 +43,7 @@ class DisconnectedState(ClientState):
 
     def handle_error(self, client, error):
         client.logger.error(f"Error occurred in DisconnectedState: {error}")
+        client.change_state(ErrorState())
 
 
 class ConnectingState(ClientState):
@@ -66,6 +67,7 @@ class ConnectingState(ClientState):
 
     def handle_error(self, client, error):
         client.logger.error(f"Error occurred in ConnectingState: {error}")
+        client.change_state(ErrorState())
 
 
 class ConnectedState(ClientState):
@@ -90,6 +92,50 @@ class ConnectedState(ClientState):
     def handle_error(self, client, error):
         client.logger.error(f"Error occurred in ConnectedState: {error}")
         client.change_state(ErrorState())
+    
+class PendingResponseState(ClientState):
+    def connect(self, client):
+        client.logger.warning("Already connected and awaiting a response.")
+
+    def disconnect(self, client):
+        client.logger.info("Disconnecting while waiting for a response...")
+        client.connection.close()
+        client.change_state(DisconnectedState())
+
+    def send_request(self, client, user_input, delay):
+        client.logger.warning("Request denied: awaiting a previous response.")
+
+    def receive_response(self, client, response):
+        client.logger.info("Response received, processing...")
+        client.received_response.emit(response)
+        client.change_state(ConnectedState())
+
+    def handle_error(self, client, error):
+        client.logger.error(f"Error while awaiting response: {error}")
+        client.change_state(ErrorState())
+
+
+class ErrorSendState(ClientState):
+    def connect(self, client):
+        client.logger.info("Retrying connection after send error...")
+        client.connect_to_rabbitmq()
+        client.change_state(ConnectingState())
+
+    def disconnect(self, client):
+        client.logger.info("Disconnecting due to send error...")
+        if client.connection and client.connection.is_open:
+            client.connection.close()
+        client.change_state(DisconnectedState())
+
+    def send_request(self, client, user_input, delay):
+        client.logger.error("Cannot send request due to send error.")
+
+    def receive_response(self, client, response):
+        client.logger.error("Unexpected response in ErrorSendState. Ignoring response.")
+
+    def handle_error(self, client, error):
+        client.logger.error(f"Error occurred in ErrorSendState: {error}")
+        client.change_state(ErrorState())
 
 
 class ErrorState(ClientState):
@@ -98,9 +144,13 @@ class ErrorState(ClientState):
             client.logger.info("Connection already open. Moving to ConnectedState.")
             client.change_state(ConnectedState())
         else:
-            client.logger.info("Reconnecting to RabbitMQ...")
-            client.connect_to_rabbitmq()
-            client.change_state(ConnectingState())
+            try:
+                client.logger.info("Reconnecting to RabbitMQ...")
+                client.connect_to_rabbitmq()
+                client.change_state(ConnectingState())
+            except Exception as e:
+                client.logger.error(f"Reconnection failed: {e}")
+                client.change_state(ErrorState())
 
     def disconnect(self, client):
         client.logger.info("Disconnecting due to error...")

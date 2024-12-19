@@ -1,6 +1,6 @@
 import uuid
 import configparser
-import logging
+import logging, time
 from PyQt5.QtCore import QObject, pyqtSignal
 import pika
 import queue
@@ -85,52 +85,67 @@ class RMQClient(QObject):
 
     def run(self):
         """Запускает работу клиента и обрабатывает входящие и исходящие сообщения."""
-        try:
+        if self.connect_to_rabbitmq():
             self.state.connect(self)
-            while self._running:
-                self.connection.process_data_events(time_limit=1)
-                try:
-                    user_input, delay = self.send_queue.get_nowait()
-                    self.send_request(user_input, delay)
-                except queue.Empty:
-                    pass
-        except Exception as e:
-            self.emit_error_signal(str(e))
-            self.server_unavailable_signal.emit()
-            self._running = False
-            self.change_state(DisconnectedState())
+            try:
+                while self._running:
+                    self.state.connect(self)
+                    self.connection.process_data_events(time_limit=1)
+                    
+                    try:
+                        user_input, delay = self.send_queue.get_nowait()
+                        self.send_request(user_input, delay)
+                    except queue.Empty:
+                        pass
+            except Exception as e:
+                self.emit_error_signal(str(e))
+                self.server_unavailable_signal.emit()
+                self._running = False
+                self.change_state(DisconnectedState())
 
     def connect_to_rabbitmq(self):
-        """Устанавливает соединение с RabbitMQ и пересоздает канал с новой очередью."""
+        """Попытка подключения с ограничением по времени и числу попыток."""
         self.load_config()
+        start_time = time.time()
+        max_attempts = 5
+        attempts = 0
 
-        try:
-            credentials = pika.PlainCredentials(self.rmq_user, self.rmq_password)
-            parameters = pika.ConnectionParameters(
-                host=self.rmq_host,
-                port=self.rmq_port,
-                credentials=credentials
-            )
-            self.connection = pika.BlockingConnection(parameters)
-            self.channel = self.connection.channel()
+        while (time.time() - start_time <= self.timeout_send) and attempts < max_attempts:
+            attempts += 1
+            try:
+                credentials = pika.PlainCredentials(self.rmq_user, self.rmq_password)
+                parameters = pika.ConnectionParameters(
+                    host=self.rmq_host,
+                    port=self.rmq_port,
+                    credentials=credentials
+                )
+                self.connection = pika.BlockingConnection(parameters)
+                self.channel = self.connection.channel()
 
-            self.channel.exchange_declare(exchange=self.exchange, exchange_type='direct', durable=True)
-            self.logger.info(f"Exchange '{self.exchange}' declared.")
+                self.channel.exchange_declare(exchange=self.exchange, exchange_type='direct', durable=True)
+                self.logger.info(f"Exchange '{self.exchange}' declared.")
 
-            self.channel.queue_declare(queue=self.client_uuid, exclusive=True)
-            self.logger.info(f"Queue with UUID {self.client_uuid} declared successfully.")
+                self.channel.queue_declare(queue=self.client_uuid, exclusive=True)
+                self.logger.info(f"Queue with UUID {self.client_uuid} declared successfully.")
 
-            self.channel.basic_consume(queue=self.client_uuid, on_message_callback=self.on_response, auto_ack=True)
+                self.channel.basic_consume(queue=self.client_uuid, on_message_callback=self.on_response, auto_ack=True)
 
-            self.logger.info("Connected to RabbitMQ")
-            self.change_state(ConnectedState())
-            self.server_ready_signal.emit()
-        except pika.exceptions.AMQPConnectionError as e:
-            self.emit_error_signal(f"Connection error: {e}")
-            self.change_state(ErrorState())
-        except Exception as e:
-            self.emit_error_signal(f"Unexpected error: {e}")
-            self.change_state(ErrorState())
+                self.logger.info("Connected to RabbitMQ")
+                self.change_state(ConnectedState())
+                self.server_ready_signal.emit()
+                return True
+            except pika.exceptions.AMQPConnectionError as e:
+                self.emit_error_signal(f"Connection error: {e}")
+                time.sleep(1)  
+            except Exception as e:
+                self.emit_error_signal(f"Unexpected error: {e}")
+                self.change_state(ErrorState())
+                time.sleep(1)  
+
+        self.emit_error_signal(f"Ошибка подключения к брокеру.")
+        self.change_state(ErrorState())
+        return False
+
 
     def setup_channel(self):
         """Настроить каналы для отправки и получения сообщений."""
