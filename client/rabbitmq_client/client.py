@@ -86,12 +86,9 @@ class RMQClient(QObject):
     def run(self):
         """Запускает работу клиента и обрабатывает входящие и исходящие сообщения."""
         if self.connect_to_rabbitmq():
-            self.state.connect(self)
             try:
                 while self._running:
-                    self.state.connect(self)
                     self.connection.process_data_events(time_limit=1)
-                    
                     try:
                         user_input, delay = self.send_queue.get_nowait()
                         self.send_request(user_input, delay)
@@ -105,6 +102,14 @@ class RMQClient(QObject):
 
     def connect_to_rabbitmq(self):
         """Попытка подключения с ограничением по времени и числу попыток."""
+        if isinstance(self.state, ConnectedState):
+            self.logger.warning("Client is already connected. Skipping connection attempt.")
+            return True
+
+        if isinstance(self.state, ConnectingState):
+            self.logger.warning("Client is currently connecting. Waiting for completion.")
+            return False
+
         self.load_config()
         start_time = time.time()
         max_attempts = 5
@@ -136,13 +141,13 @@ class RMQClient(QObject):
                 return True
             except pika.exceptions.AMQPConnectionError as e:
                 self.emit_error_signal(f"Connection error: {e}")
-                time.sleep(1)  
+                time.sleep(1)
             except Exception as e:
                 self.emit_error_signal(f"Unexpected error: {e}")
                 self.change_state(ErrorState())
-                time.sleep(1)  
+                time.sleep(1)
 
-        self.emit_error_signal(f"Ошибка подключения к брокеру.")
+        self.emit_error_signal("Ошибка подключения к брокеру.")
         self.change_state(ErrorState())
         return False
 

@@ -171,9 +171,3 @@ class ConfigEditor(QDialog):
         self.log_level_input.setDisabled(not enabled) 
         self.uuid_button.setDisabled(not enabled)
         self.save_button.setDisabled(not enabled)     
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    editor = ConfigEditor()
-    editor.show()
-    sys.exit(app.exec_())
