@@ -21,7 +21,6 @@ class ClientState(ABC):
     def handle_error(self, client, error):
         pass
 
-
 class DisconnectedState(ClientState):
     def connect(self, client):
         client.logger.info("Attempting to connect to RabbitMQ...")
@@ -45,7 +44,6 @@ class DisconnectedState(ClientState):
         client.logger.error(f"Error occurred in DisconnectedState: {error}")
         client.change_state(ErrorState())
 
-
 class ConnectingState(ClientState):
     def connect(self, client):
         client.logger.info("Client is already attempting to connect.")
@@ -60,7 +58,8 @@ class ConnectingState(ClientState):
 
     def send_request(self, client, user_input, delay):
         client.logger.warning("Client is connecting, queuing request.")
-        client.send_queue.put((user_input, delay))
+        client.send_request(user_input, delay)
+        client.chanhe_state(PendingResponseState())
 
     def receive_response(self, client, response):
         client.logger.warning("Client is connecting, cannot receive responses yet.")
@@ -68,7 +67,6 @@ class ConnectingState(ClientState):
     def handle_error(self, client, error):
         client.logger.error(f"Error occurred in ConnectingState: {error}")
         client.change_state(ErrorState())
-
 
 class ConnectedState(ClientState):
     def connect(self, client):
@@ -91,8 +89,8 @@ class ConnectedState(ClientState):
 
     def handle_error(self, client, error):
         client.logger.error(f"Error occurred in ConnectedState: {error}")
-        client.change_state(ErrorState())
-    
+        client.change_state(ErrorState())      
+
 class PendingResponseState(ClientState):
     def connect(self, client):
         client.logger.warning("Already connected and awaiting a response.")
@@ -113,7 +111,6 @@ class PendingResponseState(ClientState):
     def handle_error(self, client, error):
         client.logger.error(f"Error while awaiting response: {error}")
         client.change_state(ErrorState())
-
 
 class ErrorSendState(ClientState):
     def connect(self, client):
@@ -136,7 +133,6 @@ class ErrorSendState(ClientState):
     def handle_error(self, client, error):
         client.logger.error(f"Error occurred in ErrorSendState: {error}")
         client.change_state(ErrorState())
-
 
 class ErrorState(ClientState):
     def connect(self, client):

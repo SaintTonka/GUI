@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import (
     QMainWindow, QVBoxLayout, QWidget, QLabel,
     QLineEdit, QPushButton, QTextEdit, QProgressBar
 )
-from PyQt5.QtCore import QTimer, Qt, QFileSystemWatcher, pyqtSignal
+from PyQt5.QtCore import QTimer, Qt, QFileSystemWatcher, pyqtSignal, pyqtSlot
 from datetime import datetime
 from rabbitmq_client.config_params import ConfigEditor
 import logging
@@ -103,7 +103,6 @@ class Window(QMainWindow):
         self.cancel_button.clicked.connect(self.cancel_request)
         self.config_button.clicked.connect(self.open_config_editor)
 
-
     def notify_user(self, message, success=True):
         """Уведомить пользователя о текущем статусе."""
         self.status_label.setStyleSheet("color: green;" if success else "color: red;")
@@ -122,7 +121,6 @@ class Window(QMainWindow):
         self.config_editor.setWindowModality(Qt.ApplicationModal)
         self.config_editor.show()
             
-
     def set_logging_level(self):
         """Настроить уровень логирования в зависимости от конфигурации."""
         level = self.config_file.get('logging', 'level', fallback='INFO').upper()
@@ -143,11 +141,11 @@ class Window(QMainWindow):
         log.handlers = []
         log.addHandler(handler)
 
+    @pyqtSlot()
     def on_config_changed(self):
         """Обработчик изменений в конфигурационном файле."""
         self.config_file.read(self.config_path)
         try:
-            self.timeout_send = self.config_file.getint('client', 'timeout_send')
             self.timeout_response = self.config_file.getint('server', 'timeout_response')
             self.set_logging_level()
 
@@ -161,17 +159,19 @@ class Window(QMainWindow):
         log.debug(f"{timestamp} - {event_message}")
         self.log_widget.append(f"{timestamp} - {event_message}")
 
-
+    @pyqtSlot()
     def on_server_ready(self):
         """Разблокировать UI и обновить статус, когда сервер готов."""
         self.notify_user("Сервер готов! Теперь можно отправлять запросы.", success=True)
         self.unlock_ui()
 
+    @pyqtSlot()
     def on_server_unavailable(self):
         """Обработка ситуации, когда сервер становится недоступен."""
         self.notify_user("Сервер недоступен.", success=False)
         self.unlock_ui() 
 
+    @pyqtSlot(str)
     def handle_error_signal(self, error_message):
         """Обработка ошибок."""
         self.notify_user(error_message, success=False)
@@ -192,23 +192,22 @@ class Window(QMainWindow):
             self.log_event("Попытка установить некорректное значение задержки.")
 
     def start_timer(self):
-        """Запускает таймер ожидания ответа от сервера."""
-        self.total_wait_time = self.process_time_in_seconds + self.timeout_send
-
-        if self.total_wait_time == 0:
+        if self.process_time_in_seconds == 0:
             self.progress_bar.setVisible(False)
             self.timer_label.setText("Оставшееся время: 0 сек.")
-            self.process_timer.stop()  
+            self.process_timer.stop()
         else:
-            self.progress_bar.setVisible(True)  
-            self.progress_bar.setMaximum(self.total_wait_time)
-            self.progress_bar.setValue(self.total_wait_time)
-            self.timer_label.setText(f"Оставшееся время: {self.total_wait_time} сек.")
+            self.progress_bar.setVisible(True)
+            self.progress_bar.setMaximum(self.process_time_in_seconds)
+            self.progress_bar.setValue(self.process_time_in_seconds)
+            self.timer_label.setText(f"Оставшееся время: {self.process_time_in_seconds} сек.")
             self.process_timer.start(1000)  
 
-        self.timeout_timer.start(self.total_wait_time * 1000)
- 
+        self.timeout_timer.setSingleShot(True)
+        self.timeout_timer.start(self.timeout_response * 1000)
 
+ 
+    @pyqtSlot()
     def update_progress(self):
         """Обновляет прогресс-бар и отображение оставшегося времени."""
         current_value = self.progress_bar.value()
@@ -218,11 +217,11 @@ class Window(QMainWindow):
         else:
             self.process_timer.stop()
 
+    @pyqtSlot()
     def on_timeout(self):
         """Обрабатывает истечение времени ожидания ответа от сервера."""
-        if self.total_wait_time > self.timeout_response and self.client._running:
-            self.notify_user("Время ожидания истекло. Сервер может быть недоступен.", success=False)
-            self.unlock_ui()
+        self.notify_user("Время ожидания истекло. Сервер может быть недоступен.", success=False)
+        self.unlock_ui()
         self.request_processed.emit()
 
     def sending_request(self):
@@ -244,15 +243,17 @@ class Window(QMainWindow):
         except ValueError:
             self.notify_user("Введите корректное целое число!", success=False)
             return
-
+        
+        delay = self.process_time_in_seconds if self.process_time_in_seconds > 0 else 0
         self.log_event(f"Отправка запроса с числом: {number}")
         self.processing_request = True
-        self.client.send_queue.put_nowait((str(number), self.process_time_in_seconds))
+        self.client.send_request(str(number), delay)
         self.start_timer()
         self.lock_ui()
-
+    
+    @pyqtSlot(int)
     def display_response(self, response):
-        """Сохраняем и отображаем ответ от сервера."""
+        """Сохраняет и отображает ответ от сервера."""
         if self.request_cancelled:
             self.request_cancelled = False
             return 
@@ -266,21 +267,15 @@ class Window(QMainWindow):
             self.response_data = response
             self.notify_user(f"Ответ от сервера: {self.response_data}", success=True)
             log.debug(f"Отображаем ответ: {self.response_data}")
-            
-            if self.total_wait_time <= self.timeout_response:
-                self.timeout_timer.stop()
-                self.process_timer.stop()
-                self.timer_label.setText("Оставшееся время: 0 сек.")
-                self.progress_bar.setValue(0)
-                self.unlock_ui()
-            else:
-                self.notify_user("Превышено время ожидания", success=False)
-                self.unlock_ui()
-                return
+            self.timeout_timer.stop()
+            self.process_timer.stop()
+            self.timer_label.setText("Оставшееся время: 0 сек.")
+            self.progress_bar.setValue(0)
+            self.unlock_ui()
         
         self.request_processed.emit()
 
-
+    @pyqtSlot(bool)
     def cancel_request(self):
         """Отмена текущего запроса."""
         self.timeout_timer.stop()

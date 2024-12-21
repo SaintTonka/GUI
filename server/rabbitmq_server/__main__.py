@@ -39,17 +39,14 @@ async def main():
         )
         log.info(f"Exchange '{rabbit_config['exchange']}' declared.")
 
-        # Объявление очереди (queue)
         queue = await channel.declare_queue(
             rabbit_config['exchange'],
             durable=True,
             auto_delete=True
         )
 
-        # Привязка очереди к обмену
         await queue.bind(exchange, routing_key=rabbit_config['exchange'])
 
-        # Начало потребления сообщений
         await queue.consume(lambda message: asyncio.create_task(context.handle_request(message)))
         log.info(f"Server is listening on queue: {queue.name}")
 

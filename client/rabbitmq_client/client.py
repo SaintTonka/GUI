@@ -1,18 +1,18 @@
 import uuid
 import configparser
 import logging, time
-from PyQt5.QtCore import QObject, pyqtSignal
+from PyQt5.QtCore import QObject, pyqtSignal, Qt
 import pika
-import queue
 from pathlib import Path
 from rabbitmq_client.proto import msg_client_pb2
-from rabbitmq_client.client_state import DisconnectedState, ConnectingState, ConnectedState, ErrorState
+from rabbitmq_client.client_state import DisconnectedState, ConnectingState, ConnectedState, ErrorState, PendingResponseState, ErrorSendState
 
 class RMQClient(QObject):
     received_response = pyqtSignal(int)
     error_signal = pyqtSignal(str)
     server_ready_signal = pyqtSignal()
     server_unavailable_signal = pyqtSignal()
+    send_request_signal = pyqtSignal(str, int)
 
     def __init__(self, config_file='client_config.ini'):
         super().__init__()
@@ -20,13 +20,12 @@ class RMQClient(QObject):
         self.load_config()
         self.connection = None
         self.channel = None
-        self.send_queue = queue.Queue()
         self._running = True
+        self.send_request_signal.connect(self.send_request, Qt.QueuedConnection)
 
         self.state = DisconnectedState()
 
         self.logger = logging.getLogger(__name__)
-        logging.getLogger().handlers.clear()
 
         console_handler = logging.StreamHandler()
         console_handler.setLevel(self.log_level)  
@@ -62,7 +61,7 @@ class RMQClient(QObject):
         self.log_level_str = config.get('logging', 'level', fallback='INFO')
         self.log_level = getattr(logging, self.log_level_str.upper(), logging.INFO)
 
-        self.timeout_send = config.getint('client', 'timeout_send', fallback=10)
+        self.timeout_send = config.getfloat('client', 'timeout_send', fallback=10)
         self.timeout_request = config.getint('client', 'timeout_request', fallback=10)
 
         with open(config_file_path, 'w') as configfile:
@@ -82,18 +81,12 @@ class RMQClient(QObject):
         self.logger.debug(f"Changing state from {self.state.__class__.__name__} to {new_state.__class__.__name__}")
         self.state = new_state
    
-
     def run(self):
         """Запускает работу клиента и обрабатывает входящие и исходящие сообщения."""
         if self.connect_to_rabbitmq():
             try:
                 while self._running:
                     self.connection.process_data_events(time_limit=1)
-                    try:
-                        user_input, delay = self.send_queue.get_nowait()
-                        self.send_request(user_input, delay)
-                    except queue.Empty:
-                        pass
             except Exception as e:
                 self.emit_error_signal(str(e))
                 self.server_unavailable_signal.emit()
@@ -112,11 +105,8 @@ class RMQClient(QObject):
 
         self.load_config()
         start_time = time.time()
-        max_attempts = 5
-        attempts = 0
 
-        while (time.time() - start_time <= self.timeout_send) and attempts < max_attempts:
-            attempts += 1
+        while (time.time() - start_time <= self.timeout_send):
             try:
                 credentials = pika.PlainCredentials(self.rmq_user, self.rmq_password)
                 parameters = pika.ConnectionParameters(
@@ -149,8 +139,8 @@ class RMQClient(QObject):
 
         self.emit_error_signal("Ошибка подключения к брокеру.")
         self.change_state(ErrorState())
+        self._running = False
         return False
-
 
     def setup_channel(self):
         """Настроить каналы для отправки и получения сообщений."""
@@ -159,6 +149,11 @@ class RMQClient(QObject):
 
     def send_request(self, user_input, delay):
         """Метод для отправки запроса."""
+
+        if isinstance(self.state, PendingResponseState):
+            self.logger.warning("Request is already sent.")
+            return True
+        
         if self.channel and self.connection.is_open:
             try:
                 request = msg_client_pb2.Request()
@@ -180,8 +175,10 @@ class RMQClient(QObject):
                 self.log_request_sent(user_input, delay) 
             except Exception as e:
                 self.emit_error_signal(f"Error sending request: {e}")
+                self.change_state(ErrorSendState())
         else:
             self.emit_error_signal("Cannot send request: Channel or connection is not open.")
+            self.change_state(ErrorSendState())
 
     def log_request_sent(self, user_input, delay):
         """Логирует отправленный запрос."""
@@ -198,6 +195,8 @@ class RMQClient(QObject):
             self.logger.info(f"Parsed response: {response.response} for request ID: {properties.correlation_id}")
             self.received_response.emit(response.response)
 
+            self.change_state(ConnectedState())
+
         except Exception as e:
             self.emit_error_signal(f"Error processing response: {e}")
 
@@ -205,22 +204,6 @@ class RMQClient(QObject):
         """Централизованный метод для отправки сигнала об ошибке."""
         self.logger.error(message)
         self.error_signal.emit(message)
-
-
-    def stop(self):
-        """Останавливает клиента."""
-        self._running = False
-        try:
-            if self.connection and self.connection.is_open:
-                self.logger.info("Closing RabbitMQ connection...")
-                self.channel.close()
-                self.connection.close()
-        except pika.exceptions.StreamLostError as e:
-            self.logger.error(f"Stream connection lost while closing: {e}")
-        except Exception as e:
-            self.logger.error(f"Error while stopping client: {e}")
-        finally:
-            self.logger.info("Client stopped successfully.")
 
     def reload_config_and_reconnect(self):
         """Перезагружает конфигурацию и инициирует подключение с новой очередью."""

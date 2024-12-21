@@ -85,8 +85,7 @@ class ConfigEditor(QDialog):
 
         self.setLayout(layout)
         self.setWindowTitle("Configuration Editor")
-        
-
+    
     def create_input_field(self, label, section, option, layout):
         layout.addWidget(QLabel(label))
         line_edit = QLineEdit()
@@ -170,4 +169,4 @@ class ConfigEditor(QDialog):
 
         self.log_level_input.setDisabled(not enabled) 
         self.uuid_button.setDisabled(not enabled)
-        self.save_button.setDisabled(not enabled)     
+        self.save_button.setDisabled(not enabled)

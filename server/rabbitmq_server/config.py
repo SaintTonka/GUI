@@ -2,12 +2,10 @@ import configparser
 import pathlib
 import logging
 
-log = logging.getLogger(__name__)
-
 def load_config(path=None):
     """Загружает конфигурацию из указанного ini-файла."""
     if path is None:
-        path = pathlib.Path(__file__).parent.parent / 'server_config.ini' 
+        path = pathlib.Path(__file__).parent.parent/ 'rabbitmq_server' / 'server_config.ini'
 
     if not path.exists():
         raise FileNotFoundError(f"Config file {path} not found!")
@@ -15,22 +13,24 @@ def load_config(path=None):
     config = configparser.ConfigParser()
     config.read(path)
 
-
-    required_sections = ['rabbitmq', 'logging']
+    required_sections = ['rabbitmq', 'logging', 'server', 'client']
     for section in required_sections:
         if section not in config:
             raise KeyError(f"Missing required section '{section}' in config file.")
 
     rabbitmq_config = config['rabbitmq']
     logging_config = config['logging']
+    server_config = config['server']
+    client_config = config['client']
 
     return {
         'rabbitmq': rabbitmq_config,
-        'logging': logging_config
+        'logging': logging_config,
+        'server': server_config,
+        'client': client_config
     }
 
-def configure_logging(level='INFO', log_file='Log_File.log'):
-    """Настройка логирования для сервера."""
+def configure_logging(level, log_file):
     log_level = getattr(logging, level.upper(), logging.INFO)
 
     logging.basicConfig(
@@ -41,4 +41,3 @@ def configure_logging(level='INFO', log_file='Log_File.log'):
             logging.FileHandler(log_file)
         ]
     )
-    log.info(f"Logging configured. Level: {level}, Log file: {log_file}")
