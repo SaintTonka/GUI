@@ -82,16 +82,24 @@ class RMQClient(QObject):
         self.state = new_state
    
     def run(self):
-        """Запускает работу клиента и обрабатывает входящие и исходящие сообщения."""
-        if self.connect_to_rabbitmq():
-            try:
-                while self._running:
-                    self.connection.process_data_events(time_limit=1)
-            except Exception as e:
-                self.emit_error_signal(str(e))
-                self.server_unavailable_signal.emit()
-                self._running = False
-                self.change_state(DisconnectedState())
+        while True: 
+            if not self._running:
+                self.logger.info("Not running. Sleeping and retrying.")
+                time.sleep(3)
+                self._running = True
+
+            if self.connect_to_rabbitmq():
+                try:
+                    while self._running:
+                        self.connection.process_data_events(time_limit=1)
+                except Exception as e:
+                    self.logger.error(f"Connection lost: {e}")
+                    self.server_unavailable_signal.emit()
+                    self._running = False
+                    self.change_state(DisconnectedState())
+            else:
+                self.logger.warning("Could not connect, retrying...")
+                time.sleep(5)
 
     def connect_to_rabbitmq(self):
         """Попытка подключения с ограничением по времени и числу попыток."""
@@ -214,3 +222,11 @@ class RMQClient(QObject):
             self.logger.info(f"Client UUID changed. Old: {old_uuid}, New: {self.client_uuid}")
             self.close_connection() 
             self.change_state(ConnectingState())
+
+    def reconnect(self):
+        self.logger.info("Trying to reconnect to broker...")
+        self._running = True
+        self.change_state(ConnectingState())
+        success = self.connect_to_rabbitmq()
+        if not success:
+            self._running = False
