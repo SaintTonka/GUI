@@ -8,6 +8,8 @@ from PyQt5.QtCore import QTimer, Qt, QFileSystemWatcher, pyqtSignal, pyqtSlot
 from datetime import datetime
 from rabbitmq_client.config_params import ConfigEditor
 import logging
+from PyQt5.QtCore import QThread, pyqtSlot
+from rabbitmq_client.client import RMQClient
 
 log = logging.getLogger(__name__)
 
@@ -15,10 +17,20 @@ MAX_NUMBER = 2147483647
 
 class Window(QMainWindow):
     request_processed = pyqtSignal()
-    def __init__(self, client):
+    def __init__(self):
         super().__init__()
 
-        self.client = client
+        self.client = RMQClient()
+        self.thread = QThread()
+
+        self.client.moveToThread(self.thread)
+        self.thread.started.connect(self.client.run)
+
+        self.initUI()
+        self.setup_connections()
+        
+        self.thread.start()
+
         self.config_path = Path(__file__).parent.parent / 'client_config.ini'
         self.config_file = configparser.ConfigParser()
         self.config_file.read(self.config_path)
@@ -27,7 +39,6 @@ class Window(QMainWindow):
 
         self.setWindowTitle("Client")
         self.setGeometry(100, 100, 400, 600) 
-        self.initUI()
 
         self.request_processed.connect(self.on_request_processed)
         self.client.received_response.connect(self.display_response)
@@ -103,6 +114,23 @@ class Window(QMainWindow):
         self.cancel_button.clicked.connect(self.cancel_request)
         self.config_button.clicked.connect(self.open_config_editor)
 
+    def setup_connections(self):
+        if not hasattr(self, '_connections_setup'):
+            self.client.received_response.connect(self.display_response)
+            self.client.error_signal.connect(self.handle_error_signal)
+            self.client.server_ready_signal.connect(self.on_server_ready)
+            self.client.server_unavailable_signal.connect(self.on_server_unavailable)
+            self._connections_setup = True
+
+    def closeEvent(self, event):
+        self.client.stop()
+        self.thread.quit()
+        if not self.thread.wait(2000):
+            self.logger.error("Forced thread termination")
+            self.thread.terminate()
+        
+        super().closeEvent(event)     
+
     def notify_user(self, message, success=True):
         """Уведомить пользователя о текущем статусе."""
         self.status_label.setStyleSheet("color: green;" if success else "color: red;")
@@ -110,13 +138,15 @@ class Window(QMainWindow):
         self.log_event(message)
 
     def log_event(self, event_message):
-        """Запись события в лог."""
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        self.log_widget.append(f"{timestamp} - {event_message}")
+        log_message = f"{timestamp} - {event_message}"
+        self.log_widget.append(log_message) 
+        log.info(log_message)
 
     def open_config_editor(self):
         """Метод для открытия редактора конфигурации."""
         self.config_editor = ConfigEditor(self.config_path, read_only=self.processing_request)
+        self.config_editor.config_saved.connect(self.client.reload_config_and_reconnect, Qt.QueuedConnection)
         self.config_editor.config_saved.connect(self.on_config_changed) 
         self.config_editor.setWindowModality(Qt.ApplicationModal)
         self.config_editor.show()
@@ -247,7 +277,7 @@ class Window(QMainWindow):
         delay = self.process_time_in_seconds if self.process_time_in_seconds > 0 else 0
         self.log_event(f"Отправка запроса с числом: {number}")
         self.processing_request = True
-        self.client.send_request(str(number), delay)
+        self.client.send_request_signal.emit(str(number), delay)
         self.start_timer()
         self.lock_ui()
     

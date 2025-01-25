@@ -1,0 +1,157 @@
+2024-12-21 17:46:54,982 - INFO - Connected to RabbitMQ
+2024-12-21 17:46:54,986 - INFO - Exchange 'bews' declared.
+2024-12-21 17:46:55,069 - INFO - Server is listening on queue: bews
+2024-12-21 17:46:55,070 - INFO - Server is running. Press Ctrl+C to stop.
+2024-12-21 17:46:58,484 - INFO - Received Request: ID=3048680c-f630-4fb2-9a2d-15c2ef148deb, Request=321
+2024-12-21 17:46:58,485 - INFO - Processed request: 321 -> Response: 642
+2024-12-21 17:46:58,488 - INFO - Sent response for Request ID=3048680c-f630-4fb2-9a2d-15c2ef148deb
+2024-12-21 17:47:07,908 - ERROR - Unexpected connection close from remote "amqp://guest:******@localhost:5672/", Connection.Close(reply_code=320, reply_text="CONNECTION_FORCED - broker forced connection closure with reason 'shutdown'")
+NoneType: None
+2024-12-21 17:47:07,911 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:47:07,916 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:47:07,916 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: Server connection unexpectedly closed. Read 0 bytes but 1 bytes expected. Reconnecting after 5 seconds.
+2024-12-21 17:47:16,976 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:47:16,977 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:47:26,029 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:47:26,030 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:47:35,096 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:47:35,097 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:47:44,148 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:47:44,148 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:47:53,213 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:47:53,214 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: Server connection unexpectedly closed. Read 0 bytes but 1 bytes expected. Reconnecting after 5 seconds.
+2024-12-21 17:47:58,222 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:47:58,223 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: Server connection unexpectedly closed. Read 0 bytes but 1 bytes expected. Reconnecting after 5 seconds.
+2024-12-21 17:48:03,246 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:48:03,247 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: Server connection unexpectedly closed. Read 0 bytes but 1 bytes expected. Reconnecting after 5 seconds.
+2024-12-21 17:48:16,460 - INFO - Received Request: ID=7558b82b-2c84-47c0-be51-39256e000641, Request=321
+2024-12-21 17:48:16,460 - INFO - Processed request: 321 -> Response: 642
+2024-12-21 17:48:16,462 - INFO - Sent response for Request ID=7558b82b-2c84-47c0-be51-39256e000641
+2024-12-21 17:48:31,610 - ERROR - Unexpected connection close from remote "amqp://guest:******@localhost:5672/", Connection.Close(reply_code=320, reply_text="CONNECTION_FORCED - broker forced connection closure with reason 'shutdown'")
+NoneType: None
+2024-12-21 17:48:31,612 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:48:31,616 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:48:31,617 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: Server connection unexpectedly closed. Read 0 bytes but 1 bytes expected. Reconnecting after 5 seconds.
+2024-12-21 17:48:40,695 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:48:40,695 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:48:49,769 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:48:49,770 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:48:58,835 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:48:58,836 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:49:07,905 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:49:07,906 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:49:16,991 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:49:16,992 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:49:26,052 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:49:26,053 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:49:35,132 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:49:35,133 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:49:44,190 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:49:44,190 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:49:53,244 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:49:53,245 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:50:02,341 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:50:02,342 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:50:11,379 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:50:11,380 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:50:20,448 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:50:20,449 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:50:29,505 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:50:29,505 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:50:38,569 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:50:38,570 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:50:47,617 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:50:47,618 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:50:56,706 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:50:56,706 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:51:05,777 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:51:05,778 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:51:14,867 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:51:14,868 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:51:23,972 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:51:23,973 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:51:33,054 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:51:33,055 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:51:42,122 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:51:42,123 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:51:51,190 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:51:51,191 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:52:00,284 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:52:00,284 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:52:09,361 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:52:09,361 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:52:18,410 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:52:18,411 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:52:27,510 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:52:27,510 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:52:36,594 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:52:36,594 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:52:45,650 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:52:45,650 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:52:54,695 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:52:54,696 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:53:03,743 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:53:03,744 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:53:12,841 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:53:12,842 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:53:21,943 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:53:21,944 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:53:31,031 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:53:31,032 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:53:40,116 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:53:40,117 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:53:49,200 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:53:49,201 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:53:58,239 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:53:58,240 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:54:07,315 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:54:07,316 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:54:16,404 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:54:16,405 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:54:25,493 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:54:25,494 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2024-12-21 17:54:34,570 - INFO - Connection to amqp://guest:******@localhost:5672/ closed. Reconnecting after 5 seconds.
+2024-12-21 17:54:34,571 - WARNING - Connection attempt to "amqp://guest:******@localhost:5672/" failed: [WinError 1225] Удаленный компьютер отклонил это сетевое подключение. Reconnecting after 5 seconds.
+2025-01-25 17:08:15,349 - INFO - Connected to RabbitMQ
+2025-01-25 17:08:15,354 - INFO - Exchange 'bews' declared.
+2025-01-25 17:08:15,429 - INFO - Server is listening on queue: bews
+2025-01-25 17:08:15,430 - INFO - Server is running. Press Ctrl+C to stop.
+2025-01-25 17:08:22,050 - INFO - Received Request: ID=d9aeea75-b240-4caf-9f87-2d255be957eb, Request=23
+2025-01-25 17:08:22,050 - INFO - Processed request: 23 -> Response: 46
+2025-01-25 17:08:22,052 - INFO - Sent response for Request ID=d9aeea75-b240-4caf-9f87-2d255be957eb
+2025-01-25 17:18:55,144 - INFO - Received Request: ID=fc02d5b4-4fd1-4a9e-a766-af6e4381fedd, Request=2
+2025-01-25 17:18:55,144 - INFO - Processed request: 2 -> Response: 4
+2025-01-25 17:18:55,146 - INFO - Sent response for Request ID=fc02d5b4-4fd1-4a9e-a766-af6e4381fedd
+2025-01-25 17:23:48,905 - INFO - Received Request: ID=fa5abeb6-2c61-4582-a528-8b6517269dc7, Request=2
+2025-01-25 17:23:48,906 - INFO - Processed request: 2 -> Response: 4
+2025-01-25 17:23:48,907 - INFO - Sent response for Request ID=fa5abeb6-2c61-4582-a528-8b6517269dc7
+2025-01-25 17:25:05,934 - INFO - Received Request: ID=27b15c57-6a3e-4336-bc13-e3f3caa93a0d, Request=2
+2025-01-25 17:25:05,934 - INFO - Processed request: 2 -> Response: 4
+2025-01-25 17:25:05,936 - INFO - Sent response for Request ID=27b15c57-6a3e-4336-bc13-e3f3caa93a0d
+2025-01-25 17:29:40,795 - INFO - Received Request: ID=159d396b-fb33-4460-8c58-2500bf4cbf16, Request=2
+2025-01-25 17:29:40,796 - INFO - Processed request: 2 -> Response: 4
+2025-01-25 17:29:40,797 - INFO - Sent response for Request ID=159d396b-fb33-4460-8c58-2500bf4cbf16
+2025-01-25 17:29:53,595 - INFO - Received Request: ID=15ce5a00-40ee-4c1c-b88e-6e471dd67c95, Request=2
+2025-01-25 17:29:53,595 - INFO - Processed request: 2 -> Response: 4
+2025-01-25 17:29:53,597 - INFO - Sent response for Request ID=15ce5a00-40ee-4c1c-b88e-6e471dd67c95
+2025-01-25 17:41:54,626 - INFO - Received Request: ID=29c02772-7802-4280-87e0-f7f8dfb91965, Request=2
+2025-01-25 17:41:54,626 - INFO - Processed request: 2 -> Response: 4
+2025-01-25 17:41:54,628 - INFO - Sent response for Request ID=29c02772-7802-4280-87e0-f7f8dfb91965
+2025-01-25 17:48:56,595 - INFO - Received Request: ID=519811a7-ce17-4bda-8a29-8f5bee883fdb, Request=2
+2025-01-25 17:48:56,596 - INFO - Processed request: 2 -> Response: 4
+2025-01-25 17:48:56,598 - INFO - Sent response for Request ID=519811a7-ce17-4bda-8a29-8f5bee883fdb
+2025-01-25 17:49:48,574 - INFO - Received Request: ID=77e56c07-d5b8-4c2a-9f6c-6a21b97ce988, Request=2
+2025-01-25 17:49:48,575 - INFO - Processed request: 2 -> Response: 4
+2025-01-25 17:49:48,576 - INFO - Sent response for Request ID=77e56c07-d5b8-4c2a-9f6c-6a21b97ce988
+2025-01-25 17:57:23,213 - INFO - Received Request: ID=4fd25421-86c5-44d7-8f55-7aeda3c36c1d, Request=2
+2025-01-25 17:57:23,213 - INFO - Processed request: 2 -> Response: 4
+2025-01-25 17:57:23,215 - INFO - Sent response for Request ID=4fd25421-86c5-44d7-8f55-7aeda3c36c1d
+2025-01-25 17:57:42,222 - INFO - Received Request: ID=bdd559c3-247a-4f47-9d54-4ad45363dc44, Request=2
+2025-01-25 17:57:42,223 - INFO - Processed request: 2 -> Response: 4
+2025-01-25 17:57:42,224 - INFO - Sent response for Request ID=bdd559c3-247a-4f47-9d54-4ad45363dc44
+2025-01-25 17:58:05,661 - INFO - Received Request: ID=8a1c2fe7-9bc1-4e1e-805f-d55a71dae4bf, Request=2
+2025-01-25 17:58:05,661 - INFO - Processed request: 2 -> Response: 4
+2025-01-25 17:58:05,663 - INFO - Sent response for Request ID=8a1c2fe7-9bc1-4e1e-805f-d55a71dae4bf
+2025-01-25 17:58:14,031 - INFO - Received Request: ID=bc584612-c651-4cdd-b9a8-a7da07c4245f, Request=2
+2025-01-25 17:58:14,032 - INFO - Processed request: 2 -> Response: 4
+2025-01-25 17:58:14,033 - INFO - Sent response for Request ID=bc584612-c651-4cdd-b9a8-a7da07c4245f

@@ -40,7 +40,7 @@ class ConfigEditor(QDialog):
 
         self.config.add_section("client")
         self.config.set("client", "uuid", str(uuid.uuid4()))
-        self.config.set("client", "timeout_send", "10")
+        self.config.set("client", "timeout_connect", "10")
 
         self.config.add_section("server")
         self.config.set("server", "timeout_response", "10")
@@ -73,7 +73,7 @@ class ConfigEditor(QDialog):
         self.uuid_button.clicked.connect(self.generate_uuid) 
         layout.addWidget(self.uuid_button)
 
-        self.timeout_send_input = self.create_input_field("Timeout Send", "client", "timeout_send", layout)
+        self.timeout_connect_input = self.create_input_field("Timeout Connect", "client", "timeout_connect", layout)
 
         layout.addWidget(QLabel("Server Settings"))
         self.timeout_response_input = self.create_input_field("Timeout Response", "server", "timeout_response", layout)
@@ -103,13 +103,13 @@ class ConfigEditor(QDialog):
         self.config.set("client", "uuid", self.uuid_input.text())
 
         try:
-            timeout_send = int(self.timeout_send_input.text())
+            timeout_connect = int(self.timeout_connect_input.text())
             timeout_response = int(self.timeout_response_input.text())
 
-            if timeout_send < 0 or timeout_response < 0:
+            if timeout_connect < 0 or timeout_response < 0:
                 raise ValueError("Timeouts must be positive.")
 
-            self.config.set("client", "timeout_send", str(timeout_send))
+            self.config.set("client", "timeout_connect", str(timeout_connect))
             self.config.set("server", "timeout_response", str(timeout_response))
 
             with open(self.config_file, "w") as configfile:
@@ -118,6 +118,7 @@ class ConfigEditor(QDialog):
             QMessageBox.information(self, "Success", "Настройки сохранены!")
 
             self.config_saved.emit()
+            logging.info("The signal is here")
 
         except ValueError as e:
             QMessageBox.information(self, "ERROR", f"Invalid input: {str(e)}")
@@ -161,7 +162,7 @@ class ConfigEditor(QDialog):
         """Управляет состоянием интерфейса (доступность для редактирования)."""
         inputs = [
             self.host_input, self.port_input, self.user_input, self.password_input,
-            self.exchange_input, self.uuid_input, self.timeout_send_input, self.timeout_response_input
+            self.exchange_input, self.uuid_input, self.timeout_connect_input, self.timeout_response_input
         ]
 
         for input_widget in inputs:

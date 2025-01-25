@@ -9,8 +9,6 @@ log = logging.getLogger(__name__)
 
 async def main():
     """Основная функция сервера"""
-    config_path = Path(__file__).parent.parent.parent / 'client' / 'client_config.ini'
-    log.info(f"Config path: {config_path}")
 
     config = load_server_config()
     configure_logging(level=config['logging']['level'], log_file=config['logging']['file'])
