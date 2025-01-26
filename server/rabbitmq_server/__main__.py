@@ -1,85 +1,57 @@
 import logging
 import aio_pika
 import asyncio
-import pathlib
-import configparser
-import pathlib,sys
-import logging
-server_directory = pathlib.Path(__file__).resolve().parent
-
-sys.path.append(str(server_directory))
-from config import configure_logging, load_config
-from proto import msg_serv_pb2
-from utils import double_number
+from pathlib import Path
+from rabbitmq_server.server_state import ServerContext, WaitingState, load_server_config
+from rabbitmq_server.config import configure_logging
 
 log = logging.getLogger(__name__)
 
-async def handle_request(channel, message: aio_pika.IncomingMessage):
-    async with message.process():
-        try:
-            req = msg_serv_pb2.Request()
-            req.ParseFromString(message.body)
-            log.info(f"Received Request: ID={req.request_id}, Request={req.request}, Return Address={req.return_address}")
-
-            response = msg_serv_pb2.Response()
-            response.request_id = req.request_id
-
-            if req.request == "PING":
-                response.response = "PONG"
-                log.info(f"Sent heartbeat response: {response.response} to {req.return_address}")
-            else:
-                if hasattr(req, 'process_time_in_seconds') and req.process_time_in_seconds > 0:
-                    log.info(f"Processing request with delay of {req.process_time_in_seconds} seconds")
-                    await asyncio.sleep(req.process_time_in_seconds)
-
-                try:
-                    number = int(req.request)
-                    doubled_number = double_number(number)
-                    response.response = str(doubled_number)
-                    log.info(f"Sent response: {response.response} to {req.return_address}")
-                except ValueError:
-                    response.response = "Invalid number provided."
-                    log.error(f"Invalid number received: {req.request}")
-
-            msg = response.SerializeToString()
-
-            await channel.default_exchange.publish(
-                aio_pika.Message(
-                    body=msg,
-                    correlation_id=req.request_id  
-                ),
-                routing_key=req.return_address  
-            )
-        except Exception as e:
-            log.error(f"Error processing message: {e}")
-            await message.nack(requeue=False)
-
-
 async def main():
-    config = load_config()
+    """Основная функция сервера"""
 
+    config = load_server_config()
     configure_logging(level=config['logging']['level'], log_file=config['logging']['file'])
 
-    connection_string = f"amqp://{config['rabbitmq']['user']}:{config['rabbitmq']['password']}@{config['rabbitmq']['host']}:{config['rabbitmq']['port']}/"
+    rabbit_config = config['rabbitmq']
+    connection_string = (
+        f"amqp://{rabbit_config['user']}:{rabbit_config['password']}"
+        f"@{rabbit_config['host']}:{rabbit_config['port']}/"
+    )
+
     connection = await aio_pika.connect_robust(connection_string)
     log.info("Connected to RabbitMQ")
 
     async with connection:
         channel = await connection.channel()
 
-        exchange = await channel.declare_exchange('bews', aio_pika.ExchangeType.DIRECT, durable=True, auto_delete=False)
+        # Настройка контекста сервера
+        context = ServerContext(channel, config)
+        context.set_state(WaitingState())
 
-        queue = await channel.declare_queue("bews", durable=True, auto_delete= True)
+        exchange = await channel.declare_exchange(
+            rabbit_config['exchange'],
+            aio_pika.ExchangeType.DIRECT,
+            durable=True,
+            auto_delete=False
+        )
+        log.info(f"Exchange '{rabbit_config['exchange']}' declared.")
 
-        await queue.bind(exchange, routing_key="bews")
+        queue = await channel.declare_queue(
+            rabbit_config['exchange'],
+            durable=True,
+            auto_delete=True
+        )
 
-        await queue.consume(lambda message: asyncio.create_task(handle_request(channel, message)))
+        await queue.bind(exchange, routing_key=rabbit_config['exchange'])
+
+        await queue.consume(lambda message: asyncio.create_task(context.handle_request(message)))
         log.info(f"Server is listening on queue: {queue.name}")
 
         try:
             log.info("Server is running. Press Ctrl+C to stop.")
             while True:
-                await asyncio.sleep(3600) 
+                await asyncio.sleep(3600)
         except KeyboardInterrupt:
             log.info("Server shutdown initiated...")
 

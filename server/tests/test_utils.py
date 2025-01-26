@@ -12,3 +12,6 @@ def test_double_number_negative():
 
 def test_double_number_large():
     assert double_number(1000000) == 2000000
+
+def test_double_number_float():
+    assert double_number(2.0) == 4

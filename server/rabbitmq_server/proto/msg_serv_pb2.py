@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0emsg_serv.proto\x12\x11TestTask.Messages\"g\n\x07Request\x12\x16\n\x0ereturn_address\x18\x01 \x02(\t\x12\x12\n\nrequest_id\x18\x02 \x02(\t\x12\x1f\n\x17process_time_in_seconds\x18\x03 \x01(\x02\x12\x0f\n\x07request\x18\x04 \x02(\t\"0\n\x08Response\x12\x12\n\nrequest_id\x18\x01 \x02(\t\x12\x10\n\x08response\x18\x02 \x02(\t')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0emsg_serv.proto\x12\x11TestTask.Messages\"g\n\x07Request\x12\x16\n\x0ereturn_address\x18\x01 \x02(\t\x12\x12\n\nrequest_id\x18\x02 \x02(\t\x12\x1f\n\x17process_time_in_seconds\x18\x03 \x01(\x02\x12\x0f\n\x07request\x18\x04 \x02(\x05\"0\n\x08Response\x12\x12\n\nrequest_id\x18\x01 \x02(\t\x12\x10\n\x08response\x18\x02 \x02(\x05')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
