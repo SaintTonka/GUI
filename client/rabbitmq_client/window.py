@@ -27,7 +27,6 @@ class Window(QMainWindow):
         self.thread.started.connect(self.client.run)
 
         self.initUI()
-        self.setup_connections()
         
         self.thread.start()
 
@@ -114,19 +113,11 @@ class Window(QMainWindow):
         self.cancel_button.clicked.connect(self.cancel_request)
         self.config_button.clicked.connect(self.open_config_editor)
 
-    def setup_connections(self):
-        if not hasattr(self, '_connections_setup'):
-            self.client.received_response.connect(self.display_response)
-            self.client.error_signal.connect(self.handle_error_signal)
-            self.client.server_ready_signal.connect(self.on_server_ready)
-            self.client.server_unavailable_signal.connect(self.on_server_unavailable)
-            self._connections_setup = True
-
     def closeEvent(self, event):
         self.client.stop()
         self.thread.quit()
         if not self.thread.wait(2000):
-            self.logger.error("Forced thread termination")
+            log.error("Forced thread termination")
             self.thread.terminate()
         
         super().closeEvent(event)     
@@ -140,8 +131,10 @@ class Window(QMainWindow):
     def log_event(self, event_message):
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         log_message = f"{timestamp} - {event_message}"
-        self.log_widget.append(log_message) 
-        log.info(log_message)
+        
+        if log_message not in self.log_widget.toPlainText():
+            log.debug(log_message)
+            self.log_widget.append(log_message)
 
     def open_config_editor(self):
         """Метод для открытия редактора конфигурации."""
@@ -280,7 +273,7 @@ class Window(QMainWindow):
         self.client.send_request_signal.emit(str(number), delay)
         self.start_timer()
         self.lock_ui()
-    
+
     @pyqtSlot(int)
     def display_response(self, response):
         """Сохраняет и отображает ответ от сервера."""
@@ -296,7 +289,6 @@ class Window(QMainWindow):
         else:    
             self.response_data = response
             self.notify_user(f"Ответ от сервера: {self.response_data}", success=True)
-            log.debug(f"Отображаем ответ: {self.response_data}")
             self.timeout_timer.stop()
             self.process_timer.stop()
             self.timer_label.setText("Оставшееся время: 0 сек.")

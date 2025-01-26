@@ -30,12 +30,15 @@ class RMQClient(QObject):
         self._consumer_tag = None 
 
         self.logger = logging.getLogger(__name__)
+        self.logger.propagate = False 
 
         console_handler = logging.StreamHandler()
         console_handler.setLevel(self.log_level)  
         formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(name)s: %(message)s')
         console_handler.setFormatter(formatter)
-        logging.getLogger().addHandler(console_handler)
+
+        if not self.logger.hasHandlers(): 
+            self.logger.addHandler(console_handler)
 
         self.logger.info("Logging initialized for RMQClient.")
 
@@ -152,9 +155,17 @@ class RMQClient(QObject):
                 
                 self.channel = self.connection.channel()
                 self.channel.exchange_declare(exchange=self.exchange, exchange_type='direct', durable=True)
-                self.channel.queue_declare(queue=self.client_uuid, exclusive=True, auto_delete=True, durable=False )
-                self.channel.basic_consume(queue=self.client_uuid, on_message_callback=self.on_response, auto_ack=True)
-                
+                self.channel.queue_declare(queue=self.client_uuid, exclusive=True, auto_delete=True, durable=False)
+
+                if self._consumer_tag:
+                    self.channel.basic_cancel(self._consumer_tag)
+
+                self._consumer_tag = self.channel.basic_consume(
+                    queue=self.client_uuid, 
+                    on_message_callback=self.on_response, 
+                    auto_ack=True
+                )
+
                 self.logger.info("Connection established successfully")
                 self.change_state(ConnectedState())
                 self.server_ready_signal.emit()
@@ -172,6 +183,7 @@ class RMQClient(QObject):
         self.logger.error("Connection timeout after retries")
         self.change_state(ErrorState())
         return False
+
 
     def setup_channel(self):
         """Настроить каналы для отправки и получения сообщений."""

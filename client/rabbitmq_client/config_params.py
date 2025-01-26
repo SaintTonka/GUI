@@ -118,7 +118,6 @@ class ConfigEditor(QDialog):
             QMessageBox.information(self, "Success", "Настройки сохранены!")
 
             self.config_saved.emit()
-            logging.info("The signal is here")
 
         except ValueError as e:
             QMessageBox.information(self, "ERROR", f"Invalid input: {str(e)}")
